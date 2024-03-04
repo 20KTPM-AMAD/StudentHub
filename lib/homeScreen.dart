@@ -1,5 +1,6 @@
-//import 'dart:async';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'loginScreen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -14,12 +15,12 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Timer(const Duration(seconds: 5), () {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const LoginScreen()),
-    //   );
-    // });
+    Timer(const Duration(seconds: 5), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    });
   }
 
   @override
