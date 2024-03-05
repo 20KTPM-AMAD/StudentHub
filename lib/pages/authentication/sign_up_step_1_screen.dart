@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'loginScreen.dart';
-// import 'signUpStep2Screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
