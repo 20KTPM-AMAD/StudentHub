@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'signUpStep1Screen.dart';
+import 'package:studenthub/home_screen.dart';
+import 'sign_up_step_1_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -102,7 +103,12 @@ class LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: 120,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                                 primary: _green,
                                 onPrimary: Colors.black
