@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 
+const Color _green = Color(0xFF12B28C);
+
 class InputGroup extends StatelessWidget {
-  const InputGroup({
+
+  InputGroup({
     Key? key,
     required this.name,
-  }) : super(key: key);
+    String? hint,
+  })  : hint = hint ?? 'Enter $name',
+        super(key: key);
+
+  @override
 
   final String name;
+  final String hint;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +25,20 @@ class InputGroup extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(name),
+            Text(
+              name,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
             TextField(
-              obscureText: true,
               decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                hintText: 'Enter $name',
+                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(color: _green),
+                ),
+                hintText: "Enter $name",
+                hintStyle: TextStyle(color: _green),
               ),
             ),
           ],

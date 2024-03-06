@@ -15,6 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'StudentHub',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF12B28C)),
+        appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF12B28C)),
+        buttonTheme: const ButtonThemeData(buttonColor: Color(0xFF12B28C))
       ),
       home: const HomeScreen(),
     );

@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 
 List<Map<String, dynamic>> list = [
   {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Company', 'icon': Icons.person},
-  {
-    'name': 'Nguyen Thi Ngoc Hai',
-    'position': 'Student',
-    'icon': Icons.person
-  }
+  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Student', 'icon': Icons.person}
 ];
+
+const Color _green = Color(0xFF12B28C);
 
 class DropdownUpgrade extends StatefulWidget {
   const DropdownUpgrade({super.key});
@@ -24,7 +22,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
-          color: Colors.green,
+          color: _green,
           width: 2.0,
         ),
       ),
@@ -64,7 +62,8 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                               padding: EdgeInsets.only(left: 15.0, top: 5.0),
                               child: Text(
                                 value['name'],
-                                style: TextStyle(fontSize: 20, color: Colors.black),
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
                               ),
                             )
                           ],

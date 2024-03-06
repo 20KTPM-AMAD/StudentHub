@@ -4,27 +4,27 @@ const Color _green = Color(0xFF12B28C);
 
 enum Choices { justMe }
 
-class ProfileEditPage extends StatefulWidget {
-  const ProfileEditPage({Key? key}) : super(key: key);
+class ProfileEditScreen extends StatefulWidget {
+  const ProfileEditScreen({Key? key}) : super(key: key);
 
   @override
-  ProfileEditPageState createState() => ProfileEditPageState();
+  ProfileEditScreenState createState() => ProfileEditScreenState();
 }
 
-class ProfileEditPageState extends State<ProfileEditPage> {
+class ProfileEditScreenState extends State<ProfileEditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('StudentHub'),
-        backgroundColor: _green,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
-          ),
-        ],
-      ),
+      title: const Text('StudentHub'),
+      backgroundColor: _green,
+      actions: <Widget>[
+        IconButton(
+          icon: const Icon(Icons.person),
+          onPressed: () {},
+        ),
+      ],
+    ),
       body: Center(
         child: Column(
           children: <Widget>[

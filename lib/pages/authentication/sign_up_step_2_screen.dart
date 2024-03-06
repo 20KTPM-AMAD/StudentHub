@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/pages/profile/profile_input_screen.dart';
+import 'package:studenthub/pages/profile/switch_account_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -22,7 +24,9 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SwitchAccountScreen()),);
+            },
           ),
         ],
       ),
