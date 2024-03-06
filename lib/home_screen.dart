@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'loginScreen.dart';
+import 'pages/authentication/login_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
