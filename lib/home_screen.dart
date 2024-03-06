@@ -36,67 +36,69 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  const Text(
-                    'Build your product with high-skilled student',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    'Find and aboard best-skilled student for your product. Student works to gain experience & skills from real-world projects',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  SizedBox(
-                    width: 120,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          primary: _green,
-                          onPrimary: Colors.black
+      body: SingleChildScrollView( // Wrap Scaffold with SingleChildScrollView
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 50),
+                    const Text(
+                      'Build your product with high-skilled student',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
-                      child: const Text('Company',
-                          style: TextStyle(fontSize: 16)),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: 120,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          primary: _green,
-                          onPrimary: Colors.black
+                    const SizedBox(height: 50),
+                    const Text(
+                      'Find and aboard best-skilled student for your product. Student works to gain experience & skills from real-world projects',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
                       ),
-                      child: const Text('Student',
-                          style: TextStyle(fontSize: 16)),
                     ),
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    'StudentHub is university market place to connect high-skilled student and company on a real-world project',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
+                    const SizedBox(height: 50),
+                    SizedBox(
+                      width: 120,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            primary: _green,
+                            onPrimary: Colors.black
+                        ),
+                        child: const Text('Company',
+                            style: TextStyle(fontSize: 16)),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 120,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            primary: _green,
+                            onPrimary: Colors.black
+                        ),
+                        child: const Text('Student',
+                            style: TextStyle(fontSize: 16)),
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    const Text(
+                      'StudentHub is university market place to connect high-skilled student and company on a real-world project',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
