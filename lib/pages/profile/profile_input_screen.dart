@@ -74,7 +74,12 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                 height: 50,
                 width: 150,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: _green, onPrimary: Colors.black),
                   child: const Text('Continue', style: TextStyle(fontSize: 18)),
