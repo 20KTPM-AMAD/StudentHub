@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//import '../../components/tab_all_projects.dart';
+import '../../components/tab_all_projects.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -76,7 +76,7 @@ class DashboardState extends State<DashboardScreen>{
                               height: MediaQuery.of(context).size.height - kToolbarHeight - 200, // Giảm đi kích thước của AppBar và khoảng cách dưới cùng
                               child: const TabBarView(
                                 children: [
-                                  //AllProjectsTab(),
+                                  AllProjectsTab(),
                                   Center(
                                     child: Text('Working Projects Content'),
                                   ),
