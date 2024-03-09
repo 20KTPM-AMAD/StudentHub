@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//import 'package:studenthub/components/tab_detail.dart';
+import 'package:studenthub/components/tab_detail.dart';
 import '../../components/tab_proposals.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -72,7 +72,7 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
                             child: const TabBarView(
                               children: [
                                 ProposalsTab(),
-                                //DetailTab(),
+                                DetailTab(),
                                 Center(
                                   child: Text('Message Content'),
                                 ),
