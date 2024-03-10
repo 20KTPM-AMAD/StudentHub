@@ -97,8 +97,8 @@ class ProposalsTabState extends State<ProposalsTab> {
                     ElevatedButton(
                         onPressed: (){},
                         style: ElevatedButton.styleFrom(
-                            primary: _green,
-                            onPrimary: Colors.black,
+                            backgroundColor: _green,
+                            foregroundColor: Colors.black,
                             fixedSize: const Size(130, 40),
                         ),
                         child: const Text('Message', style: TextStyle(fontSize: 18)),
@@ -108,8 +108,8 @@ class ProposalsTabState extends State<ProposalsTab> {
                         SendHireOfferDialog.showMyDialog(context);
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: _green,
-                        onPrimary: Colors.black,
+                        backgroundColor: _green,
+                        foregroundColor: Colors.black,
                         fixedSize: const Size(130, 40),
                       ),
                       child: const Text(

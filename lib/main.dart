@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/pages/manage_project/dashboard.dart';
 import 'home_screen.dart';
 
 void main() {
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF12B28C)),
         buttonTheme: const ButtonThemeData(buttonColor: Color(0xFF12B28C))
       ),
-      home: const DashboardScreen(),
+      home: const HomeScreen(),
     );
   }
 }

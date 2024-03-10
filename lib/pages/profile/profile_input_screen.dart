@@ -81,7 +81,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: _green, onPrimary: Colors.black),
+                      backgroundColor: _green, foregroundColor: Colors.black),
                   child: const Text('Continue', style: TextStyle(fontSize: 18)),
                 ),
               ),

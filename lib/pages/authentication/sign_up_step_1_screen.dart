@@ -113,8 +113,8 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpStep2Screen()),);
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: _green,
-                                  onPrimary: Colors.black
+                                  backgroundColor: _green,
+                                  foregroundColor: Colors.black
                               ),
                               child: const Text('Create account', style: TextStyle(fontSize: 18)),
                             ),
@@ -135,7 +135,6 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
                                 },
                                 style: TextButton.styleFrom(
-                                  primary: _green,
                                   padding: EdgeInsets.zero,
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),

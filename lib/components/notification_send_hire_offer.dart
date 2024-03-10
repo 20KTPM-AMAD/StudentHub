@@ -25,8 +25,8 @@ class SendHireOfferDialog {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.grey,
-                onPrimary: Colors.black,
+                backgroundColor: Colors.grey,
+                foregroundColor: Colors.black,
                 fixedSize: const Size(130, 40),
               ),
               child: const Text(
@@ -41,8 +41,8 @@ class SendHireOfferDialog {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xFF12B28C),
-                onPrimary: Colors.black,
+                backgroundColor: const Color(0xFF12B28C),
+                foregroundColor: Colors.black,
                 fixedSize: const Size(130, 40),
               ),
               child: const Text(
