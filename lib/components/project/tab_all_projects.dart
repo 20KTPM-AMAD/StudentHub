@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:studenthub/components/pop_up_menu_project.dart';
+import 'package:studenthub/components/project/pop_up_menu_project.dart';
 // import '../pages/manage_project/send_hire_offer.dart';
 
 const Color _green = Color(0xFF12B28C);
