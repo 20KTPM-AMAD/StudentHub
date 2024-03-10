@@ -116,8 +116,8 @@ class DetailTabState extends State<DetailTab>{
             child: ElevatedButton(
               onPressed: (){},
               style: ElevatedButton.styleFrom(
-                  primary: _green,
-                  onPrimary: Colors.black
+                  backgroundColor: _green,
+                  foregroundColor: Colors.black
               ),
               child: const Text('Post job', style: TextStyle(fontSize: 18)),
             ),

@@ -53,8 +53,8 @@ class DashboardState extends State<DashboardScreen>{
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                              primary: _green,
-                              onPrimary: Colors.black
+                              backgroundColor: _green,
+                              foregroundColor: Colors.black
                           ),
                           child: const Text('Post a project', style: TextStyle(fontSize: 18)),
                         ),
