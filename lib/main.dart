@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
+import 'package:studenthub/pages/notification/notification_screen.dart';
 import 'home_screen.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF12B28C)),
         buttonTheme: const ButtonThemeData(buttonColor: Color(0xFF12B28C))
       ),
-      home: const HomeScreen(),
+      home: const NotificationScreen(),
     );
   }
 }
