@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/input_group.dart';
-import 'package:studenthub/components/radio_button_group.dart';
+import 'package:studenthub/components/profile/radio_button_group.dart';
 import 'package:studenthub/welcome_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -81,7 +81,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      primary: _green, onPrimary: Colors.black),
+                      backgroundColor: _green, foregroundColor: Colors.black),
                   child: const Text('Continue', style: TextStyle(fontSize: 18)),
                 ),
               ),

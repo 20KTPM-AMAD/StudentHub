@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/components/company_project/tab_all_projects.dart';
 
-import '../../components/tab_all_projects.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -53,8 +53,8 @@ class DashboardState extends State<DashboardScreen>{
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                              primary: _green,
-                              onPrimary: Colors.black
+                              backgroundColor: _green,
+                              foregroundColor: Colors.black
                           ),
                           child: const Text('Post a project', style: TextStyle(fontSize: 18)),
                         ),

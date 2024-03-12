@@ -151,8 +151,8 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                  primary: _green,
-                                  onPrimary: Colors.black
+                                  backgroundColor: _green,
+                                  foregroundColor: Colors.black
                               ),
                               child: const Text('Create my account', style: TextStyle(fontSize: 18)),
                             ),
@@ -171,7 +171,6 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                               TextButton(
                                 onPressed: () {},
                                 style: TextButton.styleFrom(
-                                  primary: _green,
                                   padding: EdgeInsets.zero,
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),

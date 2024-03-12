@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:studenthub/components/pop_up_menu_project.dart';
-// import '../pages/manage_project/send_hire_offer.dart';
+import 'package:studenthub/components/company_project/pop_up_menu_project.dart';
+import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -20,9 +20,10 @@ class AllProjectsTabState extends State<AllProjectsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true, // Chỉ sử dụng không gian cần thiết
-      physics: const ScrollPhysics(), // Không cho phép cuộn
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const ScrollPhysics(),
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
       itemCount: 10, // Số lượng dự án trong danh sách
       itemBuilder: (context, index) {
         // Mỗi mục trong danh sách là một Card hiển thị thông tin của một dự án
@@ -141,10 +142,10 @@ class AllProjectsTabState extends State<AllProjectsTab> {
               ],
             ),
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const SendHireOfferScreen()),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SendHireOfferScreen()),
+              );
             },
           ),
         );

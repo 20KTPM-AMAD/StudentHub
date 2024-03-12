@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class DetailTab extends StatefulWidget {
-  const DetailTab({Key? key}) : super(key: key);
+class ProjectDetailScreen extends StatefulWidget {
+  const ProjectDetailScreen({Key? key}) : super(key: key);
 
   @override
-  DetailTabState createState() => DetailTabState();
+  ProjectDetailState createState() => ProjectDetailState();
 }
 
-class DetailTabState extends State<DetailTab>{
+class ProjectDetailState extends State<ProjectDetailScreen>{
   @override
   void initState() {
     super.initState();
@@ -18,14 +18,44 @@ class DetailTabState extends State<DetailTab>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Center(
+      appBar: AppBar(
+        title: const Text('StudentHub'),
+        backgroundColor: _green,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 child: Column(
                   children: [
                     const SizedBox(height: 30,),
+                    const Text(
+                      'Project detail',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    const Text(
+                      'Senior frontend developer (Fintech)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: _green,
+                      ),
+                    ),
+                    const SizedBox(height: 20,),
+                    const Divider(),
                     RichText(
                       text: const TextSpan(
                         style: TextStyle(color: Colors.black),
@@ -108,21 +138,34 @@ class DetailTabState extends State<DetailTab>{
                   ],
                 ),
               ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.bottomRight,
-            padding: EdgeInsets.only(bottom: 20),
-            child: ElevatedButton(
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
-                  primary: _green,
-                  onPrimary: Colors.black
+              Container(
+                alignment: Alignment.bottomCenter,
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: (){},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _green,
+                        foregroundColor: Colors.black,
+                      ),
+                      child: const Text('Apply Now', style: TextStyle(fontSize: 18)),
+                    ),
+                    ElevatedButton(
+                      onPressed: (){},
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: _green,
+                          foregroundColor: Colors.black
+                      ),
+                      child: const Text('Saved', style: TextStyle(fontSize: 18)),
+                    ),
+                  ],
+                ),
               ),
-              child: const Text('Post job', style: TextStyle(fontSize: 18)),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
 

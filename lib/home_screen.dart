@@ -66,8 +66,8 @@ class HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                            primary: _green,
-                            onPrimary: Colors.black
+                            backgroundColor: _green,
+                            foregroundColor: Colors.black
                         ),
                         child: const Text('Company',
                             style: TextStyle(fontSize: 16)),
@@ -79,8 +79,8 @@ class HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                            primary: _green,
-                            onPrimary: Colors.black
+                            backgroundColor: _green,
+                            foregroundColor: Colors.black
                         ),
                         child: const Text('Student',
                             style: TextStyle(fontSize: 16)),
