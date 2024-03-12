@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-
-import 'package:studenthub/components/project/pop_up_menu_project.dart';
-
-import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
+import 'package:studenthub/pages/browse_project/project_detail_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class AllProjectsTab extends StatefulWidget {
-  const AllProjectsTab({Key? key}) : super(key: key);
+class SavedProjectCard extends StatefulWidget {
+  const SavedProjectCard({Key? key}) : super(key: key);
 
   @override
-  AllProjectsTabState createState() => AllProjectsTabState();
+  SavedProjectCardState createState() => SavedProjectCardState();
 }
 
-class AllProjectsTabState extends State<AllProjectsTab> {
+class SavedProjectCardState extends State<SavedProjectCard> {
   @override
   void initState() {
     super.initState();
@@ -25,9 +22,8 @@ class AllProjectsTabState extends State<AllProjectsTab> {
       shrinkWrap: true,
       physics: const ScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-      itemCount: 10, // Số lượng dự án trong danh sách
+      itemCount: 10,
       itemBuilder: (context, index) {
-        // Mỗi mục trong danh sách là một Card hiển thị thông tin của một dự án
         return Card(
           margin: const EdgeInsets.all(5.0),
           child: ListTile(
@@ -50,15 +46,22 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                     const SizedBox(width: 10,),
                     IconButton(
                       onPressed: () {
-                        AllProjectsPopupMenu.show(context);
+
                       },
-                      icon: const Icon(Icons.pending_outlined, size: 30,),
+                      icon: const Icon(Icons.favorite_sharp, size: 30, color: Colors.red,),
                     ),
                   ],
                 ),
 
                 const Text(
                   'Created 3 days ago',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
+                const Text(
+                  'Time: 1-3 months, 6 students needed',
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
@@ -85,67 +88,19 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                        children: [
-                          Text(
-                            '2',
-                            style: TextStyle(
-                              fontSize: 16
-                            ),
-                          ),
-                          Text(
-                            'Proposals',
-                            style: TextStyle(
-                                fontSize: 16
-                            ),
-                          )
-                        ],
-                    ),
-                    SizedBox(width: 20),
-                    Column(
-                      children: [
-                        Text(
-                          '8',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                        Text(
-                          'Messages',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(width: 20),
-                    Column(
-                      children: [
-                        Text(
-                          '2',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                        Text(
-                          'Hired',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                )
+                const Text(
+                  'Proposals: Less than 5',
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                  ),
+                ),
               ],
             ),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SendHireOfferScreen()),
+                MaterialPageRoute(builder: (context) => const ProjectDetailScreen()),
               );
             },
           ),
