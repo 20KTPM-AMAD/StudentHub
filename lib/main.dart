@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/pages/browse_project/project_list_screen.dart';
+import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'home_screen.dart';
 
 void main() {

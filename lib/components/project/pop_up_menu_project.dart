@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AllProjectsPopupMenu {
   static void show(BuildContext context) {
     showModalBottomSheet(
+      isDismissible: true,
       context: context,
       builder: (BuildContext context) {
         return Container(
@@ -16,7 +17,29 @@ class AllProjectsPopupMenu {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              const SizedBox(height: 20,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 5,
+                    width: 100,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(25),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10,),
               SizedBox(
                 height: 420,
                 child: ListView(
