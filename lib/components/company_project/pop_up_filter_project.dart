@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/input_group.dart';
-import 'package:studenthub/components/project/radio_button_group_project_length.dart';
+import 'package:studenthub/components/company_project/radio_button_group_project_length.dart';
 
 const Color _green = Color(0xFF12B28C);
 

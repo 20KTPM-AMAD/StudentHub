@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/components/project/tab_detail.dart';
-import 'package:studenthub/components/project/tab_proposals.dart';
+import 'package:studenthub/components/company_project/tab_detail.dart';
+import 'package:studenthub/components/company_project/tab_proposals.dart';
 
 
 const Color _green = Color(0xFF12B28C);

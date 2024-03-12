@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:studenthub/pages/browse_project/saved_projects_screen.dart';
-import 'package:studenthub/components/project/card_project_list.dart';
-import 'package:studenthub/components/project/pop_up_filter_project.dart';
+import 'package:studenthub/components/company_project/card_project_list.dart';
+import 'package:studenthub/components/company_project/pop_up_filter_project.dart';
 
 const Color _green = Color(0xFF12B28C);
 

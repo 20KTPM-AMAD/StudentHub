@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/components/project/card_saved_project.dart';
+import 'package:studenthub/components/company_project/card_saved_project.dart';
 
 const Color _green = Color(0xFF12B28C);
 
