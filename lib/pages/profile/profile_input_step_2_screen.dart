@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/components/drop_down.dart';
 import 'package:studenthub/components/profile/info_card.dart';
 import 'package:studenthub/components/profile/multi_select.dart';
 import 'package:studenthub/pages/profile/profile_input_step_3_screen.dart';

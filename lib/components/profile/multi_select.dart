@@ -21,7 +21,7 @@ class MultiSelect extends StatefulWidget {
 }
 
 class _MultiSelectState extends State<MultiSelect> {
-  static List<Skill> _skills = [
+  static final List<Skill> _skills = [
     Skill(id: 1, name: "C++"),
     Skill(id: 2, name: "C#"),
     Skill(id: 3, name: "Flutter"),
@@ -67,8 +67,8 @@ class _MultiSelectState extends State<MultiSelect> {
                   initialChildSize: 0.4,
                   listType: MultiSelectListType.CHIP,
                   searchable: true,
-                  buttonText: Text("Choose your skills"),
-                  title: Text("Skills"),
+                  buttonText: const Text("Choose your skills"),
+                  title: const Text("Skills"),
                   items: _items,
                   onConfirm: (values) {
                     _selectedSkills = values;
@@ -82,7 +82,7 @@ class _MultiSelectState extends State<MultiSelect> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                 )
               ],

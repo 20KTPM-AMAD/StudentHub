@@ -64,9 +64,9 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                   )),
             ),
             const RadioButtonGroup(),
-            InputGroup(name: 'Company Name'),
-            InputGroup(name: 'Website'),
-            InputGroup(name: 'Description'),
+            const InputGroup(name: 'Company Name'),
+            const InputGroup(name: 'Website'),
+            const InputGroup(name: 'Description'),
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.bottomRight,
@@ -77,7 +77,8 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const WelcomeScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

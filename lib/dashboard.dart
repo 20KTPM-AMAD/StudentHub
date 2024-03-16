@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -43,7 +44,14 @@ class DashboardState extends State<Dashboard> {
                         const Text('Your jobs'),
                         const Spacer(),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PostProjectStep1Screen()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
                               backgroundColor: _green,

@@ -15,7 +15,7 @@ class InfoCard extends StatefulWidget {
 class _InfoCardState extends State<InfoCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 400,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,7 @@ class _InfoCardState extends State<InfoCard> {
                   widget.title,
                   overflow: TextOverflow.ellipsis, // Hiển thị "..." nếu title quá dài
                   maxLines: 1, // Giới hạn số dòng hiển thị
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
               Row(
@@ -61,7 +61,7 @@ class _InfoCardState extends State<InfoCard> {
           ),
           Text(
             widget.detail,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),

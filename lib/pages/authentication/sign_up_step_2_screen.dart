@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/pages/profile/profile_input_screen.dart';
 import 'package:studenthub/pages/profile/switch_account_screen.dart';
 
 const Color _green = Color(0xFF12B28C);

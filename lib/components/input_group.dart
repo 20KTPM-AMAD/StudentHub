@@ -4,7 +4,7 @@ const Color _green = Color(0xFF12B28C);
 
 class InputGroup extends StatelessWidget {
 
-  InputGroup({
+  const InputGroup({
     Key? key,
     required this.name,
     String? hint,
@@ -27,18 +27,18 @@ class InputGroup extends StatelessWidget {
           children: [
             Text(
               name,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             TextField(
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(color: _green),
+                  borderSide: const BorderSide(color: _green),
                 ),
                 hintText: "Enter $name",
-                hintStyle: TextStyle(color: _green),
+                hintStyle: const TextStyle(color: _green),
               ),
             ),
           ],
