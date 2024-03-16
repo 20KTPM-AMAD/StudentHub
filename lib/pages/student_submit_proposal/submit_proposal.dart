@@ -40,7 +40,7 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
               padding: EdgeInsets.only(left: 5.0),
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     'Cover letter',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -57,7 +57,7 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
               padding: EdgeInsets.only(left: 5.0),
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     'Describe why do you fit to this project',
                     style: TextStyle(
                       fontSize: 20,
@@ -72,15 +72,15 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
             Card(
                 color: Colors.white,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: TextField(
                     maxLines: 8, //or null
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(color: _green, width: 2),
+                        borderSide: const BorderSide(color: _green, width: 2),
                       ),
                     ),
                   ),

@@ -57,32 +57,32 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                       children: [
                         Row(
                           children: [
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Padding(
-                              padding: EdgeInsets.only(left: 15.0, top: 5.0),
+                              padding: const EdgeInsets.only(left: 15.0, top: 5.0),
                               child: Text(
                                 value['name'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 20, color: Colors.black),
                               ),
                             )
                           ],
                         ),
-                        SizedBox(height: 4.0),
+                        const SizedBox(height: 4.0),
                         Row(
                           children: [
-                            SizedBox(width: 8.0),
+                            const SizedBox(width: 8.0),
                             Padding(
-                              padding: EdgeInsets.only(left: 15.0),
+                              padding: const EdgeInsets.only(left: 15.0),
                               child: Text(
                                 value['position'],
                                 style:
-                                    TextStyle(fontSize: 14, color: Colors.grey),
+                                    const TextStyle(fontSize: 14, color: Colors.grey),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(width: 20.0),
+                        const SizedBox(width: 20.0),
                       ],
                     ),
                   ],

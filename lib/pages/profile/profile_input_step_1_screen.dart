@@ -61,7 +61,7 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
             const Text('Skillset',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             // select
-            MultiSelect(),
+            const MultiSelect(),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

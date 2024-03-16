@@ -112,7 +112,7 @@ class DetailTabState extends State<DetailTab>{
           ),
           Container(
             alignment: Alignment.bottomRight,
-            padding: EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
               onPressed: (){},
               style: ElevatedButton.styleFrom(

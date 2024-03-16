@@ -74,8 +74,8 @@ class ProjectPopupFilter {
                   ),
                 ),
                 const RadioButtonGroupProjectLength(),
-                InputGroup(name: 'Students needed'),
-                InputGroup(name: 'Proposals less than'),
+                const InputGroup(name: 'Students needed'),
+                const InputGroup(name: 'Proposals less than'),
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                   child: Row(
