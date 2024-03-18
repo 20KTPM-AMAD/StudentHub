@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -158,7 +157,7 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 const Row(
                   children: [
                     Icon(

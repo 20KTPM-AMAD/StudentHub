@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+import 'package:studenthub/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF12B28C)),
           appBarTheme: const AppBarTheme(backgroundColor: Color(0xFF12B28C)),
           buttonTheme: const ButtonThemeData(buttonColor: Color(0xFF12B28C))),
-      home: const HomeScreen(),
+      home: const MainScreen(),
     );
   }
 }

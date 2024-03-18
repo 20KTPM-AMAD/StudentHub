@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/components/company_project/tab_all_projects.dart';
 import 'package:studenthub/components/student_project/student_tab_all_projects.dart';
 
 const Color _green = Color(0xFF12B28C);

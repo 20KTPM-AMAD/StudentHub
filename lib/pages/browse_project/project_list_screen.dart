@@ -13,105 +13,109 @@ class ProjectListScreen extends StatefulWidget {
   ProjectListState createState() => ProjectListState();
 }
 
-class ProjectListState extends State<ProjectListScreen>{
+class ProjectListState extends State<ProjectListScreen> {
   @override
   void initState() {
     super.initState();
   }
 
-  List<String> suggestions = ['Flutter', 'Dart', 'Mobile', 'App', 'Development',];
+  List<String> suggestions = [
+    'Flutter',
+    'Dart',
+    'Mobile',
+    'App',
+    'Development',
+  ];
   GlobalKey<AutoCompleteTextFieldState<String>> key = GlobalKey();
 
   @override
-  Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('StudentHub'),
-        backgroundColor: _green,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
         child: Center(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                child: Column(
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 260,
-                          child: AutoCompleteTextField<String>(
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                              hintText: 'Search...',
-                              prefixIcon: const Icon(Icons.search),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                              ),
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                            ),
-                            itemSubmitted: (String item) {
-                              // Xử lý khi người dùng chọn gợi ý
-                            },
-                            key: key,
-                            suggestions: suggestions,
-                            itemBuilder: (context, String suggestion) => ListTile(
-                              title: Text(suggestion),
-                            ),
-                            itemSorter: (String a, String b) => a.compareTo(b),
-                            itemFilter: (String suggestion, String query) {
-                              return suggestion.toLowerCase().startsWith(query.toLowerCase());
-                            },
+                    SizedBox(
+                      width: 260,
+                      child: AutoCompleteTextField<String>(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 15.0),
+                          hintText: 'Search...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(25.0),
                           ),
-
+                          filled: true,
+                          fillColor: Colors.grey[200],
                         ),
-                        IconButton(
-                            onPressed: (){
-                              ProjectPopupFilter.show(context);
-                            },
-                            icon: const Icon(Icons.filter_alt_outlined, size: 30),
+                        itemSubmitted: (String item) {
+                          // Xử lý khi người dùng chọn gợi ý
+                        },
+                        key: key,
+                        suggestions: suggestions,
+                        itemBuilder: (context, String suggestion) => ListTile(
+                          title: Text(suggestion),
                         ),
-                        IconButton(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const SavedProjectsScreen()),
-                            );
-                          },
-                          icon: const Icon(Icons.favorite, color: Colors.red, size: 30,),
-                        ),
-                      ],
+                        itemSorter: (String a, String b) => a.compareTo(b),
+                        itemFilter: (String suggestion, String query) {
+                          return suggestion
+                              .toLowerCase()
+                              .startsWith(query.toLowerCase());
+                        },
+                      ),
                     ),
-                    const SizedBox(height: 5),
-                    const Divider(),
-                    const ProjectListTab(),
+                    IconButton(
+                      onPressed: () {
+                        ProjectPopupFilter.show(context);
+                      },
+                      icon: const Icon(Icons.filter_alt_outlined, size: 30),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const SavedProjectsScreen()),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 30,
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 5),
+                const Divider(),
+                const ProjectListTab(),
+              ],
+            ),
           ),
-        ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        height: 60,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
-          NavigationDestination(icon: Icon(Icons.home), label: 'Dashboard',),
-          NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
-          NavigationDestination(icon: Icon(Icons.notifications), label: 'Alerts',),
         ],
-        backgroundColor: _green,
       ),
-    );
+    ));
+    //   ),
+    //   bottomNavigationBar: NavigationBar(
+    //     height: 60,
+    //     destinations: const [
+    //       NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
+    //       NavigationDestination(icon: Icon(Icons.home), label: 'Dashboard',),
+    //       NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
+    //       NavigationDestination(icon: Icon(Icons.notifications), label: 'Alerts',),
+    //     ],
+    //     backgroundColor: _green,
+    //   ),
+    // );
   }
 }
