@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -32,8 +33,8 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'You have offder to join project "Javis - AI Copilot"',
+                      Text(
+                        AppLocalizations.of(context)!.offer_notification('Javis - AI Copilot'),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2, // Số dòng tối đa
                       ),
@@ -52,9 +53,9 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
                               backgroundColor: _green,
                               foregroundColor: Colors.black
                           ),
-                          child: const Text(
-                              'View offer',
-                              style: TextStyle(fontSize: 16)
+                          child: Text(
+                              AppLocalizations.of(context)!.view_offer,
+                              style: const TextStyle(fontSize: 16)
                           ),
                         ),
                       )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -36,13 +37,13 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
             const SizedBox(
               height: 30,
             ),
-            const Padding(
-              padding: EdgeInsets.only(left: 5.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 5.0),
               child: Column(
                 children: [
                   Text(
-                    'Cover letter',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.cover_letter,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -53,13 +54,13 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
             const SizedBox(
               height: 20,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(left: 5.0),
               child: Column(
                 children: [
                   Text(
-                    'Describe why do you fit to this project',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.why_fit_project,
+                    style: const TextStyle(
                       fontSize: 20,
                     ),
                   ),
@@ -100,14 +101,14 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
                       backgroundColor: _green,
                       foregroundColor: Colors.black,
                     ),
-                    child: const Text('Cancel', style: TextStyle(fontSize: 18)),
+                    child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 18)),
                   ),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                         backgroundColor: _green, foregroundColor: Colors.black),
-                    child: const Text('Submit proposal',
-                        style: TextStyle(fontSize: 18)),
+                    child: Text(AppLocalizations.of(context)!.submit_proposal,
+                        style: const TextStyle(fontSize: 18)),
                   ),
                 ],
               ),

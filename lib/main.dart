@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'StudentHub',
       theme: themeProvider.getTheme(),
-      home: const Dashboard(),
+      home: const HomeScreen(),
       locale: languageProvider.currentLanguage == AppLanguage.English
           ? const Locale('en', 'US')
           : const Locale('vi', 'VN'),

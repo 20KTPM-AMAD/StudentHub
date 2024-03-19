@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllProjectsPopupMenu {
   static void show(BuildContext context) {
@@ -46,9 +47,9 @@ class AllProjectsPopupMenu {
                   physics: const ScrollPhysics(),
                   children: <Widget>[
                     ListTile(
-                      title: const Text(
-                        "View proposals",
-                        style: TextStyle(
+                      title: Text(
+                        AppLocalizations.of(context)!.view_proposals,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold
                         ),
@@ -56,9 +57,9 @@ class AllProjectsPopupMenu {
                       onTap: () {},
                     ),
                     ListTile(
-                      title: const Text(
-                        "View messages",
-                        style: TextStyle(
+                      title: Text(
+                        AppLocalizations.of(context)!.view_messages,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold
                         ),
@@ -66,43 +67,9 @@ class AllProjectsPopupMenu {
                       onTap: () {},
                     ),
                     ListTile(
-                      title: const Text(
-                        "View hired",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                    const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
-                    ListTile(
-                      title: const Text(
-                        "View job posting",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      title: const Text(
-                        "Edit posting",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      onTap: () {},
-                    ),
-                    ListTile(
-                      title: const Text(
-                        "Remove posting",
-                        style: TextStyle(
+                      title: Text(
+                        AppLocalizations.of(context)!.view_hired,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold
                         ),
@@ -114,9 +81,43 @@ class AllProjectsPopupMenu {
                       thickness: 1,
                     ),
                     ListTile(
-                      title: const Text(
-                        "Start working this job",
-                        style: TextStyle(
+                      title: Text(
+                        AppLocalizations.of(context)!.view_job_posting,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      title: Text(
+                        AppLocalizations.of(context)!.edit_posting,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      title: Text(
+                        AppLocalizations.of(context)!.remove_posting,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                    const Divider(
+                      color: Colors.grey,
+                      thickness: 1,
+                    ),
+                    ListTile(
+                      title: Text(
+                        AppLocalizations.of(context)!.start_working_this_job,
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold
                         ),

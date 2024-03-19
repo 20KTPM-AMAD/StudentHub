@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/components/profile/info_card.dart';
 import 'package:studenthub/components/profile/multi_select.dart';
 import 'package:studenthub/pages/profile/profile_input_step_3_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -37,28 +38,28 @@ class _ProfileInputStep2ScreenState extends State<ProfileInputStep2Screen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 30),
-            const Align(
+            Align(
               alignment: Alignment.center,
               child: Text(
-                'Experiences',
+                AppLocalizations.of(context)!.experiences,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
             ),
             const SizedBox(height: 20), // Add spacing between widgets
-            const Text(
-                'Tell us about your self and you will be on your way connect with real-world project',
-                style: TextStyle(fontSize: 16)),
+            Text(
+                AppLocalizations.of(context)!.intro_four,
+                style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Project',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.project,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
@@ -112,7 +113,7 @@ class _ProfileInputStep2ScreenState extends State<ProfileInputStep2Screen> {
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: _green, foregroundColor: Colors.black),
-                  child: const Text('Next', style: TextStyle(fontSize: 18)),
+                  child: Text(AppLocalizations.of(context)!.next, style: const TextStyle(fontSize: 18)),
                 ),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SendHireOfferDialog {
   static void showMyDialog(BuildContext context) {
@@ -6,16 +7,16 @@ class SendHireOfferDialog {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(
-              "Hired offer",
+          title: Text(
+              AppLocalizations.of(context)!.dialog_send_hire_offer,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold
               ),
           ),
-          content: const Text(
-              "Do you really want to send hired offer for student to do this project?",
-              style: TextStyle(
+          content: Text(
+              AppLocalizations.of(context)!.confirm__send_hire_offer,
+              style: const TextStyle(
                 fontSize: 18
               ),
           ),
@@ -29,9 +30,9 @@ class SendHireOfferDialog {
                 foregroundColor: Colors.black,
                 fixedSize: const Size(130, 40),
               ),
-              child: const Text(
-                  'Cancel',
-                  style: TextStyle(
+              child: Text(
+                  AppLocalizations.of(context)!.cancel,
+                  style: const TextStyle(
                     fontSize: 18,
                   )
               ),
@@ -45,9 +46,9 @@ class SendHireOfferDialog {
                 foregroundColor: Colors.black,
                 fixedSize: const Size(130, 40),
               ),
-              child: const Text(
-                  'Send',
-                  style: TextStyle(
+              child: Text(
+                  AppLocalizations.of(context)!.send,
+                  style: const TextStyle(
                     fontSize: 18,
                   )
               ),

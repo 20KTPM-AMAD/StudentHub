@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/home_screen.dart';
 import 'sign_up_step_1_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -36,9 +37,9 @@ class LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    const Text(
-                      'Login with Student Hub',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.login_one,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -51,9 +52,9 @@ class LoginScreenState extends State<LoginScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Username or email',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              Text(
+                                AppLocalizations.of(context)!.username,
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 8),
                               TextField(
@@ -63,7 +64,7 @@ class LoginScreenState extends State<LoginScreen> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide(color: _green),
                                   ),
-                                  hintText: "Enter username or email",
+                                  hintText: AppLocalizations.of(context)!.login_two,
                                   hintStyle: const TextStyle(color: _green),
                                 ),
                               ),
@@ -73,9 +74,9 @@ class LoginScreenState extends State<LoginScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Password',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              Text(
+                                AppLocalizations.of(context)!.password,
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               TextField(
                                 obscureText: _obscureText,
@@ -85,7 +86,7 @@ class LoginScreenState extends State<LoginScreen> {
                                       borderRadius: BorderRadius.circular(10.0),
                                       borderSide: const BorderSide(color: _green)
                                   ),
-                                  hintText: "Enter password",
+                                  hintText: AppLocalizations.of(context)!.login_three,
                                   hintStyle: const TextStyle(color: _green),
                                   suffixIcon: IconButton(
                                     onPressed: () {
@@ -101,7 +102,7 @@ class LoginScreenState extends State<LoginScreen> {
                           ),
                           const SizedBox(height: 40),
                           SizedBox(
-                            width: 120,
+                            width: 150,
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -113,7 +114,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   backgroundColor: _green,
                                   foregroundColor: Colors.black
                               ),
-                              child: const Text('Sign In', style: TextStyle(fontSize: 18)),
+                              child: Text(AppLocalizations.of(context)!.sign_in, style: const TextStyle(fontSize: 18)),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -129,9 +130,9 @@ class LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      'Don’t have a Student Hub account?',
-                      style: TextStyle(
+                    Text(
+                    AppLocalizations.of(context)!.login_four,
+                      style: const TextStyle(
                         color: _green,
                         fontSize: 18,
                       ),
@@ -147,9 +148,9 @@ class LoginScreenState extends State<LoginScreen> {
                           backgroundColor: _green,
                           foregroundColor: Colors.black,
                         ),
-                        child: const Text(
-                          'Sign Up',
-                          style: TextStyle(fontSize: 18),
+                        child: Text(
+                          AppLocalizations.of(context)!.sign_up,
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
                     ),

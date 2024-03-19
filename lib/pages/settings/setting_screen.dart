@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../main.dart';
 import 'package:studenthub/utils/theme_provider.dart';
 import 'package:studenthub/utils/language_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 enum Language { English, Vietnamese }
@@ -42,9 +41,9 @@ class SettingsScreenState extends State<SettingsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Dark Mode',
-                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  Text(
+                    AppLocalizations.of(context)!.dark_mode,
+                    style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                   Switch(
                     value: _isDarkMode,
@@ -60,13 +59,13 @@ class SettingsScreenState extends State<SettingsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Language',
-                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  Text(
+                    AppLocalizations.of(context)!.language,
+                    style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                   ListTile(
                     leading: const Icon(Icons.language),
-                    title: const Text('English'),
+                    title: Text(AppLocalizations.of(context)!.english,),
                     onTap: () {
                       languageProvider?.changeLanguage(AppLanguage.English);
                     },
@@ -77,7 +76,7 @@ class SettingsScreenState extends State<SettingsScreen> {
                   ),
                   ListTile(
                     leading: const Icon(Icons.language),
-                    title: const Text('Vietnamese'),
+                    title: Text(AppLocalizations.of(context)!.vietnamese,),
                     onTap: () {
                       languageProvider?.changeLanguage(AppLanguage.Vietnamese);
                     },

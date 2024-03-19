@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/pages/browse_project/project_detail_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -53,16 +54,16 @@ class ProjectListTabState extends State<ProjectListTab> {
                   ],
                 ),
 
-                const Text(
-                  'Created 3 days ago',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.time_created_project('3'),
+                  style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
                   ),
                 ),
-                const Text(
-                  'Time: 1-3 months, 6 students needed',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.time_needed_project('1-3') + AppLocalizations.of(context)!.student_needed_project('6'),
+                  style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
                   ),
@@ -88,9 +89,9 @@ class ProjectListTabState extends State<ProjectListTab> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'Proposals: Less than 5',
-                  style: TextStyle(
+                Text(
+                  '${AppLocalizations.of(context)!.proposals}: Less than 5',
+                  style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
                   ),

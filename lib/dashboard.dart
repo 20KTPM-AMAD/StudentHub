@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:studenthub/pages/browse_project/project_list_screen.dart';
-import 'package:studenthub/pages/chat/message_list_screen.dart';
-import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
-import 'package:studenthub/pages/notification/notification_screen.dart';
-import 'package:studenthub/utils/navigator.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -22,36 +16,81 @@ class DashboardState extends State<Dashboard> {
     super.initState();
   }
 
-  int _selectedIndex = 0;
-
-  static final List<Widget> _widgetOptions = <Widget>[
-    const ProjectListScreen(),
-    const DashboardScreen(),
-    const MessageListScreen(),
-    const NotificationScreen(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: CustomNavigationBar(
-        height: 60,
-        backgroundColor: _green, // Màu nền của NavigationBar
-        destinations: [
-          CustomNavigationDestination(icon: const Icon(Icons.view_list), label: 'Projects'),
-          CustomNavigationDestination(icon: const Icon(Icons.home), label: 'Dashboard',),
-          CustomNavigationDestination(icon: const Icon(Icons.message), label: 'Message'),
-          CustomNavigationDestination(icon: const Icon(Icons.notifications), label: 'Alerts',),
+      appBar: AppBar(
+        title: const Text('StudentHub'),
+        backgroundColor: _green,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {},
+          ),
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.your_jobs,),
+                        const Spacer(),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: _green,
+                              fixedSize: const Size(120, 24),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4))),
+                          child: Text(AppLocalizations.of(context)!.post_a_project,
+                              style: TextStyle(fontSize: 14)),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    AppLocalizations.of(context)!.welcome('Hai'),
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.you_have_no_jobs,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: NavigationBar(
+        height: 60,
+        destinations: const [
+          NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'Dashboard',
+          ),
+          NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
+          NavigationDestination(
+            icon: Icon(Icons.notifications),
+            label: 'Alerts',
+          ),
+        ],
+        backgroundColor: _green,
       ),
     );
   }

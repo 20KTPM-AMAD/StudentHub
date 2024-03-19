@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'sign_up_step_2_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -36,9 +37,9 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    const Text(
-                      'Join as company or  Student',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.join_as_company_or_student,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -59,7 +60,7 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: RadioListTile<bool>(
-                                    title: const Text('I’m a company, find engineer for project', style: TextStyle(fontSize: 18),),
+                                    title: Text(AppLocalizations.of(context)!.join_company, style: const TextStyle(fontSize: 18),),
                                     value: true,
                                     groupValue: _userType,
                                     onChanged: (bool? value) {
@@ -82,7 +83,7 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: RadioListTile<bool>(
-                                    title: const Text('I’m a student, find project', style: TextStyle(fontSize: 18),),
+                                    title: Text(AppLocalizations.of(context)!.join_student, style: const TextStyle(fontSize: 18),),
                                     value: false,
                                     groupValue: _userType,
                                     onChanged: (bool? value) {
@@ -98,8 +99,6 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                     ),
                                   ),
                                 ),
-
-
                               ],
                             ),
                           ),
@@ -116,7 +115,7 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                   backgroundColor: _green,
                                   foregroundColor: Colors.black
                               ),
-                              child: const Text('Create account', style: TextStyle(fontSize: 18)),
+                              child: Text(AppLocalizations.of(context)!.create_account, style: const TextStyle(fontSize: 18)),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -124,12 +123,13 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text(
-                                'Already have an account?',
-                                style: TextStyle(
+                              Text(
+                                AppLocalizations.of(context)!.have_an_account,
+                                style: const TextStyle(
                                   fontSize: 18,
                                 ),
                               ),
+                              const SizedBox(width: 5,),
                               TextButton(
                                 onPressed: () {
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
@@ -138,9 +138,9 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                   padding: EdgeInsets.zero,
                                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                 ),
-                                child: const Text(
-                                  'Login',
-                                  style: TextStyle(fontSize: 18,decoration: TextDecoration.underline,),
+                                child: Text(
+                                  AppLocalizations.of(context)!.login,
+                                  style: const TextStyle(fontSize: 18,decoration: TextDecoration.underline,),
                                 ),
                               ),
                             ],

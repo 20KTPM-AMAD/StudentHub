@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/components/input_group.dart';
 import 'package:studenthub/components/profile/radio_button_group.dart';
 import 'package:studenthub/welcome_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -35,38 +36,38 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 30),
-            const Align(
+            Align(
               alignment: Alignment.center,
               child: Text(
-                'Welcome to Student Hub',
+                AppLocalizations.of(context)!.welcome_to_studenthub,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
             ),
             const SizedBox(height: 20), // Add spacing between widgets
-            const Padding(
-              padding: EdgeInsets.only(left: 25.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
               child: Text(
-                  'Tell us about your company and you will be on your way connect with high-skilled students',
-                  style: TextStyle(
+                  AppLocalizations.of(context)!.intro_six,
+                  style: const TextStyle(
                     fontSize: 16,
                   )),
             ),
             const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.only(left: 25.0),
-              child: Text('How many people are in your company?',
-                  style: TextStyle(
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(AppLocalizations.of(context)!.how_many_people_company,
+                  style: const TextStyle(
                     fontSize: 16,
                   )),
             ),
             const RadioButtonGroup(),
-            const InputGroup(name: 'Company Name'),
-            const InputGroup(name: 'Website'),
-            const InputGroup(name: 'Description'),
+            InputGroup(name: AppLocalizations.of(context)!.company_name),
+            InputGroup(name: AppLocalizations.of(context)!.website),
+            InputGroup(name: AppLocalizations.of(context)!.description),
             const SizedBox(height: 20),
             Align(
               alignment: Alignment.bottomRight,
@@ -83,7 +84,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: _green, foregroundColor: Colors.black),
-                  child: const Text('Continue', style: TextStyle(fontSize: 18)),
+                  child: Text(AppLocalizations.of(context)!.continue_, style: const TextStyle(fontSize: 18)),
                 ),
               ),
             ),

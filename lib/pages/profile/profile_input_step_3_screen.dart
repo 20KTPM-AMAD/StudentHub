@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/profile/select_file.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -35,29 +36,29 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 30),
-            const Align(
+            Align(
               alignment: Alignment.center,
               child: Text(
-                'CV & Transript',
+                AppLocalizations.of(context)!.cv_transcript,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
             ),
             const SizedBox(height: 20), // Add spacing between widgets
-            const Text(
-                'Tell us about your self and you will be on your way connect with real-world project',
-                style: TextStyle(fontSize: 16)),
+            Text(
+                AppLocalizations.of(context)!.intro_four,
+                style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
-            const Text('Resume/CV (*)',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.resume_CV,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const SelectFileButton(),
             const SizedBox(height: 30),
-            const Text('Transript (*)',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.transcript,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const SelectFileButton(),
             const SizedBox(height: 30),
@@ -73,11 +74,11 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
                       builder: (_) {
                         return AlertDialog(
                           title: const Center(child: Text('Welcome')),
-                          content: const Text('Welcome to StudentHub, a marketplace to connect Student <> Real-world projects'),
+                          content: Text(AppLocalizations.of(context)!.intro_five,),
                           actions: [
                             TextButton(
                               onPressed: Navigator.of(context).pop,
-                              child: const Text('Next'),
+                              child: Text(AppLocalizations.of(context)!.next,),
                             ),
                           ],
                         );
@@ -86,7 +87,7 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: _green, foregroundColor: Colors.black),
-                  child: const Text('Continue', style: TextStyle(fontSize: 18)),
+                  child: Text(AppLocalizations.of(context)!.continue_, style: const TextStyle(fontSize: 18)),
                 ),
               ),
             ),

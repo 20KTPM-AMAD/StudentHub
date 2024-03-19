@@ -64,7 +64,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                           ),
                     ),
                     const SizedBox(width: 20.0),
-                    Text(AppLocalizations.of(context)!.project, style: const TextStyle(fontSize: 20))
+                    Text(AppLocalizations.of(context)!.profile, style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
@@ -75,20 +75,20 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SettingsScreen()),
+                      builder: (context) => const SettingsScreen()),
                 );
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.settings,
                       size: 50.0,
                       color: _green,
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Settings', style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.settings, style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
@@ -98,16 +98,16 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               onTap: () {},
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child: Row(
                   children: [
-                    SizedBox(width: 4.0),
-                    Icon(
+                    const SizedBox(width: 4.0),
+                    const Icon(
                       Icons.logout,
                       size: 50.0,
                       color: _green,
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Logout', style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.logout, style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
@@ -119,9 +119,9 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 alignment: Alignment.bottomRight,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: const Text(
-                    'Already have an account',
-                    style: TextStyle(fontSize: 18),
+                  child: Text(
+                    AppLocalizations.of(context)!.have_an_account,
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ),

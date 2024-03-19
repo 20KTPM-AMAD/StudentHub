@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/components/company_project/tab_all_projects.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/components/student_project/student_tab_all_projects.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -36,9 +36,9 @@ class AllProjectsScreenState extends State<AllProjectsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 30),
-            const Text(
-              'Your project',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.your_project,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -47,10 +47,10 @@ class AllProjectsScreenState extends State<AllProjectsScreen> {
                 length: 3,
                 child: Column(
                   children: [
-                    const TabBar(tabs: [
-                      Tab(text: 'All Projects'),
-                      Tab(text: 'Working'),
-                      Tab(text: 'Archived'),
+                    TabBar(tabs: [
+                      Tab(text: AppLocalizations.of(context)!.all_projects,),
+                      Tab(text: AppLocalizations.of(context)!.working,),
+                      Tab(text: AppLocalizations.of(context)!.archived,),
                     ]),
                     const SizedBox(height: 10),
                     SizedBox(

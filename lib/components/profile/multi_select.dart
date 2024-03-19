@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -67,8 +68,8 @@ class _MultiSelectState extends State<MultiSelect> {
                   initialChildSize: 0.4,
                   listType: MultiSelectListType.CHIP,
                   searchable: true,
-                  buttonText: const Text("Choose your skills"),
-                  title: const Text("Skills"),
+                  buttonText: Text(AppLocalizations.of(context)!.choose_your_skills),
+                  title: Text(AppLocalizations.of(context)!.skills),
                   items: _items,
                   onConfirm: (values) {
                     _selectedSkills = values;

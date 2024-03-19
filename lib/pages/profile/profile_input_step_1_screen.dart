@@ -3,6 +3,7 @@ import 'package:studenthub/components/drop_down.dart';
 import 'package:studenthub/components/profile/info_card.dart';
 import 'package:studenthub/components/profile/multi_select.dart';
 import 'package:studenthub/pages/profile/profile_input_step_2_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -38,37 +39,37 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 30),
-            const Align(
+            Align(
               alignment: Alignment.center,
               child: Text(
-                'Welcome to Student Hub',
+                AppLocalizations.of(context)!.welcome_to_studenthub,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
                 ),
               ),
             ),
             const SizedBox(height: 20), // Add spacing between widgets
-            const Text(
-                'Tell us about your self and you will be on your way connect with real-world project',
-                style: TextStyle(fontSize: 16)),
+            Text(
+                AppLocalizations.of(context)!.intro_four,
+                style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
-            const Text('Techstack',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.techstack,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const Dropdown(),
             const SizedBox(height: 20),
-            const Text('Skillset',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.skillset,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             // select
             const MultiSelect(),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Language',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.language,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
@@ -98,17 +99,17 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
                 ),
               ],
             ),
-            const Text(
+            Text(
               'English: Native or Bilingual',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Education',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Text(
+                  AppLocalizations.of(context)!.education,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 Row(
                   children: [
@@ -147,7 +148,7 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: _green, foregroundColor: Colors.black),
-                  child: const Text('Next', style: TextStyle(fontSize: 18)),
+                  child: Text(AppLocalizations.of(context)!.next, style: const TextStyle(fontSize: 18)),
                 ),
               ),
             ),

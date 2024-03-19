@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Range {
   ItIsJustMe,
@@ -23,7 +24,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
     return Column(
       children: <Widget>[
         ListTile(
-          title: const Text('It’s just me'),
+          title: Text(AppLocalizations.of(context)!.its_just_me),
           leading: Radio<Range>(
             value: Range.ItIsJustMe,
             groupValue: _range,
@@ -35,7 +36,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('2-9 employees'),
+          title: Text(AppLocalizations.of(context)!.two_nine_employees),
           leading: Radio<Range>(
             value: Range.TwoToNineEmployees,
             groupValue: _range,
@@ -47,7 +48,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('10-99 employees'),
+          title: Text(AppLocalizations.of(context)!.ten_ninetynine_employees),
           leading: Radio<Range>(
             value: Range.TenToNinetyNineEmployees,
             groupValue: _range,
@@ -59,7 +60,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('100-1000 employees'),
+          title: Text(AppLocalizations.of(context)!.hundred_thousand_employees),
           leading: Radio<Range>(
             value: Range.HundredToOneThousandEmployees,
             groupValue: _range,
@@ -71,7 +72,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('More than 1000 employees'),
+          title: Text(AppLocalizations.of(context)!.more_than_thousand_employees),
           leading: Radio<Range>(
             value: Range.MoreThanOneThousandEmployees,
             groupValue: _range,
