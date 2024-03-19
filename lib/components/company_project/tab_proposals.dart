@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'notification_send_hire_offer.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -101,7 +101,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                             foregroundColor: Colors.black,
                             fixedSize: const Size(130, 40),
                         ),
-                        child: const Text('Message', style: TextStyle(fontSize: 18)),
+                        child: Text(AppLocalizations.of(context)!.message, style: const TextStyle(fontSize: 18)),
                     ),
                     ElevatedButton(
                       onPressed:() {
@@ -112,9 +112,9 @@ class ProposalsTabState extends State<ProposalsTab> {
                         foregroundColor: Colors.black,
                         fixedSize: const Size(130, 40),
                       ),
-                      child: const Text(
-                          'Send hired offer',
-                          style: TextStyle(
+                      child: Text(
+                          AppLocalizations.of(context)!.send_hired_offer,
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                           overflow: TextOverflow.ellipsis,

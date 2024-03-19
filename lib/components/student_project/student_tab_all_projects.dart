@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/components/student_project/student_project_detail_card.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -30,14 +30,14 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
             ),
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 10),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Active proposal (0)',
+                      AppLocalizations.of(context)!.active_proposal('3'),
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
@@ -64,12 +64,12 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
             ),
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 10, top: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, top: 10),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: Text('Submitted proposal (0)',
-                        style: TextStyle(
+                    child: Text(AppLocalizations.of(context)!.submitted_notification('3'),
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold)),
                   ),
                 ),

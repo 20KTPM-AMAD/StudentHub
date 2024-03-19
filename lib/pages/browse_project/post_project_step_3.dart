@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_4.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -42,16 +43,16 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
-                  Text(
+                  const Text(
                     '3/4',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   SizedBox(width: 10),
                   Text(
-                    'Next, provide project description',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    AppLocalizations.of(context)!.provide_description,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -99,12 +100,12 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Describe your project',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.describe_your_project,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -113,14 +114,14 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                   TextField(
                     maxLines: 6, //or null
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         // borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide(color: _green),
                       ),
-                      hintText: "Description...",
-                      hintStyle: TextStyle(color: _green),
+                      hintText: AppLocalizations.of(context)!.hint_description,
+                      hintStyle: const TextStyle(color: _green),
                     ),
                   ),
                 ],
@@ -142,8 +143,8 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                       backgroundColor: _green,
                       foregroundColor: Colors.black,
                     ),
-                    child: const Text('Review your post',
-                        style: TextStyle(fontSize: 18)),
+                    child: Text(AppLocalizations.of(context)!.review_your_post,
+                        style: const TextStyle(fontSize: 18)),
                   ),
                 ],
               )

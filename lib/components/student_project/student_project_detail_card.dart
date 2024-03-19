@@ -20,9 +20,9 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            const Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
                     'Senior frontend developer (Fintech)',
                     style: TextStyle(

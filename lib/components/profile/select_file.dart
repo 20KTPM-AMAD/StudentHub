@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -39,7 +40,7 @@ class SelectFileButton extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Text(
-                "Select File",
+                  AppLocalizations.of(context)!.select_file,
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge

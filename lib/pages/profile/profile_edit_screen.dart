@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -34,9 +35,9 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  const Text(
-                    'Welcome to Student Hub',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.welcome_to_studenthub,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
@@ -49,9 +50,9 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Company name',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.company_name,
+                              style: const TextStyle(
                                 fontSize: 16,
                               ),
                             ),
@@ -64,7 +65,7 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(color: _green),
                                 ),
-                                hintText: "Enter company name",
+                                hintText: AppLocalizations.of(context)!.enter_company_name,
                                 hintStyle: const TextStyle(color: _green),
                               ),
                             ),
@@ -74,9 +75,9 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Website',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.website,
+                              style: const TextStyle(
                                 fontSize: 16,
                               ),
                             ),
@@ -89,7 +90,7 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(color: _green),
                                 ),
-                                hintText: "Enter web site",
+                                hintText: AppLocalizations.of(context)!.enter_web_site,
                                 hintStyle: const TextStyle(color: _green),
                               ),
                             ),
@@ -99,9 +100,9 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Description',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.description,
+                              style: const TextStyle(
                                 fontSize: 16,
                               ),
                             ),
@@ -114,7 +115,7 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                                   borderRadius: BorderRadius.circular(10.0),
                                   borderSide: const BorderSide(color: _green),
                                 ),
-                                hintText: "Description...",
+                                hintText: AppLocalizations.of(context)!.hint_description,
                                 hintStyle: const TextStyle(color: _green),
                               ),
                             ),
@@ -124,14 +125,14 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'How many people are in your company?',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.how_many_people_company,
+                              style: const TextStyle(
                                 fontSize: 16,
                               ),
                             ),
                             ListTile(
-                              title: const Text('Just me'),
+                              title: Text(AppLocalizations.of(context)!.just_me,),
                               leading: Radio<Choices>(
                                 value: Choices.justMe,
                                 groupValue: Choices.justMe,
@@ -161,7 +162,7 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4))),
                         child:
-                            const Text('Edit', style: TextStyle(fontSize: 16)),
+                            Text(AppLocalizations.of(context)!.edit, style: const TextStyle(fontSize: 16)),
                       ),
                       const SizedBox(width: 20),
                       ElevatedButton(
@@ -172,8 +173,8 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                             fixedSize: const Size(120, 32),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4))),
-                        child: const Text('Cancel',
-                            style: TextStyle(fontSize: 16)),
+                        child: Text(AppLocalizations.of(context)!.cancel,
+                            style: const TextStyle(fontSize: 16)),
                       ),
                       const SizedBox(width: 20),
                     ],

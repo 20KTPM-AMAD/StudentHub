@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_3.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -41,23 +42,22 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             child: Column(children: [
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
-                  Text(
+                  const Text(
                     '2/4',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Next, estimate the scope of your project',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  const SizedBox(width: 10),
+                  Text(AppLocalizations.of(context)!.estimate_scope,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Consider the size of your project and the timeline',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.size_timeline,
+                style: const TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.justify,
@@ -66,11 +66,11 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text(
-                        'How long will your project take?',
-                        style: TextStyle(
+                        AppLocalizations.of(context)!.how_long,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -81,7 +81,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                   Column(
                     children: [
                       ListTile(
-                        title: const Text('1 to 3 months'),
+                        title: Text(AppLocalizations.of(context)!.one_to_three_months,),
                         leading: Radio<Range>(
                           value: Range.OneToThreeMonths,
                           groupValue: _range,
@@ -93,7 +93,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                         ),
                       ),
                       ListTile(
-                        title: const Text('3 to 6 months'),
+                        title: Text(AppLocalizations.of(context)!.three_to_six_months,),
                         leading: Radio<Range>(
                           value: Range.ThreeToSixMonths,
                           groupValue: _range,
@@ -109,12 +109,12 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                 ],
               ),
               const SizedBox(height: 20),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'How many students do you want for this project?',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.how_many_students,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -122,13 +122,13 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                   SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         // borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: _green),
                       ),
-                      hintText: "Number Of students",
+                      hintText: AppLocalizations.of(context)!.number_of_students,
                     ),
                   ),
                 ],
@@ -150,7 +150,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                       backgroundColor: _green,
                       foregroundColor: Colors.black,
                     ),
-                    child: const Text('Next: Description',
+                    child: Text(AppLocalizations.of(context)!.next_description,
                         style: TextStyle(fontSize: 18)),
                   ),
                 ],

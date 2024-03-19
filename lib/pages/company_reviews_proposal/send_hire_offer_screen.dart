@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/company_project/tab_detail.dart';
 import 'package:studenthub/components/company_project/tab_proposals.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -58,12 +58,12 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
                       length: 4,
                       child: Column(
                         children: [
-                          const TabBar(
+                          TabBar(
                               tabs: [
-                                Tab(text: 'Proposals'),
-                                Tab(text: 'Detail'),
-                                Tab(text: 'Message'),
-                                Tab(text: 'Hired'),
+                                Tab(text: AppLocalizations.of(context)!.proposals,),
+                                Tab(text: AppLocalizations.of(context)!.detail,),
+                                Tab(text: AppLocalizations.of(context)!.message,),
+                                Tab(text: AppLocalizations.of(context)!.hired,),
                               ]
                           ),
                           const SizedBox(height: 10),

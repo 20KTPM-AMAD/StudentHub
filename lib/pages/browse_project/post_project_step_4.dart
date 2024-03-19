@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -41,27 +42,27 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                const Row(
+                Row(
                   children: [
-                    Text(
+                    const Text(
                       '4/4',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
-                      'Project details',
+                      AppLocalizations.of(context)!.project_detail,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     )
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Row(
+                Row(
                   children: [
                     Text(
-                      'Title of the job',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.title,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -130,25 +131,25 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Row(
+                Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.alarm,
                       size: 40,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Project scope',
-                          style: TextStyle(fontSize: 16),
+                          AppLocalizations.of(context)!.project_scope,
+                          style: const TextStyle(fontSize: 16),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.0),
                           child: Text(
-                            '\u2022 3 - 6 months',
-                            style: TextStyle(
+                            '\u2022${AppLocalizations.of(context)!.three_to_six_months}',
+                            style: const TextStyle(
                               fontSize: 16,
                             ),
                             textAlign: TextAlign.justify,
@@ -158,22 +159,22 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
-                const Row(
+                const SizedBox(height: 20),
+                Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.person_2,
                       size: 40,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Student required:',
-                          style: TextStyle(fontSize: 16),
+                          AppLocalizations.of(context)!.student_required,
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.0),
                           child: Text(
                             '\u2022 6 students',
@@ -196,8 +197,8 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                         backgroundColor: _green,
                         foregroundColor: Colors.black,
                       ),
-                      child: const Text('Post job',
-                          style: TextStyle(fontSize: 18)),
+                      child: Text(AppLocalizations.of(context)!.post_job,
+                          style: const TextStyle(fontSize: 18)),
                     ),
                   ],
                 )

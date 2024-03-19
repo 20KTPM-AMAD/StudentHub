@@ -5,6 +5,7 @@ import 'package:studenthub/pages/browse_project/saved_projects_screen.dart';
 import 'package:studenthub/components/company_project/card_project_list.dart';
 import 'package:studenthub/components/company_project/pop_up_filter_project.dart';
 import 'package:studenthub/pages/chat/message_detail_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -62,7 +63,7 @@ class MessageListScreenState extends State<MessageListScreen> {
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 15.0),
-                              hintText: 'Search...',
+                              hintText: AppLocalizations.of(context)!.search,
                               prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
@@ -93,6 +94,12 @@ class MessageListScreenState extends State<MessageListScreen> {
                     Container(
                       height: 555,
                       width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.green.shade200,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          )),
                       child: ListView(
                         children: const [
                           MessageCard(),

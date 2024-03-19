@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -32,8 +33,8 @@ class InvitedInterviewNotificationCardState extends State<InvitedInterviewNotifi
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'You have invited to interview for project "Javis - AI Copilot" at 14:00 March 20, Thursday',
+                      Text(
+                        AppLocalizations.of(context)!.invited_interview_notification('Javis - AI Copilot', '14:00 March 20, Thursday '),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2, // Số dòng tối đa
                       ),

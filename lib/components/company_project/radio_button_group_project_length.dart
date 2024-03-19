@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Range {
   LessThanOneMonth,
@@ -22,7 +23,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
     return Column(
       children: <Widget>[
         ListTile(
-          title: const Text('Less than one month'),
+          title: Text(AppLocalizations.of(context)!.less_than_one_month),
           leading: Radio<Range>(
             value: Range.LessThanOneMonth,
             groupValue: _range,
@@ -34,7 +35,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
           ),
         ),
         ListTile(
-          title: const Text('1 to 3 months'),
+          title: Text(AppLocalizations.of(context)!.one_to_three_months,),
           leading: Radio<Range>(
             value: Range.OneToThreeMonths,
             groupValue: _range,
@@ -46,7 +47,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
           ),
         ),
         ListTile(
-          title: const Text('3 to 6 months'),
+          title: Text(AppLocalizations.of(context)!.three_to_six_months),
           leading: Radio<Range>(
             value: Range.ThreeToSixMonths,
             groupValue: _range,
@@ -58,7 +59,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
           ),
         ),
         ListTile(
-          title: const Text('More than 6 months'),
+          title: Text(AppLocalizations.of(context)!.more_than_six_months),
           leading: Radio<Range>(
             value: Range.MoreThanSixMonths,
             groupValue: _range,

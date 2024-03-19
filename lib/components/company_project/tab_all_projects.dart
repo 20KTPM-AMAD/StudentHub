@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/components/company_project/pop_up_menu_project.dart';
 import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
 
@@ -56,9 +56,9 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   ],
                 ),
 
-                const Text(
-                  'Created 3 days ago',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context)!.time_created_project('3'),
+                  style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
                   ),
@@ -84,20 +84,20 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                         children: [
-                          Text(
+                          const Text(
                             '2',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16
                             ),
                           ),
                           Text(
-                            'Proposals',
-                            style: TextStyle(
+                            AppLocalizations.of(context)!.proposals,
+                            style: const TextStyle(
                                 fontSize: 16
                             ),
                           )
@@ -106,15 +106,15 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                     SizedBox(width: 20),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           '8',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16
                           ),
                         ),
                         Text(
-                          'Messages',
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.messages,
+                          style: const TextStyle(
                               fontSize: 16
                           ),
                         )
@@ -123,15 +123,15 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                     SizedBox(width: 20),
                     Column(
                       children: [
-                        Text(
+                        const Text(
                           '2',
                           style: TextStyle(
                               fontSize: 16
                           ),
                         ),
                         Text(
-                          'Hired',
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.hired,
+                          style: const TextStyle(
                               fontSize: 16
                           ),
                         )

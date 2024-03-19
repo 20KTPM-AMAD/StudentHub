@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -34,46 +34,39 @@ class DashboardState extends State<Dashboard> {
           children: <Widget>[
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                       children: [
-                        const Text('Your jobs'),
+                        Text(AppLocalizations.of(context)!.your_jobs,),
                         const Spacer(),
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PostProjectStep1Screen()),
-                            );
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.black,
                               backgroundColor: _green,
                               fixedSize: const Size(120, 24),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4))),
-                          child: const Text('Post a job',
+                          child: Text(AppLocalizations.of(context)!.post_a_project,
                               style: TextStyle(fontSize: 14)),
                         )
                       ],
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    'Welcome, Hai!',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.welcome('Hai'),
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
-                  const Text(
-                    'You have no jobs!',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.you_have_no_jobs,
+                    style: const TextStyle(
                       fontSize: 14,
                     ),
                   ),
