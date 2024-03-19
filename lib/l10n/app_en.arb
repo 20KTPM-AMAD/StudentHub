@@ -1,0 +1,18 @@
+{
+  "project": "Project",
+  "dashboard": "Dashboard",
+  "message": "Message",
+  "alerts": "Alerts",
+  "your_jobs": "Your jobs",
+  "post_a_job": "Post a job",
+  "welcome": "Welcome, {username}!",
+  "you_have_no_jobs!": "You have no jobs!",
+  "company": "Company",
+  "student": "Student",
+  "intro1": "Build your product with high-skilled student",
+  "intro2": "Find and aboard best-skilled student for your product. Student works to gain experience & skills from real-world projects",
+  "intro3": "StudentHub is university market place to connect high-skilled student and company on a real-world project",
+  "welcome1": "Let's start with your first project post",
+  "get_started": "Get Started!",
+  "invited_interview_notification": "You have invited to interview for project \"{project_name}\" at {time}"
+}

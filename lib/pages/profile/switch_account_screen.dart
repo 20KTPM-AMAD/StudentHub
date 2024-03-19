@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/drop_down_upgrade.dart';
 import 'package:studenthub/pages/profile/profile_input_screen.dart';
+import 'package:studenthub/pages/settings/setting_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -8,10 +10,10 @@ class SwitchAccountScreen extends StatefulWidget {
   const SwitchAccountScreen({Key? key}) : super(key: key);
 
   @override
-  _SwitchAccountScreenState createState() => _SwitchAccountScreenState();
+  SwitchAccountScreenState createState() => SwitchAccountScreenState();
 }
 
-class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
+class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   @override
   void initState() {
     super.initState();
@@ -46,9 +48,9 @@ class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child:  Row(
                   children: [
-                    Material(
+                    const Material(
                       shape: CircleBorder(), // Thiết lập hình dạng là hình tròn
                       color: _green, // Thiết lập màu nền của nút
                       child: IconButton(
@@ -61,15 +63,21 @@ class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
                           onPressed: null // Màu của biểu tượng
                           ),
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Profile', style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.project, style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 30),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SettingsScreen()),
+                );
+              },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: const Row(
