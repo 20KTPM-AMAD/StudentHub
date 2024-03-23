@@ -30,7 +30,7 @@ class DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   children: [
-                    const Text(
+                    Text(
                       AppLocalizations.of(context)!.your_jobs,
                     ),
                     const Spacer(),
@@ -49,17 +49,16 @@ class DashboardState extends State<Dashboard> {
                           fixedSize: const Size(120, 24),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4))),
-                      child: const Text(
-                          AppLocalizations.of(context)!.post_a_project,
-                          style: TextStyle(fontSize: 14)),
+                      child: Text(AppLocalizations.of(context)!.post_a_project,
+                          style: const TextStyle(fontSize: 14)),
                     )
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 AppLocalizations.of(context)!.welcome('Hai'),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                 ),
               ),
