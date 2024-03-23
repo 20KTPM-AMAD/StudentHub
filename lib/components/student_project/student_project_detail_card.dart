@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 const Color _green = Color(0xFF12B28C);
 
 class StudentProjectDetailCard extends StatefulWidget {
@@ -20,9 +20,9 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Senior frontend developer (Fintech)',
                     style: TextStyle(
@@ -30,11 +30,26 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                       fontSize: 16,
                       color: _green,
                     ),
-                    overflow: TextOverflow
-                        .ellipsis, // Hiển thị dấu ... khi văn bản tràn ra ngoài
+                    overflow: TextOverflow.ellipsis, // Hiển thị dấu ... khi văn bản tràn ra ngoài
                   ),
                 ),
+                const SizedBox(width: 10,),
               ],
+            ),
+
+            Text(
+              AppLocalizations.of(context)!.time_created_project('3'),
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.grey,
+              ),
+            ),
+            Text(
+              AppLocalizations.of(context)!.time_needed_project('1-3') + AppLocalizations.of(context)!.student_needed_project('6'),
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.grey,
+              ),
             ),
             const SizedBox(height: 10),
             RichText(
@@ -48,8 +63,7 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                     ),
                   ),
                   TextSpan(
-                    text:
-                        '- Clear expectation about your project or deliverables',
+                    text: '- Clear expectation about your project or deliverables',
                     style: TextStyle(
                       fontSize: 16, // Cỡ chữ
                     ),
@@ -57,9 +71,18 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                 ],
               ),
             ),
+            const SizedBox(height: 10),
+            Text(
+              '${AppLocalizations.of(context)!.proposals}: Less than 5',
+              style: const TextStyle(
+                fontStyle: FontStyle.italic,
+                color: Colors.grey,
+              ),
+            ),
           ],
         ),
-        onTap: () {},
+        onTap: () {
+        },
       ),
     );
   }

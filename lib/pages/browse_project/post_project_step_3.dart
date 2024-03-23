@@ -49,7 +49,7 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                     '3/4',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Text(
                     AppLocalizations.of(context)!.provide_description,
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -110,7 +110,7 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextField(
                     maxLines: 6, //or null
                     decoration: InputDecoration(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/main_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -52,8 +52,8 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                     const SizedBox(width: 10),
                     Text(
                       AppLocalizations.of(context)!.project_detail,
-                      style:
-                      const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     )
                   ],
                 ),
@@ -146,7 +146,7 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                           style: const TextStyle(fontSize: 16),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: Text(
                             '\u2022${AppLocalizations.of(context)!.three_to_six_months}',
                             style: const TextStyle(
@@ -192,7 +192,14 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                   children: [
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const MainScreen()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
                         foregroundColor: Colors.black,
