@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/main_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -191,7 +192,14 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                   children: [
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const MainScreen()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
                         foregroundColor: Colors.black,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/dashboard.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/pages/chat/message_list_screen.dart';
+import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/pages/notification/notification_screen.dart';
+import 'package:studenthub/pages/student_submit_proposal/all_projects_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -18,7 +19,8 @@ class MainScreenState extends State<MainScreen> {
 
   final List<Widget> _tabs = [
     const ProjectListScreen(),
-    const Dashboard(),
+    const DashboardScreen(),//company
+    //const AllProjectsScreen(), //student
     const MessageListScreen(),
     const NotificationScreen()
   ];
@@ -32,7 +34,14 @@ class MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bottom Navigation Demo'),
+        title: const Text('StudentHub'),
+        backgroundColor: _green,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -51,11 +60,11 @@ class MainScreenState extends State<MainScreen> {
           ),
           BottomNavigationBarItem(
               icon: const Icon(Icons.home),
-              label: 'MainScreen',
+              label: 'Dashboard',
               backgroundColor: Colors.grey[400]),
           BottomNavigationBarItem(
               icon: const Icon(Icons.message),
-              label: 'MainScreen',
+              label: 'Message',
               backgroundColor: Colors.grey[400]),
           BottomNavigationBarItem(
               icon: const Icon(Icons.notifications),

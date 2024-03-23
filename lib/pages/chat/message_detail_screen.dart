@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/components/chat/pop_up_time_choose.dart';
+import 'package:studenthub/components/chat/schedule_interview_message.dart';
+import 'package:studenthub/models/Message.dart';
+import 'package:studenthub/models/ScheduleInterview.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -7,18 +11,62 @@ class MessageDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconKey = GlobalKey();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Luis Pham'),
         backgroundColor: Colors.green.shade200,
         actions: <Widget>[
           IconButton(
+            key: iconKey,
             icon: const Icon(
               Icons.pending,
               color: _green,
             ),
             iconSize: 35,
-            onPressed: () {},
+            onPressed: () {
+              final RenderBox iconRenderBox = iconKey.currentContext!.findRenderObject() as RenderBox;
+              final iconPosition = iconRenderBox.localToGlobal(Offset.zero);
+              showMenu(
+                context: context,
+                position: RelativeRect.fromLTRB(
+                  iconPosition.dx,
+                  iconPosition.dy + iconRenderBox.size.height,
+                  MediaQuery.of(context).size.width - iconPosition.dx - iconRenderBox.size.width,
+                  MediaQuery.of(context).size.height - iconPosition.dy - iconRenderBox.size.height,
+                ),
+                items: [
+                  PopupMenuItem(
+                    child: const Row(
+                      children: [
+                        Icon(Icons.schedule_rounded, color: Colors.blue,),
+                        SizedBox(width: 8),
+                        Text('Schedule an interview'),
+                      ],
+                    ),
+                    onTap: () {
+                      // Xử lý khi chọn Schedule an interview
+                    },
+                  ),
+                  PopupMenuItem(
+                    child: const Row(
+                      children: [
+                        Icon(Icons.cancel, color: Colors.red,),
+                        SizedBox(width: 8),
+                        Text('Cancel'),
+                      ],
+                    ),
+                    onTap: () {
+                      // Xử lý khi chọn Cancel
+                    },
+                  ),
+                ],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Đặt bán kính bo góc ở đây
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -125,6 +173,22 @@ class MessageDetailScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
+              ScheduleInterviewMessageCard(
+                message: Message(
+                  senderUid: '1',
+                  receiverUid: '2',
+                  type: 'Schedule Interview',
+                  scheduleInterview: ScheduleInterview(
+                    id: '1',
+                    title: 'interview',
+                    startTime: DateTime.now(),
+                    endTime: DateTime.now(),
+                    isCanceled: false,
+                    participants: ['1', '2'],
+                  ),
+                  timestamp: DateTime.now(),
+                ),
+              ),
               const Spacer(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
@@ -143,9 +207,11 @@ class MessageDetailScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: Colors.white30,
                               borderRadius: BorderRadius.circular(50)),
-                          child: const Icon(
-                            Icons.calendar_today_rounded,
-                            color: Colors.white54,
+                          child: IconButton(
+                            onPressed: (){
+                              TimeChoosePopupFilter.show(context);
+                            },
+                            icon: const Icon(Icons.calendar_today_rounded, color: Colors.white54,),
                           ),
                         ),
                       ),

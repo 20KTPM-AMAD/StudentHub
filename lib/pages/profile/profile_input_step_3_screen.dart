@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/profile/select_file.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/main_screen.dart';
+import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -48,17 +50,18 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
               ),
             ),
             const SizedBox(height: 20), // Add spacing between widgets
-            Text(
-                AppLocalizations.of(context)!.intro_four,
+            Text(AppLocalizations.of(context)!.intro_four,
                 style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
             Text(AppLocalizations.of(context)!.resume_CV,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const SelectFileButton(),
             const SizedBox(height: 30),
             Text(AppLocalizations.of(context)!.transcript,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 10),
             const SelectFileButton(),
             const SizedBox(height: 30),
@@ -74,11 +77,23 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
                       builder: (_) {
                         return AlertDialog(
                           title: const Center(child: Text('Welcome')),
-                          content: Text(AppLocalizations.of(context)!.intro_five,),
+                          content: Text(
+                            AppLocalizations.of(context)!.intro_five,
+                          ),
                           actions: [
                             TextButton(
-                              onPressed: Navigator.of(context).pop,
-                              child: Text(AppLocalizations.of(context)!.next,),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MainScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)!.next,
+                              ),
                             ),
                           ],
                         );
@@ -87,7 +102,8 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: _green, foregroundColor: Colors.black),
-                  child: Text(AppLocalizations.of(context)!.continue_, style: const TextStyle(fontSize: 18)),
+                  child: Text(AppLocalizations.of(context)!.continue_,
+                      style: const TextStyle(fontSize: 18)),
                 ),
               ),
             ),

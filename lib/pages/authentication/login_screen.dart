@@ -140,17 +140,17 @@ class LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 30,
                       width: 120,
-                      child: ElevatedButton(
+                      child: TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpStep1Screen()),);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _green,
-                          foregroundColor: Colors.black,
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
                           AppLocalizations.of(context)!.sign_up,
-                          style: const TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18, color: _green, decoration: TextDecoration.underline,),
                         ),
                       ),
                     ),

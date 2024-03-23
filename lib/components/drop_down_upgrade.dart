@@ -8,7 +8,10 @@ List<Map<String, dynamic>> list = [
 const Color _green = Color(0xFF12B28C);
 
 class DropdownUpgrade extends StatefulWidget {
-  const DropdownUpgrade({super.key});
+  final ValueChanged<String?> onValueChanged; // Define callback function
+
+  const DropdownUpgrade({required this.onValueChanged, Key? key})
+      : super(key: key);
 
   @override
   State<DropdownUpgrade> createState() => _DropdownUpgradeState();
@@ -39,6 +42,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
           setState(() {
             dropdownValue = value!;
           });
+          widget.onValueChanged(value);
         },
         items: list.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
@@ -77,7 +81,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                               child: Text(
                                 value['position'],
                                 style:
-                                    const TextStyle(fontSize: 14, color: Colors.grey),
+                                const TextStyle(fontSize: 14, color: Colors.grey),
                               ),
                             ),
                           ],

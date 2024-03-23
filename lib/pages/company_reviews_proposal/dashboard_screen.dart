@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/company_project/tab_all_projects.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -20,16 +21,6 @@ class DashboardState extends State<DashboardScreen>{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('StudentHub'),
-        backgroundColor: _green,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -51,7 +42,14 @@ class DashboardState extends State<DashboardScreen>{
                         ),
                         const Spacer(),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const PostProjectStep1Screen()),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: _green,
                               foregroundColor: Colors.black
@@ -95,16 +93,6 @@ class DashboardState extends State<DashboardScreen>{
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        height: 60,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
-          NavigationDestination(icon: Icon(Icons.home), label: 'Dashboard',),
-          NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
-          NavigationDestination(icon: Icon(Icons.notifications), label: 'Alerts',),
-        ],
-        backgroundColor: _green,
       ),
     );
   }
