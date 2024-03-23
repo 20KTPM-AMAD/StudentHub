@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
