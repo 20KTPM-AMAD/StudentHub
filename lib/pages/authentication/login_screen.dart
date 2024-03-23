@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/home_screen.dart';
 import 'sign_up_step_1_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -35,15 +36,15 @@ class LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Column(
                   children: [
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Text(
-                      'Login with Student Hub',
-                      style: TextStyle(
+                      AppLocalizations.of(context)!.login_one,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     SizedBox(
                       width: 350,
                       child: Column(
@@ -52,41 +53,41 @@ class LoginScreenState extends State<LoginScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Username or email',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                AppLocalizations.of(context)!.username,
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               TextField(
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(color: _green),
+                                    borderSide: const BorderSide(color: _green),
                                   ),
-                                  hintText: "Enter username or email",
-                                  hintStyle: TextStyle(color: _green),
+                                  hintText: AppLocalizations.of(context)!.login_two,
+                                  hintStyle: const TextStyle(color: _green),
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Password',
-                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                AppLocalizations.of(context)!.password,
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               TextField(
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                                  contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(color: _green)
+                                      borderSide: const BorderSide(color: _green)
                                   ),
-                                  hintText: "Enter password",
-                                  hintStyle: TextStyle(color: _green),
+                                  hintText: AppLocalizations.of(context)!.login_three,
+                                  hintStyle: const TextStyle(color: _green),
                                   suffixIcon: IconButton(
                                     onPressed: () {
                                       setState(() {
@@ -99,9 +100,9 @@ class LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 40),
+                          const SizedBox(height: 40),
                           SizedBox(
-                            width: 120,
+                            width: 150,
                             child: ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -110,13 +111,13 @@ class LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                  primary: _green,
-                                  onPrimary: Colors.black
+                                  backgroundColor: _green,
+                                  foregroundColor: Colors.black
                               ),
-                              child: Text('Sign In', style: TextStyle(fontSize: 18)),
+                              child: Text(AppLocalizations.of(context)!.sign_in, style: const TextStyle(fontSize: 18)),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),
@@ -130,8 +131,8 @@ class LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Don’t have a Student Hub account?',
-                      style: TextStyle(
+                    AppLocalizations.of(context)!.login_four,
+                      style: const TextStyle(
                         color: _green,
                         fontSize: 18,
                       ),
@@ -139,17 +140,17 @@ class LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 30,
                       width: 120,
-                      child: ElevatedButton(
+                      child: TextButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpStep1Screen()),);
                         },
-                        style: ElevatedButton.styleFrom(
-                          primary: _green,
-                          onPrimary: Colors.black,
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
-                          'Sign Up',
-                          style: TextStyle(fontSize: 18),
+                          AppLocalizations.of(context)!.sign_up,
+                          style: const TextStyle(fontSize: 18, color: _green, decoration: TextDecoration.underline,),
                         ),
                       ),
                     ),
@@ -160,7 +161,7 @@ class LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
+      bottomNavigationBar: const Padding(
         padding: EdgeInsets.only(bottom: 20),
         child: SizedBox(),
       ),

@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/drop_down_upgrade.dart';
 import 'package:studenthub/pages/profile/profile_input_screen.dart';
+import 'package:studenthub/pages/profile/profile_input_step_1_screen.dart';
+import 'package:studenthub/pages/settings/setting_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
 class SwitchAccountScreen extends StatefulWidget {
-  const SwitchAccountScreen({Key? key}) : super(key: key);
+  const SwitchAccountScreen({Key? key, this.userRole}) : super(key: key);
+  final userRole;
 
   @override
-  _SwitchAccountScreenState createState() => _SwitchAccountScreenState();
+  SwitchAccountScreenState createState() => SwitchAccountScreenState();
 }
 
-class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
+class SwitchAccountScreenState extends State<SwitchAccountScreen> {
+  String? selectedDropdownValue = 'Company'; // State to hold the selected value
   @override
   void initState() {
     super.initState();
@@ -34,21 +39,37 @@ class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
         child: Column(
           children: [
             const SizedBox(height: 30),
-            const DropdownUpgrade(),
+            DropdownUpgrade(
+              onValueChanged: (value) {
+                setState(() {
+                  selectedDropdownValue = value;
+                });
+              },
+            ),
             const SizedBox(height: 50),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ProfileInputScreen()),
-                );
+                if (selectedDropdownValue == 'Company') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileInputScreen(),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileInputStep1Screen(),
+                    ),
+                  );
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child: Row(
                   children: [
-                    Material(
+                    const Material(
                       shape: CircleBorder(), // Thiết lập hình dạng là hình tròn
                       color: _green, // Thiết lập màu nền của nút
                       child: IconButton(
@@ -59,28 +80,36 @@ class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
                           ),
                           color: _green,
                           onPressed: null // Màu của biểu tượng
-                          ),
+                      ),
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Profile', style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.profile,
+                        style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 30),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()),
+                );
+              },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.settings,
                       size: 50.0,
                       color: _green,
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Settings', style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.settings,
+                        style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
@@ -90,16 +119,17 @@ class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
               onTap: () {},
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child: Row(
                   children: [
-                    SizedBox(width: 4.0),
-                    Icon(
+                    const SizedBox(width: 4.0),
+                    const Icon(
                       Icons.logout,
                       size: 50.0,
                       color: _green,
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Logout', style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.logout,
+                        style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),
@@ -111,9 +141,9 @@ class _SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 alignment: Alignment.bottomRight,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: const Text(
-                    'Already have an account',
-                    style: TextStyle(fontSize: 18),
+                  child: Text(
+                    AppLocalizations.of(context)!.have_an_account,
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
               ),

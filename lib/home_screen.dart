@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'pages/authentication/login_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -45,18 +46,18 @@ class HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 50),
-                    const Text(
-                      'Build your product with high-skilled student',
-                      style: TextStyle(
+                    Text(
+                      AppLocalizations.of(context)!.intro_one,
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
                     const SizedBox(height: 50),
-                    const Text(
-                      'Find and aboard best-skilled student for your product. Student works to gain experience & skills from real-world projects',
+                    Text(
+                      AppLocalizations.of(context)!.intro_two,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -66,11 +67,11 @@ class HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                            primary: _green,
-                            onPrimary: Colors.black
+                            backgroundColor: _green,
+                            foregroundColor: Colors.black
                         ),
-                        child: const Text('Company',
-                            style: TextStyle(fontSize: 16)),
+                        child: Text(AppLocalizations.of(context)!.company,
+                            style: const TextStyle(fontSize: 16)),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -79,18 +80,18 @@ class HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                            primary: _green,
-                            onPrimary: Colors.black
+                            backgroundColor: _green,
+                            foregroundColor: Colors.black
                         ),
-                        child: const Text('Student',
-                            style: TextStyle(fontSize: 16)),
+                        child: Text(AppLocalizations.of(context)!.student,
+                            style: const TextStyle(fontSize: 16)),
                       ),
                     ),
                     const SizedBox(height: 50),
-                    const Text(
-                      'StudentHub is university market place to connect high-skilled student and company on a real-world project',
+                    Text(
+                      AppLocalizations.of(context)!.intro_three,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Range {
-  ItIsJustMe,
-  TwoToNineEmployees,
-  TenToNinetyNineEmployees,
-  HundredToOneThousandEmployees,
-  MoreThanOneThousandEmployees
+  LessThanOneMonth,
+  OneToThreeMonths,
+  ThreeToSixMonths,
+  MoreThanSixMonths,
 }
 
-class RadioButtonGroup extends StatefulWidget {
-  const RadioButtonGroup({super.key});
+class RadioButtonGroupProjectLength extends StatefulWidget {
+  const RadioButtonGroupProjectLength({super.key});
 
   @override
-  State<RadioButtonGroup> createState() => _RadioButtonGroupeState();
+  State<RadioButtonGroupProjectLength> createState() => _RadioButtonGroupeState();
 }
 
-class _RadioButtonGroupeState extends State<RadioButtonGroup> {
-  Range? _range = Range.ItIsJustMe;
+class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
+  Range? _range = Range.LessThanOneMonth;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         ListTile(
-          title: const Text('It’s just me'),
+          title: Text(AppLocalizations.of(context)!.less_than_one_month),
           leading: Radio<Range>(
-            value: Range.ItIsJustMe,
+            value: Range.LessThanOneMonth,
             groupValue: _range,
             onChanged: (Range? value) {
               setState(() {
@@ -35,9 +35,9 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('2-9 employees'),
+          title: Text(AppLocalizations.of(context)!.one_to_three_months,),
           leading: Radio<Range>(
-            value: Range.TwoToNineEmployees,
+            value: Range.OneToThreeMonths,
             groupValue: _range,
             onChanged: (Range? value) {
               setState(() {
@@ -47,9 +47,9 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('10-99 employees'),
+          title: Text(AppLocalizations.of(context)!.three_to_six_months),
           leading: Radio<Range>(
-            value: Range.TenToNinetyNineEmployees,
+            value: Range.ThreeToSixMonths,
             groupValue: _range,
             onChanged: (Range? value) {
               setState(() {
@@ -59,9 +59,9 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
           ),
         ),
         ListTile(
-          title: const Text('100-1000 employees'),
+          title: Text(AppLocalizations.of(context)!.more_than_six_months),
           leading: Radio<Range>(
-            value: Range.HundredToOneThousandEmployees,
+            value: Range.MoreThanSixMonths,
             groupValue: _range,
             onChanged: (Range? value) {
               setState(() {
@@ -70,18 +70,6 @@ class _RadioButtonGroupeState extends State<RadioButtonGroup> {
             },
           ),
         ),
-        ListTile(
-          title: const Text('More than 1000 employees'),
-          leading: Radio<Range>(
-            value: Range.MoreThanOneThousandEmployees,
-            groupValue: _range,
-            onChanged: (Range? value) {
-              setState(() {
-                _range = value;
-              });
-            },
-          ),
-        )
       ],
     );
   }

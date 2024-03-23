@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/dashboard.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/main_screen.dart';
+import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -43,16 +46,16 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                     size: 60,
                   ),
                   const SizedBox(height: 40),
-                  const Text(
-                    'Welcome, Hai!',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.welcome('Hai'),
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const Text(
-                    'Let\'s start with your first project post',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.welcome_one,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
@@ -63,7 +66,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Dashboard()),
+                            builder: (context) => const MainScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -72,8 +75,8 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                         fixedSize: const Size(160, 40),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4))),
-                    child: const Text('Get Started!',
-                        style: TextStyle(fontSize: 16)),
+                    child: Text(AppLocalizations.of(context)!.get_started,
+                        style: const TextStyle(fontSize: 16)),
                   ),
                 ],
               ),
