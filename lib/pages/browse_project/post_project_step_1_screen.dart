@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_2_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -34,45 +35,45 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
             child: Column(children: [
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
-                  Text(
+                  const Text(
                     '1/4',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Text(
-                    'Let\'start with a strong title',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      AppLocalizations.of(context)!.strong_title,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
               const SizedBox(height: 20),
-              const Text(
-                'This helps your post stand out to the right students. It\'s the first thing they\'ll see, so make it impressive.',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.explain,
+                style: const TextStyle(
                   fontSize: 16,
                 ),
                 textAlign: TextAlign.justify,
               ),
               const SizedBox(height: 20),
-              const TextField(
+              TextField(
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                  border: const OutlineInputBorder(
                     // borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: _green),
                   ),
-                  hintText: "Enter a title for your project",
+                  hintText: AppLocalizations.of(context)!.title_project,
                 ),
               ),
               const SizedBox(height: 20),
-              const Row(
+              Row(
                 children: [
                   Text(
-                    'For example:',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.for_example,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -117,8 +118,8 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
                       backgroundColor: _green,
                       foregroundColor: Colors.black,
                     ),
-                    child: const Text('Next: Scope',
-                        style: TextStyle(fontSize: 18)),
+                    child: Text(AppLocalizations.of(context)!.next_scope,
+                        style: const TextStyle(fontSize: 18)),
                   ),
                 ],
               )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/input_group.dart';
 import 'package:studenthub/components/company_project/radio_button_group_project_length.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -47,12 +48,12 @@ class ProjectPopupFilter {
                   ],
                 ),
                 const SizedBox(height: 10,),
-                const Padding(
-                  padding: EdgeInsets.only(left: 25.0, right: 25, top: 5),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                   child: Text(
-                    'Filter by',
+                    AppLocalizations.of(context)!.filter_by,
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -62,20 +63,20 @@ class ProjectPopupFilter {
                   color: Colors.grey,
                   thickness: 1,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 25.0, right: 25, top: 5),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                   child: Text(
-                    'Project length',
+                    AppLocalizations.of(context)!.project_length,
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 const RadioButtonGroupProjectLength(),
-                const InputGroup(name: 'Students needed'),
-                const InputGroup(name: 'Proposals less than'),
+                InputGroup(name: AppLocalizations.of(context)!.students_needed),
+                InputGroup(name: AppLocalizations.of(context)!.proposals_less_than),
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                   child: Row(
@@ -87,7 +88,7 @@ class ProjectPopupFilter {
                           backgroundColor: Colors.grey,
                           foregroundColor: Colors.black,
                         ),
-                        child: const Text('Clear filters', style: TextStyle(fontSize: 18)),
+                        child: Text(AppLocalizations.of(context)!.clear_filters, style: const TextStyle(fontSize: 18)),
                       ),
                       ElevatedButton(
                         onPressed: (){},
@@ -95,7 +96,7 @@ class ProjectPopupFilter {
                             backgroundColor: _green,
                             foregroundColor: Colors.black
                         ),
-                        child: const Text('Apply', style: TextStyle(fontSize: 18)),
+                        child: Text(AppLocalizations.of(context)!.apply, style: const TextStyle(fontSize: 18)),
                       ),
                     ],
                   ),

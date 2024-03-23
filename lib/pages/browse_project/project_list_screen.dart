@@ -3,6 +3,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:studenthub/pages/browse_project/saved_projects_screen.dart';
 import 'package:studenthub/components/company_project/card_project_list.dart';
 import 'package:studenthub/components/company_project/pop_up_filter_project.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -49,7 +50,7 @@ class ProjectListState extends State<ProjectListScreen> {
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 10.0, horizontal: 15.0),
-                          hintText: 'Search...',
+                          hintText: AppLocalizations.of(context)!.search,
                           prefixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.0),

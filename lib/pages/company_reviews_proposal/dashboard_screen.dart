@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/company_project/tab_all_projects.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -42,9 +42,9 @@ class DashboardState extends State<DashboardScreen>{
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          'Your project',
-                          style: TextStyle(
+                        Text(
+                          AppLocalizations.of(context)!.your_project,
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
@@ -56,7 +56,7 @@ class DashboardState extends State<DashboardScreen>{
                               backgroundColor: _green,
                               foregroundColor: Colors.black
                           ),
-                          child: const Text('Post a project', style: TextStyle(fontSize: 18)),
+                          child: Text(AppLocalizations.of(context)!.post_a_project, style: const TextStyle(fontSize: 18)),
                         ),
                       ],
                     ),
@@ -64,11 +64,11 @@ class DashboardState extends State<DashboardScreen>{
                         length: 3,
                         child: Column(
                           children: [
-                            const TabBar(
+                            TabBar(
                                 tabs: [
-                                  Tab(text: 'All Projects'),
-                                  Tab(text: 'Working'),
-                                  Tab(text: 'Archived'),
+                                  Tab(text: AppLocalizations.of(context)!.all_projects,),
+                                  Tab(text: AppLocalizations.of(context)!.working,),
+                                  Tab(text: AppLocalizations.of(context)!.archived,),
                                 ]
                             ),
                             const SizedBox(height: 10),

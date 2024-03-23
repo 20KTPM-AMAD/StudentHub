@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -29,7 +29,9 @@ class DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   children: [
-                    const Text('Your jobs'),
+                    const Text(
+                      AppLocalizations.of(context)!.your_jobs,
+                    ),
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
@@ -46,7 +48,8 @@ class DashboardState extends State<Dashboard> {
                           fixedSize: const Size(120, 24),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4))),
-                      child: const Text('Post a job',
+                      child: const Text(
+                          AppLocalizations.of(context)!.post_a_project,
                           style: TextStyle(fontSize: 14)),
                     )
                   ],
@@ -54,7 +57,7 @@ class DashboardState extends State<Dashboard> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Welcome, Hai!',
+                AppLocalizations.of(context)!.welcome('Hai'),
                 style: TextStyle(
                   fontSize: 14,
                 ),

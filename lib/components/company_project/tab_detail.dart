@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -54,24 +55,24 @@ class DetailTabState extends State<DetailTab>{
                     ),
                     const Divider(thickness: 3),
                     const SizedBox(height: 30),
-                    const Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.alarm_outlined, size: 40,),
-                        SizedBox(width: 30),
+                        const Icon(Icons.alarm_outlined, size: 40,),
+                        const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Project scope',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.project_scope,
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20
                               ),
                             ),
                             Text(
-                              '3 to 6 month',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.three_to_six_months,
+                              style: const TextStyle(
                                   fontSize: 16
                               ),
                             ),
@@ -80,22 +81,22 @@ class DetailTabState extends State<DetailTab>{
                       ],
                     ),
                     const SizedBox(height: 30),
-                    const Row(
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.group_outlined, size: 40,),
-                        SizedBox(width: 30),
+                        const Icon(Icons.group_outlined, size: 40,),
+                        const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Student required',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.student_required,
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20
                               ),
                             ),
-                            Text(
+                            const Text(
                               '6 students',
                               style: TextStyle(
                                   fontSize: 16
@@ -119,7 +120,7 @@ class DetailTabState extends State<DetailTab>{
                   backgroundColor: _green,
                   foregroundColor: Colors.black
               ),
-              child: const Text('Post job', style: TextStyle(fontSize: 18)),
+              child: Text(AppLocalizations.of(context)!.post_job, style: const TextStyle(fontSize: 18)),
             ),
           ),
         ],
