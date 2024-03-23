@@ -49,9 +49,8 @@ class DashboardState extends State<Dashboard> {
                           fixedSize: const Size(120, 24),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4))),
-                      child: Text(
-                          AppLocalizations.of(context)!.post_a_project,
-                          style: TextStyle(fontSize: 14)),
+                      child: Text(AppLocalizations.of(context)!.post_a_project,
+                          style: const TextStyle(fontSize: 14)),
                     )
                   ],
                 ),
@@ -59,7 +58,7 @@ class DashboardState extends State<Dashboard> {
               const SizedBox(height: 20),
               Text(
                 AppLocalizations.of(context)!.welcome('Hai'),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14,
                 ),
               ),
