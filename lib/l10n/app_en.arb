@@ -143,5 +143,18 @@
   "vietnamese": "Vietnamese",
   "cover_letter": "Cover letter",
   "why_fit_project": "Describe why do you fit to this project",
-  "submit_proposal": "Submit proposal"
+  "submit_proposal": "Submit proposal",
+  "choose_start_time": "Choose start time: ",
+  "choose_end_time": "Choose end time: ",
+  "schedule_video_call": "Schedule a video call interview",
+  "title_interview": "Title",
+  "start_time": "Start time",
+  "end_time": "End time",
+  "duration": "Duration: 60 minutes",
+  "send_invite": "Send Invite",
+  "schedule_interview": "Alex Xu wants to schedule an interview",
+  "join": "Join",
+  "reschedule_meeting": "Re-schedule the meeting",
+  "cancel_meeting": "Cancel the meeting",
+  "schedule_an_interview": "Schedule an interview"
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/input_group.dart';
-import 'package:studenthub/components/company_project/radio_button_group_project_length.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 const Color _green = Color(0xFF12B28C);
 
 class TimeChoosePopupFilter {
@@ -50,12 +48,12 @@ class TimeChoosePopupFilter {
                       ],
                     ),
                     const SizedBox(height: 10,),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0, right: 25, top: 5),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                       child: Text(
-                        'Schedule a video call interview',
+                        AppLocalizations.of(context)!.schedule_video_call,
                         textAlign: TextAlign.left,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -65,16 +63,16 @@ class TimeChoosePopupFilter {
                       color: Colors.grey,
                       thickness: 1,
                     ),
-                    InputGroup(name: 'Title'),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0, right: 25, top: 5),
+                    InputGroup(name: AppLocalizations.of(context)!.title_interview),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Start time',
+                            AppLocalizations.of(context)!.start_time,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -87,9 +85,9 @@ class TimeChoosePopupFilter {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                            const Text(
-                              'Choose start time: ',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.choose_start_time,
+                              style: const TextStyle(
                                   fontSize: 16,
                                   fontStyle: FontStyle.italic
                               ),
@@ -98,15 +96,15 @@ class TimeChoosePopupFilter {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0, right: 25, top: 5),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'End time',
+                            AppLocalizations.of(context)!.end_time,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
@@ -119,9 +117,9 @@ class TimeChoosePopupFilter {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Text(
-                            'Choose end time: ',
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!.end_time,
+                            style: const TextStyle(
                                 fontSize: 16,
                                 fontStyle: FontStyle.italic
                             ),
@@ -130,15 +128,15 @@ class TimeChoosePopupFilter {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25.0, right: 25, top: 5),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Duration: 60 minutes',
+                            AppLocalizations.of(context)!.duration,
                             textAlign: TextAlign.left,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontStyle: FontStyle.italic
                             ),
@@ -165,7 +163,7 @@ class TimeChoosePopupFilter {
                                 backgroundColor: _green,
                                 foregroundColor: Colors.black
                             ),
-                            child: Text('Send Invite', style: const TextStyle(fontSize: 18)),
+                            child: Text(AppLocalizations.of(context)!.send_invite, style: const TextStyle(fontSize: 18)),
                           ),
                         ],
                       ),

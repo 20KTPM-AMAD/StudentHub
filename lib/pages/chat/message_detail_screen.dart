@@ -3,6 +3,7 @@ import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/models/ScheduleInterview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -38,11 +39,11 @@ class MessageDetailScreen extends StatelessWidget {
                 ),
                 items: [
                   PopupMenuItem(
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Icon(Icons.schedule_rounded, color: Colors.blue,),
-                        SizedBox(width: 8),
-                        Text('Schedule an interview'),
+                        const Icon(Icons.schedule_rounded, color: Colors.blue,),
+                        const SizedBox(width: 8),
+                        Text(AppLocalizations.of(context)!.schedule_an_interview,),
                       ],
                     ),
                     onTap: () {
@@ -50,11 +51,11 @@ class MessageDetailScreen extends StatelessWidget {
                     },
                   ),
                   PopupMenuItem(
-                    child: const Row(
+                    child: Row(
                       children: [
-                        Icon(Icons.cancel, color: Colors.red,),
-                        SizedBox(width: 8),
-                        Text('Cancel'),
+                        const Icon(Icons.cancel, color: Colors.red,),
+                        const SizedBox(width: 8),
+                        Text(AppLocalizations.of(context)!.cancel,),
                       ],
                     ),
                     onTap: () {

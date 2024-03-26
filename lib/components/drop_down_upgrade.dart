@@ -33,7 +33,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
         value: dropdownValue,
         icon: const Icon(Icons.keyboard_arrow_up),
         elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
+        style: const TextStyle(color: Colors.green),
         underline: Container(
           height: 0,
         ),
@@ -67,7 +67,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                               child: Text(
                                 value['name'],
                                 style: const TextStyle(
-                                    fontSize: 20, color: Colors.black),
+                                    fontSize: 20),
                               ),
                             )
                           ],

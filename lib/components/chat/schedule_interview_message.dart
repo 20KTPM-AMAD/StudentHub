@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/pages/chat/video_call_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -26,8 +27,8 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Alex Xu wants to schedule an interview',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+                  AppLocalizations.of(context)!.schedule_interview,
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
                 ),
               ],
             ),
@@ -38,33 +39,33 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                   message.scheduleInterview!.title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   '${message.scheduleInterview!.endTime.difference(message.scheduleInterview!.startTime).inMinutes} minutes',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
                 Text(
                   DateFormat('kk:mm dd/MM/yyyy').format(message.scheduleInterview!.startTime),
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
-                SizedBox(width: 10),
-                Text('-'),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
+                const Text('-'),
+                const SizedBox(width: 10),
                 Text(
                   DateFormat('kk:mm dd/MM/yyyy').format(message.scheduleInterview!.endTime),
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
             ),
             Row(
               children: [
-                Spacer(),
-                SizedBox(width: 10),
+                const Spacer(),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -72,7 +73,7 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => VideoCallScreen()),
                     );
                   },
-                  child: Text('Join'),
+                  child: Text(AppLocalizations.of(context)!.join),
                 ),
                 const SizedBox(height: 10),
                 IconButton(
@@ -90,11 +91,11 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                       ),
                       items: [
                         PopupMenuItem(
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(Icons.schedule_rounded, color: Colors.blue,),
-                              SizedBox(width: 8),
-                              Text('Re-schedule the meeting'),
+                              const Icon(Icons.schedule_rounded, color: Colors.blue,),
+                              const SizedBox(width: 8),
+                              Text(AppLocalizations.of(context)!.reschedule_meeting),
                             ],
                           ),
                           onTap: () {
@@ -102,11 +103,11 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                           },
                         ),
                         PopupMenuItem(
-                          child: const Row(
+                          child: Row(
                             children: [
-                              Icon(Icons.cancel, color: Colors.red,),
-                              SizedBox(width: 8),
-                              Text('Cancel the meeting'),
+                              const Icon(Icons.cancel, color: Colors.red,),
+                              const SizedBox(width: 8),
+                              Text(AppLocalizations.of(context)!.cancel_meeting),
                             ],
                           ),
                           onTap: () {

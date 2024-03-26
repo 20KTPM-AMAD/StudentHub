@@ -135,19 +135,6 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               ),
             ),
             const SizedBox(height: 50),
-            GestureDetector(
-              onTap: () {},
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Text(
-                    AppLocalizations.of(context)!.have_an_account,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

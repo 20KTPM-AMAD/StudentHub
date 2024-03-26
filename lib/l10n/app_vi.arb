@@ -143,5 +143,18 @@
   "vietnamese": "Tiếng Việt",
   "cover_letter": "Thư xin việc",
   "why_fit_project": "Mô tả lý do bạn phù hợp với dự án này",
-  "submit_proposal": "Gửi đề xuất"
+  "submit_proposal": "Gửi đề xuất",
+  "choose_start_time": "Chọn thời gian bắt đầu: ",
+  "choose_end_time": "Chọn thời gian kết thúc: ",
+  "schedule_video_call": "Lên lịch cuộc phỏng vấn qua video",
+  "title_interview": "Tiêu đề",
+  "start_time": "Thời gian bắt đầu",
+  "end_time": "Thời gian kết thúc",
+  "duration": "Thời lượng: 60 phút",
+  "send_invite": "Gửi lời mời",
+  "schedule_interview": "Alex Xu muốn lên lịch một cuộc phỏng vấn",
+  "join": "Tham gia",
+  "reschedule_meeting": "Đổi lịch hẹn",
+  "cancel_meeting": "Hủy cuộc hẹn",
+  "schedule_an_interview": "Lên lịch cuộc phỏng vấn"
 }
