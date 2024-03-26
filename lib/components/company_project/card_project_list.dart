@@ -62,7 +62,7 @@ class ProjectListTabState extends State<ProjectListTab> {
                   ),
                 ),
                 Text(
-                  '${AppLocalizations.of(context)!.time_needed_project('1-3')}, ${AppLocalizations.of(context)!.student_needed_project('6')}',
+                  AppLocalizations.of(context)!.time_needed_project('1-3') + AppLocalizations.of(context)!.student_needed_project('6'),
                   style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,

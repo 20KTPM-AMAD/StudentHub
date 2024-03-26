@@ -106,17 +106,5 @@ class ProjectListState extends State<ProjectListScreen> {
         ],
       ),
     ));
-    //   ),
-    //   bottomNavigationBar: NavigationBar(
-    //     height: 60,
-    //     destinations: const [
-    //       NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
-    //       NavigationDestination(icon: Icon(Icons.home), label: 'Dashboard',),
-    //       NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
-    //       NavigationDestination(icon: Icon(Icons.notifications), label: 'Alerts',),
-    //     ],
-    //     backgroundColor: _green,
-    //   ),
-    // );
   }
 }
