@@ -27,7 +27,7 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.schedule_interview,
+                  AppLocalizations.of(context)!.schedule_interview('Alex Xu'),
                   style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
                 ),
               ],

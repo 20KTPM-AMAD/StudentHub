@@ -134,7 +134,7 @@ class TimeChoosePopupFilter {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            AppLocalizations.of(context)!.duration,
+                            AppLocalizations.of(context)!.duration('60'),
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               fontSize: 14,
