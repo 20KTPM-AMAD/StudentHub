@@ -3,9 +3,11 @@ import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/pages/chat/message_list_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/pages/notification/notification_screen.dart';
+import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:studenthub/pages/student_submit_proposal/all_projects_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -39,7 +41,13 @@ class MainScreenState extends State<MainScreen> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.person),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      child: const SwitchAccountScreen(),
+                      type: PageTransitionType.bottomToTop));
+            },
           ),
         ],
       ),

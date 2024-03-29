@@ -6,6 +6,7 @@ import 'package:studenthub/components/company_project/pop_up_filter_project.dart
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
+var blackColor = Colors.black54;
 
 class ProjectListScreen extends StatefulWidget {
   const ProjectListScreen({Key? key}) : super(key: key);
@@ -45,18 +46,19 @@ class ProjectListState extends State<ProjectListScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 260,
+                      width: 270,
                       child: AutoCompleteTextField<String>(
+                        showCursor: false,
                         decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 15.0),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                           hintText: AppLocalizations.of(context)!.search,
-                          prefixIcon: const Icon(Icons.search),
+                          prefixIcon: Icon(Icons.search, color: blackColor.withOpacity(.6),),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide.none
                           ),
                           filled: true,
-                          fillColor: Colors.grey[200],
+                          fillColor: _green.withOpacity(.1),
                         ),
                         itemSubmitted: (String item) {
                           // Xử lý khi người dùng chọn gợi ý
@@ -106,17 +108,5 @@ class ProjectListState extends State<ProjectListScreen> {
         ],
       ),
     ));
-    //   ),
-    //   bottomNavigationBar: NavigationBar(
-    //     height: 60,
-    //     destinations: const [
-    //       NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
-    //       NavigationDestination(icon: Icon(Icons.home), label: 'Dashboard',),
-    //       NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
-    //       NavigationDestination(icon: Icon(Icons.notifications), label: 'Alerts',),
-    //     ],
-    //     backgroundColor: _green,
-    //   ),
-    // );
   }
 }

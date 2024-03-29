@@ -27,16 +27,6 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('StudentHub'),
-        backgroundColor: _green,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {},
-          ),
-        ],
-      ),
       body: SingleChildScrollView( // Wrap Scaffold with SingleChildScrollView
         child: Center(
           child: Column(
@@ -45,15 +35,15 @@ class HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                 child: Column(
                   children: [
-                    const SizedBox(height: 50),
+                    Image.asset('assets/images/introduction.jpg'),
                     Text(
                       AppLocalizations.of(context)!.intro_one,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 19,
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)!.intro_two,
                       textAlign: TextAlign.center,
@@ -61,15 +51,11 @@ class HomeScreenState extends State<HomeScreen> {
                         fontSize: 16,
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: 120,
                       child: ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: _green,
-                            foregroundColor: Colors.black
-                        ),
                         child: Text(AppLocalizations.of(context)!.company,
                             style: const TextStyle(fontSize: 16)),
                       ),
@@ -79,15 +65,11 @@ class HomeScreenState extends State<HomeScreen> {
                       width: 120,
                       child: ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: _green,
-                            foregroundColor: Colors.black
-                        ),
                         child: Text(AppLocalizations.of(context)!.student,
                             style: const TextStyle(fontSize: 16)),
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
                     Text(
                       AppLocalizations.of(context)!.intro_three,
                       textAlign: TextAlign.center,
