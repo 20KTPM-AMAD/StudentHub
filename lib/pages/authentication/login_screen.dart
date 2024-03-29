@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/home_screen.dart';
+import 'package:studenthub/main_screen.dart';
 import 'sign_up_step_1_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xFF12B28C);
 
@@ -14,6 +16,38 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  Future<void> login() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All fields are required'),
+        ),
+      );
+      return;
+    }
+
+    final response = await http.post(
+      Uri.parse('http://34.125.167.164/api/auth/sign-in'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': emailController.text,
+        'password': passwordController.text,
+      }),
+    );
+
+    final jsonResponse = json.decode(response.body);
+    if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()),);
+    }
+    else {
+      print('Failed to login: ${response.body}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +92,7 @@ class LoginScreenState extends State<LoginScreen> {
                               ),
                               const SizedBox(height: 8),
                               TextField(
+                                controller: emailController,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                   border: OutlineInputBorder(
@@ -79,6 +114,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               TextField(
+                                controller: passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -105,10 +141,7 @@ class LoginScreenState extends State<LoginScreen> {
                             width: 150,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                                );
+                                login();
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: _green,
