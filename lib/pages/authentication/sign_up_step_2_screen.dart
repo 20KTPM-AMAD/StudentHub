@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xFF12B28C);
 
 class SignUpStep2Screen extends StatefulWidget {
-  const SignUpStep2Screen({Key? key}) : super(key: key);
+  final int? userType;
+  const SignUpStep2Screen({Key? key, this.userType}) : super(key: key);
 
   @override
   SignUpStep2ScreenState createState() => SignUpStep2ScreenState();
@@ -14,6 +17,50 @@ class SignUpStep2Screen extends StatefulWidget {
 class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
   bool _obscureText = true;
   bool _isChecked = false;
+  int? _userTypeValue;
+
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _userTypeValue = widget.userType;
+  }
+
+  Future<void> signUp() async {
+    if (emailController.text.isEmpty || fullNameController.text.isEmpty || passwordController.text.isEmpty || _userTypeValue == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All fields are required'),
+        ),
+      );
+      return;
+    }
+
+    final response = await http.post(
+      Uri.parse('http://34.125.167.164/api/auth/sign-up'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'email': emailController.text,
+        'fullName': fullNameController.text,
+        'password': passwordController.text,
+        'role': _userTypeValue,
+      }),
+    );
+
+    if (response.body == '{}') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const SwitchAccountScreen()),
+        );
+    } else {
+      print('Failed to register: ${response.body}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +111,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                                     ),
                                     const SizedBox(height: 8),
                                     TextField(
+                                      controller: fullNameController,
                                       decoration: InputDecoration(
                                         contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                         border: OutlineInputBorder(
@@ -86,6 +134,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                                     ),
                                     const SizedBox(height: 8),
                                     TextField(
+                                      controller: emailController,
                                       decoration: InputDecoration(
                                         contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                         border: OutlineInputBorder(
@@ -108,6 +157,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                                     ),
                                     TextField(
                                       obscureText: _obscureText,
+                                      controller: passwordController,
                                       decoration: InputDecoration(
                                         contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                                         border: OutlineInputBorder(
@@ -149,7 +199,18 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                             height: 50,
                             width: 250,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (_isChecked) {
+                                  signUp();
+                                }
+                                else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('You must agree to the terms of use'),
+                                    ),
+                                  );
+                                }
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: _green,
                                   foregroundColor: Colors.black
