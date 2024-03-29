@@ -42,11 +42,11 @@ class MainScreenState extends State<MainScreen> {
           IconButton(
             icon: const Icon(Icons.person),
             onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      child: const SwitchAccountScreen(),
-                      type: PageTransitionType.bottomToTop));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SwitchAccountScreen()),
+              );
             },
           ),
         ],
