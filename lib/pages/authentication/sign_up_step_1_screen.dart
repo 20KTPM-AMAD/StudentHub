@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'sign_up_step_2_screen.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+var blackColor = Colors.black54;
+var primaryColor = const Color(0xff296e48);
 
 class SignUpStep1Screen extends StatefulWidget {
   const SignUpStep1Screen({Key? key}) : super(key: key);
@@ -18,17 +20,8 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('StudentHub'),
-          backgroundColor: _green,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {},
-            ),
-          ],
-        ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -37,15 +30,15 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                   padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                   child: Column(
                     children: [
-                      const SizedBox(height: 30),
+                      Image.asset('assets/images/thinking.jpg'),
                       Text(
                         AppLocalizations.of(context)!.join_as_company_or_student,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          fontSize: 30,
                         ),
                       ),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 10,),
                       SizedBox(
                         width: 350,
                         child: Column(
@@ -61,7 +54,7 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: RadioListTile<bool>(
-                                      title: Text(AppLocalizations.of(context)!.join_company, style: const TextStyle(fontSize: 18),),
+                                      title: Text(AppLocalizations.of(context)!.join_company,),
                                       value: true,
                                       groupValue: _isCompanySelected,
                                       onChanged: (bool? value) {
@@ -78,14 +71,14 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 20,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.black),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: RadioListTile<bool>(
-                                      title: Text(AppLocalizations.of(context)!.join_student, style: const TextStyle(fontSize: 18),),
+                                      title: Text(AppLocalizations.of(context)!.join_student,),
                                       value: false,
                                       groupValue: _isCompanySelected,
                                       onChanged: (bool? value) {
@@ -105,49 +98,72 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                 ],
                               ),
                             ),
-
-                            const SizedBox(height: 40),
-                            SizedBox(
-                              height: 50,
-                              width: 200,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  print(_userTypeValue);
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpStep2Screen(userType: _userTypeValue)),);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: _green,
-                                    foregroundColor: Colors.black
+                            const SizedBox(height: 20),
+                            GestureDetector(
+                              onTap: () {
+                                print(_userTypeValue);
+                                Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        child: SignUpStep2Screen(userType: _userTypeValue,),
+                                        type: PageTransitionType.bottomToTop));
+                              },
+                              child: Container(
+                                width: size.width,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text(AppLocalizations.of(context)!.create_account, style: const TextStyle(fontSize: 18)),
+                                padding:
+                                const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                                child: Center(
+                                  child: Text(
+                                    AppLocalizations.of(context)!.create_account,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(height: 20),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            const Row(
                               children: [
-                                Text(
-                                  AppLocalizations.of(context)!.have_an_account,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Expanded(child: Divider()),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text('OR'),
                                 ),
-                                const SizedBox(width: 5,),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()),);
-                                  },
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: Text(
-                                    AppLocalizations.of(context)!.login,
-                                    style: const TextStyle(fontSize: 18,decoration: TextDecoration.underline,),
-                                  ),
-                                ),
+                                Expanded(child: Divider()),
                               ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    PageTransition(
+                                        child: const LoginScreen(),
+                                        type: PageTransitionType.bottomToTop));
+                              },
+                              child: Center(
+                                child: Text.rich(
+                                  TextSpan(children: [
+                                    TextSpan(
+                                      text: AppLocalizations.of(context)!.have_an_account,
+                                      style: TextStyle(
+                                        color: blackColor, fontSize: 16
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: ' ${AppLocalizations.of(context)!.login}',
+                                      style: TextStyle(
+                                        color: primaryColor, fontSize: 16
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                              ),
                             ),
                           ],
                         ),
