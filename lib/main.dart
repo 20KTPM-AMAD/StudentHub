@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:studenthub/main_screen.dart';
 import 'package:studenthub/utils/language_provider.dart';
 import 'package:studenthub/utils/theme_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'StudentHub',
       theme: themeProvider.getTheme(),
-      home: const MainScreen(),
+      home: const HomeScreen(),
       locale: languageProvider.currentLanguage == AppLanguage.English
           ? const Locale('en', 'US')
           : const Locale('vi', 'VN'),
