@@ -156,5 +156,11 @@
   "join": "Join",
   "reschedule_meeting": "Re-schedule the meeting",
   "cancel_meeting": "Cancel the meeting",
-  "schedule_an_interview": "Schedule an interview"
+  "schedule_an_interview": "Schedule an interview",
+  "forgot_password": "Forgot\nPassword",
+  "enter_email": "Enter Email",
+  "reset_password": "Reset Password",
+  "have_an_account": "Have an Account?",
+  "verification": "Verification",
+  "enter_code": "Enter the code sent to your email"
 }

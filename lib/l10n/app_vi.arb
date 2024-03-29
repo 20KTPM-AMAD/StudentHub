@@ -156,5 +156,11 @@
   "join": "Tham gia",
   "reschedule_meeting": "Đổi lịch hẹn",
   "cancel_meeting": "Hủy cuộc hẹn",
-  "schedule_an_interview": "Lên lịch cuộc phỏng vấn"
+  "schedule_an_interview": "Lên lịch cuộc phỏng vấn",
+  "forgot_password": "Quên\nMật khẩu",
+  "enter_email": "Nhập Email",
+  "reset_password": "Đặt lại Mật khẩu",
+  "have_an_account": "Có tài khoản? ",
+  "verification": "Xác thực",
+  "enter_code": "Nhập mã được gửi đến Email của bạn"
 }
