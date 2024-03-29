@@ -119,7 +119,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextField(
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
@@ -151,7 +151,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                       foregroundColor: Colors.black,
                     ),
                     child: Text(AppLocalizations.of(context)!.next_description,
-                        style: TextStyle(fontSize: 18)),
+                        style: const TextStyle(fontSize: 18)),
                   ),
                 ],
               )

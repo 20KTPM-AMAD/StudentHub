@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/dashboard.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/main_screen.dart';
+import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -64,7 +66,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Dashboard()),
+                            builder: (context) => const MainScreen()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

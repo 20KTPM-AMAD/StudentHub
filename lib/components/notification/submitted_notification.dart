@@ -38,9 +38,9 @@ class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2, // Số dòng tối đa
                       ),
-                      Text(
+                      const Text(
                         '6/6/2024',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontStyle: FontStyle.italic,
                           color: Colors.grey,
                         ),

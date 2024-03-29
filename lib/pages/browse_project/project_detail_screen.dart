@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/pages/student_submit_proposal/submit_proposal.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -114,8 +115,8 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.group_outlined, size: 40,),
-                        SizedBox(width: 30),
+                        const Icon(Icons.group_outlined, size: 40,),
+                        const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -126,9 +127,9 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                                   fontSize: 20
                               ),
                             ),
-                            Text(
+                            const Text(
                               '6 students',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 16
                               ),
                             ),
@@ -146,12 +147,19 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                              const SubmitProposalScreen()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
                         foregroundColor: Colors.black,
                       ),
-                      child: Text('Apply Now', style: const TextStyle(fontSize: 18)),
+                      child: const Text('Apply Now', style: TextStyle(fontSize: 18)),
                     ),
                     ElevatedButton(
                       onPressed: (){},
@@ -159,7 +167,7 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                           backgroundColor: _green,
                           foregroundColor: Colors.black
                       ),
-                      child: Text('Saved', style: const TextStyle(fontSize: 18)),
+                      child: const Text('Saved', style: TextStyle(fontSize: 18)),
                     ),
                   ],
                 ),

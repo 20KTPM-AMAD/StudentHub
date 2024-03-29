@@ -55,7 +55,7 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
               height: 20,
             ),
             Padding(
-              padding: EdgeInsets.only(left: 5.0),
+              padding: const EdgeInsets.only(left: 5.0),
               child: Column(
                 children: [
                   Text(

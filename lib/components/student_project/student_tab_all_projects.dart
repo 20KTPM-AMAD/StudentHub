@@ -35,7 +35,7 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      AppLocalizations.of(context)!.active_proposal('3'),
+                      AppLocalizations.of(context)!.submitted_notification('3'),
                       style:
                       const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),

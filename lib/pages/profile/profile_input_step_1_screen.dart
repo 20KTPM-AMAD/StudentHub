@@ -99,9 +99,9 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
                 ),
               ],
             ),
-            Text(
+            const Text(
               'English: Native or Bilingual',
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 20),
             Row(

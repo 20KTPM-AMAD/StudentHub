@@ -91,7 +91,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                         children: [
                           const Text(
                             '2',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16
                             ),
                           ),
@@ -103,12 +103,12 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                           )
                         ],
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Column(
                       children: [
                         const Text(
                           '8',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 16
                           ),
                         ),
@@ -120,7 +120,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                         )
                       ],
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Column(
                       children: [
                         const Text(

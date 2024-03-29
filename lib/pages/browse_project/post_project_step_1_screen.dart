@@ -60,8 +60,8 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
               TextField(
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
+                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                  border: const OutlineInputBorder(
                     // borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: _green),
                   ),

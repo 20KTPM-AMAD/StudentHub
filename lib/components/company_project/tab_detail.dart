@@ -84,8 +84,8 @@ class DetailTabState extends State<DetailTab>{
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.group_outlined, size: 40,),
-                        SizedBox(width: 30),
+                        const Icon(Icons.group_outlined, size: 40,),
+                        const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

@@ -8,7 +8,10 @@ List<Map<String, dynamic>> list = [
 const Color _green = Color(0xFF12B28C);
 
 class DropdownUpgrade extends StatefulWidget {
-  const DropdownUpgrade({super.key});
+  final ValueChanged<String?> onValueChanged; // Define callback function
+
+  const DropdownUpgrade({required this.onValueChanged, Key? key})
+      : super(key: key);
 
   @override
   State<DropdownUpgrade> createState() => _DropdownUpgradeState();
@@ -30,7 +33,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
         value: dropdownValue,
         icon: const Icon(Icons.keyboard_arrow_up),
         elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
+        style: const TextStyle(color: Colors.green),
         underline: Container(
           height: 0,
         ),
@@ -39,6 +42,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
           setState(() {
             dropdownValue = value!;
           });
+          widget.onValueChanged(value);
         },
         items: list.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
@@ -63,7 +67,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                               child: Text(
                                 value['name'],
                                 style: const TextStyle(
-                                    fontSize: 20, color: Colors.black),
+                                    fontSize: 20),
                               ),
                             )
                           ],
@@ -77,7 +81,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                               child: Text(
                                 value['position'],
                                 style:
-                                    const TextStyle(fontSize: 14, color: Colors.grey),
+                                const TextStyle(fontSize: 14, color: Colors.grey),
                               ),
                             ),
                           ],
