@@ -21,14 +21,13 @@ class LoginScreenState extends State<LoginScreen> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String? errorText;
 
   Future<void> login() async {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('All fields are required'),
-        ),
-      );
+      setState(() {
+        errorText = 'All fields are required';
+      });
       return;
     }
 
@@ -43,16 +42,21 @@ class LoginScreenState extends State<LoginScreen> {
       }),
     );
 
-    final jsonResponse = json.decode(response.body);
-    if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
-      Navigator.pushReplacement(
-          context,
-          PageTransition(
+    if (response.statusCode == 201) {
+        final jsonResponse = json.decode(response.body);
+        if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
+          Navigator.of(context).pushReplacement(
+            PageTransition(
               child: const MainScreen(),
-              type: PageTransitionType.bottomToTop));
-    }
-    else {
-      print('Failed to login: ${response.body}');
+              type: PageTransitionType.bottomToTop,
+            ),
+          );
+        } else {
+        print('Failed to login  ${response.body}');
+        setState(() {
+          errorText = jsonResponse['message'] ?? 'Failed to login';
+        });
+      }
     }
   }
 
@@ -96,11 +100,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: const MainScreen(),
-                          type: PageTransitionType.bottomToTop));
+                  login();
                 },
                 child: Container(
                   width: size.width,
@@ -109,7 +109,7 @@ class LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.sign_in,
@@ -121,6 +121,28 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              if (errorText != null)
+                GestureDetector(
+                  onTap: () {},  // Bạn có thể thêm một hành động khi nhấp vào đây nếu cần
+                  child: Container(
+                    width: size.width,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD0342C),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Text(
+                      errorText!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               const SizedBox(
                 height: 20,
               ),
@@ -151,13 +173,13 @@ class LoginScreenState extends State<LoginScreen> {
                       TextSpan(
                         text: AppLocalizations.of(context)!.login_four,
                         style: TextStyle(
-                          color: blackColor, fontSize: 16
+                            color: blackColor, fontSize: 16
                         ),
                       ),
                       TextSpan(
                         text: ' ${AppLocalizations.of(context)!.sign_up}',
                         style: TextStyle(
-                          color: primaryColor, fontSize: 16
+                            color: primaryColor, fontSize: 16
                         ),
                       ),
                     ]),

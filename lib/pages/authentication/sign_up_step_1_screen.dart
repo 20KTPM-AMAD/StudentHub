@@ -50,11 +50,19 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 3,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
                                     ),
                                     child: RadioListTile<bool>(
-                                      title: Text(AppLocalizations.of(context)!.join_company,),
+                                      title: Text(AppLocalizations.of(context)!.join_company),
                                       value: true,
                                       groupValue: _isCompanySelected,
                                       onChanged: (bool? value) {
@@ -74,11 +82,19 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                   const SizedBox(height: 10,),
                                   Container(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 3,
+                                          offset: Offset(0, 2),
+                                        ),
+                                      ],
                                     ),
                                     child: RadioListTile<bool>(
-                                      title: Text(AppLocalizations.of(context)!.join_student,),
+                                      title: Text(AppLocalizations.of(context)!.join_student),
                                       value: false,
                                       groupValue: _isCompanySelected,
                                       onChanged: (bool? value) {
@@ -97,7 +113,8 @@ class SignUpStep1ScreenState extends State<SignUpStep1Screen> {
                                   ),
                                 ],
                               ),
-                            ),
+                            )
+                            ,
                             const SizedBox(height: 20),
                             GestureDetector(
                               onTap: () {
