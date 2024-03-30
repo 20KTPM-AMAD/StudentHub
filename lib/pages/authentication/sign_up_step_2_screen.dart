@@ -21,6 +21,7 @@ class SignUpStep2Screen extends StatefulWidget {
 class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
 
   int? _userTypeValue;
+  String? errorText;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -33,13 +34,16 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
 
   Future<void> signUp() async {
     if (emailController.text.isEmpty || fullNameController.text.isEmpty || passwordController.text.isEmpty || _userTypeValue == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('All fields are required'),
-        ),
-      );
+      setState(() {
+        errorText = 'All fields are required';
+      });
       return;
     }
+
+    print("Email: ${emailController.text}");
+    print("FullName: ${fullNameController.text}");
+    print("Password: ${passwordController.text}");
+    print("Role: $_userTypeValue");
 
     final response = await http.post(
       Uri.parse('http://34.125.167.164/api/auth/sign-up'),
@@ -48,19 +52,51 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
       },
       body: jsonEncode(<String, dynamic>{
         'email': emailController.text,
-        'fullName': fullNameController.text,
+        'fullname': fullNameController.text,
         'password': passwordController.text,
         'role': _userTypeValue,
       }),
     );
 
-    if (response.body == '{}') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const SwitchAccountScreen()),
-        );
+    if (response.statusCode == 201) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Success'),
+            content: const Text('Registration successful!'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SwitchAccountScreen()),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
     } else {
-      print('Failed to register: ${response.body}');
+      final jsonResponse = json.decode(response.body);
+      print('Failed to register  ${response.body}');
+
+      setState(() {
+        if (jsonResponse['errorDetails'] != null) {
+          if (jsonResponse['errorDetails'].contains("email must be an email")) {
+            errorText = 'Invalid email format';
+          } else if (jsonResponse['errorDetails'].contains("password is too weak, password must be longer than or equal to 8 characters")) {
+            errorText = 'Password is too weak. It must be longer than or equal to 8 characters.';
+          } else {
+            errorText = jsonResponse['errorDetails'] ?? 'Failed to register';
+          }
+        } else {
+          errorText = jsonResponse['errorDetails'] ?? 'Failed to register';
+        }
+      });
     }
   }
 
@@ -117,7 +153,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.sign_up,
@@ -129,6 +165,28 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 10,
+              ),
+              if (errorText != null)
+                GestureDetector(
+                  onTap: () {},  // Bạn có thể thêm một hành động khi nhấp vào đây nếu cần
+                  child: Container(
+                    width: size.width,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD0342C),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: Text(
+                      errorText!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               const SizedBox(
                 height: 20,
               ),
