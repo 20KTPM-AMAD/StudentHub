@@ -1,68 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:studenthub/pages/authentication/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/pages/profile/switch_account_screen.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 
 var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
-class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  ForgotPasswordScreenState createState() => ForgotPasswordScreenState();
+  ChangePasswordScreenState createState() => ChangePasswordScreenState();
 }
 
-class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   String? errorText;
-  TextEditingController emailController = TextEditingController();
+  TextEditingController oldPassController = TextEditingController();
+  TextEditingController newPassController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> forgotPassword() async {
-    if (emailController.text.isEmpty){
+  Future<void> changePassword() async {
+    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+    if (oldPassController.text.isEmpty || newPassController.text.isEmpty){
       setState(() {
-        errorText = 'Email can not be blank';
+        errorText = 'All fields are required';
       });
       return;
     }
 
-    final response = await http.post(
-      Uri.parse('http://34.16.137.128/api/user/forgotPassword'),
+    final response = await http.put(
+      Uri.parse('http://34.16.137.128/api/user/changePassword'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': 'Bearer $token',
       },
       body: jsonEncode(<String, dynamic>{
-        'email': emailController.text,
+        'oldPassword': oldPassController.text,
+        'newPassword': newPassController.text
       }),
     );
 
     print(response.statusCode);
     print(response.body);
 
-    if (response.statusCode == 201){
-      final jsonResponse = json.decode(response.body);
+    if (response.statusCode == 200){
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success', style: TextStyle(fontWeight: FontWeight.bold),),
-            content: Text(jsonResponse['result']['message']),
+            title: const Text('Success', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),),
+            content: Text('Change password success', textAlign: TextAlign.center),
             actions: <Widget>[
               TextButton(
-                child: const Text('OK'),
+                child: const Text('OK', textAlign: TextAlign.center),
                 onPressed: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushReplacement(
                     PageTransition(
-                      child: const LoginScreen(),
+                      child: const SwitchAccountScreen(),
                       type: PageTransitionType.bottomToTop,
                     ),
                   );
@@ -97,7 +103,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Image.asset('assets/images/reset-password.png'),
               Text(
                 AppLocalizations.of(context)!.forgot_password,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,
                 ),
@@ -106,9 +112,16 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: 30,
               ),
               CustomTextfield(
-                obscureText: false,
-                hintText: AppLocalizations.of(context)!.enter_email,
-                icon: Icons.alternate_email, controller: emailController,
+                controller: oldPassController,
+                obscureText: true,
+                hintText: 'Enter Old Password',
+                icon: Icons.lock,
+              ),
+              CustomTextfield(
+                controller: newPassController,
+                obscureText: true,
+                hintText: 'Enter New Password',
+                icon: Icons.lock,
               ),
               if (errorText != null)
                 GestureDetector(
@@ -133,7 +146,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: 20,
               ),
               GestureDetector(
-                onTap: () {forgotPassword();},
+                onTap: () {changePassword();},
                 child: Container(
                   width: size.width,
                   decoration: BoxDecoration(
@@ -150,36 +163,6 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         fontSize: 18.0,
                       ),
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: const LoginScreen(),
-                          type: PageTransitionType.bottomToTop));
-                },
-                child: Center(
-                  child: Text.rich(
-                    TextSpan(children: [
-                      TextSpan(
-                        text: AppLocalizations.of(context)!.have_an_account,
-                        style: TextStyle(
-                          color: blackColor,fontSize: 16
-                        ),
-                      ),
-                      TextSpan(
-                        text: AppLocalizations.of(context)!.login,
-                        style: TextStyle(
-                          color: primaryColor,fontSize: 16
-                        ),
-                      ),
-                    ]),
                   ),
                 ),
               ),

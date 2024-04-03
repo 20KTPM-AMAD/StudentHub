@@ -46,7 +46,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
     print("Role: $_userTypeValue");
 
     final response = await http.post(
-      Uri.parse('http://34.125.167.164/api/auth/sign-up'),
+      Uri.parse('http://34.16.137.128/api/auth/sign-up'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -59,20 +59,23 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
     );
 
     if (response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Registration successful!'),
+            title: const Text('Success', style: TextStyle(fontWeight: FontWeight.bold),),
+            content: Text(jsonResponse['result']['message']),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SwitchAccountScreen()),
+                  Navigator.of(context).pushReplacement(
+                    PageTransition(
+                      child: const LoginScreen(),
+                      type: PageTransitionType.bottomToTop,
+                    ),
                   );
                 },
               ),
