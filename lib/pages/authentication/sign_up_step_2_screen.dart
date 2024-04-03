@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:studenthub/pages/authentication/login_screen.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -46,7 +45,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
     print("Role: $_userTypeValue");
 
     final response = await http.post(
-      Uri.parse('http://34.125.167.164/api/auth/sign-up'),
+      Uri.parse('http://34.16.137.128/api/auth/sign-up'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -59,20 +58,23 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
     );
 
     if (response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success'),
-            content: const Text('Registration successful!'),
+            title: Text(AppLocalizations.of(context)!.success, style: const TextStyle(fontWeight: FontWeight.bold),),
+            content: Text(jsonResponse['result']['message']),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SwitchAccountScreen()),
+                  Navigator.of(context).pushReplacement(
+                    PageTransition(
+                      child: const LoginScreen(),
+                      type: PageTransitionType.bottomToTop,
+                    ),
                   );
                 },
               ),

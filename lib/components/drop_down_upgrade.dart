@@ -9,8 +9,9 @@ const Color _green = Color(0xFF12B28C);
 
 class DropdownUpgrade extends StatefulWidget {
   final ValueChanged<String?> onValueChanged; // Define callback function
+  final List<Map<String, dynamic>> list;
 
-  const DropdownUpgrade({required this.onValueChanged, Key? key})
+  const DropdownUpgrade({required this.onValueChanged, required this.list, Key? key})
       : super(key: key);
 
   @override
@@ -38,18 +39,17 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
           height: 0,
         ),
         onChanged: (String? value) {
-          // This is called when the user selects an item.
           setState(() {
             dropdownValue = value!;
           });
           widget.onValueChanged(value);
         },
-        items: list.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+        items: widget.list.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
             value: value['position'],
             child: Container(
-                width: 340, // Set the width as desired
-                height: 350, // Set the height as desired
+                width: 340,
+                height: 350,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5.0),
                 ),

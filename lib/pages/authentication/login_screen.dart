@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:studenthub/main_screen.dart';
+import 'package:studenthub/pages/authentication/forgot_password_screen.dart';
 import 'package:studenthub/pages/authentication/sign_up_step_1_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/utils/auth_provider.dart';
 
 var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
@@ -32,7 +35,7 @@ class LoginScreenState extends State<LoginScreen> {
     }
 
     final response = await http.post(
-      Uri.parse('http://34.125.167.164/api/auth/sign-in'),
+      Uri.parse('http://34.16.137.128/api/auth/sign-in'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -42,21 +45,44 @@ class LoginScreenState extends State<LoginScreen> {
       }),
     );
 
+    print(response.statusCode);
+
+    final jsonResponse = json.decode(response.body);
+
     if (response.statusCode == 201) {
-        final jsonResponse = json.decode(response.body);
-        if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
-          Navigator.of(context).pushReplacement(
-            PageTransition(
-              child: const MainScreen(),
-              type: PageTransitionType.bottomToTop,
-            ),
-          );
-        } else {
-        print('Failed to login  ${response.body}');
-        setState(() {
-          errorText = jsonResponse['message'] ?? 'Failed to login';
-        });
+      if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
+        print(jsonResponse['result']['token']);
+        Provider.of<AuthProvider>(context, listen: false).setToken(jsonResponse['result']['token']);
+        Navigator.of(context).pushReplacement(
+          PageTransition(
+            child: const MainScreen(),
+            type: PageTransitionType.bottomToTop,
+          ),
+        );
       }
+    } else if (response.statusCode == 404) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(AppLocalizations.of(context)!.success, style: const TextStyle(fontWeight: FontWeight.bold)),
+            content: Text(jsonResponse['errorDetails']),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      print('Failed to login  ${response.body}');
+      setState(() {
+        errorText = jsonResponse['errorDetails'];
+      });
     }
   }
 
@@ -73,9 +99,9 @@ class LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset('assets/images/signin.png'),
-              const Text(
-                'Sign In',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.sign_in,
+                style: const TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,
                 ),
@@ -86,13 +112,13 @@ class LoginScreenState extends State<LoginScreen> {
               CustomTextfield(
                 controller: emailController,
                 obscureText: false,
-                hintText: 'Enter Email',
+                hintText: AppLocalizations.of(context)!.enter_email,
                 icon: Icons.alternate_email,
               ),
               CustomTextfield(
                 controller: passwordController,
                 obscureText: true,
-                hintText: 'Enter Password',
+                hintText: AppLocalizations.of(context)!.login_three,
                 icon: Icons.lock,
               ),
               const SizedBox(
@@ -158,6 +184,30 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(
                 height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: const ForgotPasswordScreen(),
+                          type: PageTransitionType.bottomToTop));
+                },
+                child: Center(
+                  child: Text.rich(
+                    TextSpan(children: [
+                      TextSpan(
+                        text: AppLocalizations.of(context)!.forgot__password,
+                        style: TextStyle(
+                            color: primaryColor, fontSize: 16
+                        ),
+                      ),
+                    ]),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               GestureDetector(
                 onTap: () {
