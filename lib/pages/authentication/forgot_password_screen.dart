@@ -53,7 +53,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success', style: TextStyle(fontWeight: FontWeight.bold),),
+            title: Text(AppLocalizations.of(context)!.success, style: const TextStyle(fontWeight: FontWeight.bold),),
             content: Text(jsonResponse['result']['message']),
             actions: <Widget>[
               TextButton(

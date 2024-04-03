@@ -84,12 +84,12 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text(
-              'Success',
+            title: Text(
+                AppLocalizations.of(context)!.success,
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            content: Text('Logout success'),
+            content: Text(AppLocalizations.of(context)!.logout_success,),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -109,6 +109,33 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
       );
     } else {
       print('Failed to login  ${response.body}');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              AppLocalizations.of(context)!.fail,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: Text(AppLocalizations.of(context)!.logout_fail,),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    PageTransition(
+                      child: const LoginScreen(),
+                      type: PageTransitionType.bottomToTop,
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -208,16 +235,16 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.password_outlined,
                       size: 50.0,
                       color: _green,
                     ),
-                    SizedBox(width: 20.0),
-                    Text('Change password',
-                        style: TextStyle(fontSize: 20))
+                    const SizedBox(width: 20.0),
+                    Text(AppLocalizations.of(context)!.change_password,
+                        style: const TextStyle(fontSize: 20))
                   ],
                 ),
               ),

@@ -160,7 +160,15 @@
   "forgot_password": "Quên\nMật khẩu",
   "enter_email": "Nhập Email",
   "reset_password": "Đặt lại Mật khẩu",
-  "have_an_account": "Có tài khoản? ",
   "verification": "Xác thực",
-  "enter_code": "Nhập mã được gửi đến Email của bạn"
+  "enter_code": "Nhập mã được gửi đến Email của bạn",
+  "change_password": "Đổi mật khẩu",
+  "logout_success": "Đăng xuất thành công",
+  "logout_fail": "Đăng xuất thất bại",
+  "success": "Thành công",
+  "fail": "Thất bại",
+  "change_password_success": "Đổi mật khẩu thành công",
+  "enter_old_password": "Nhập mật khẩu cũ",
+  "enter_new_password": "Nhập mật khẩu mới",
+  "forgot__password": "Quên mật khẩu?"
 }

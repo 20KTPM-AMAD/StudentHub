@@ -65,7 +65,7 @@ class LoginScreenState extends State<LoginScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success', style: TextStyle(fontWeight: FontWeight.bold)),
+            title: Text(AppLocalizations.of(context)!.success, style: const TextStyle(fontWeight: FontWeight.bold)),
             content: Text(jsonResponse['errorDetails']),
             actions: <Widget>[
               TextButton(
@@ -99,9 +99,9 @@ class LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset('assets/images/signin.png'),
-              const Text(
-                'Sign In',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.sign_in,
+                style: const TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,
                 ),
@@ -112,13 +112,13 @@ class LoginScreenState extends State<LoginScreen> {
               CustomTextfield(
                 controller: emailController,
                 obscureText: false,
-                hintText: 'Enter Email',
+                hintText: AppLocalizations.of(context)!.enter_email,
                 icon: Icons.alternate_email,
               ),
               CustomTextfield(
                 controller: passwordController,
                 obscureText: true,
-                hintText: 'Enter Password',
+                hintText: AppLocalizations.of(context)!.login_three,
                 icon: Icons.lock,
               ),
               const SizedBox(
@@ -190,14 +190,14 @@ class LoginScreenState extends State<LoginScreen> {
                   Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: ForgotPasswordScreen(),
+                          child: const ForgotPasswordScreen(),
                           type: PageTransitionType.bottomToTop));
                 },
                 child: Center(
                   child: Text.rich(
                     TextSpan(children: [
                       TextSpan(
-                        text: 'Forgot Password?',
+                        text: AppLocalizations.of(context)!.forgot__password,
                         style: TextStyle(
                             color: primaryColor, fontSize: 16
                         ),

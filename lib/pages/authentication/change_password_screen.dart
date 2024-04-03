@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:studenthub/pages/authentication/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -59,8 +58,8 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),),
-            content: Text('Change password success', textAlign: TextAlign.center),
+            title: Text(AppLocalizations.of(context)!.success, textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.bold),),
+            content: Text(AppLocalizations.of(context)!.change_password_success, textAlign: TextAlign.center),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK', textAlign: TextAlign.center),
@@ -114,13 +113,13 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
               CustomTextfield(
                 controller: oldPassController,
                 obscureText: true,
-                hintText: 'Enter Old Password',
+                hintText: AppLocalizations.of(context)!.enter_old_password,
                 icon: Icons.lock,
               ),
               CustomTextfield(
                 controller: newPassController,
                 obscureText: true,
-                hintText: 'Enter New Password',
+                hintText: AppLocalizations.of(context)!.enter_new_password,
                 icon: Icons.lock,
               ),
               if (errorText != null)
@@ -158,7 +157,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.reset_password,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                       ),

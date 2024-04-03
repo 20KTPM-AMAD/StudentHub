@@ -160,7 +160,15 @@
   "forgot_password": "Forgot\nPassword",
   "enter_email": "Enter Email",
   "reset_password": "Reset Password",
-  "have_an_account": "Have an Account?",
   "verification": "Verification",
-  "enter_code": "Enter the code sent to your email"
+  "enter_code": "Enter the code sent to your email",
+  "change_password": "Change password",
+  "logout_success": "Logout success",
+  "logout_fail": "Logout fail",
+  "success": "Success",
+  "fail": "Fail",
+  "change_password_success": "Change password success",
+  "enter_old_password": "Enter Old Password",
+  "enter_new_password": "Enter New Password",
+  "forgot__password": "Forgot Password?"
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:studenthub/pages/authentication/login_screen.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -64,7 +63,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Success', style: TextStyle(fontWeight: FontWeight.bold),),
+            title: Text(AppLocalizations.of(context)!.success, style: const TextStyle(fontWeight: FontWeight.bold),),
             content: Text(jsonResponse['result']['message']),
             actions: <Widget>[
               TextButton(
