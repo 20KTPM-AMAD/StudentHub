@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/drop_down_upgrade.dart';
+import 'package:studenthub/models/User.dart';
 import 'package:studenthub/pages/authentication/change_password_screen.dart';
 import 'package:studenthub/pages/authentication/login_screen.dart';
+import 'package:studenthub/pages/profile/profile_edit_screen.dart';
 import 'package:studenthub/pages/profile/profile_input_screen.dart';
 import 'package:studenthub/pages/profile/profile_input_step_1_screen.dart';
 import 'package:studenthub/pages/settings/setting_screen.dart';
@@ -15,14 +19,14 @@ import 'package:studenthub/utils/auth_provider.dart';
 const Color _green = Color(0xFF12B28C);
 
 class SwitchAccountScreen extends StatefulWidget {
-  const SwitchAccountScreen({Key? key, this.userRole}) : super(key: key);
-  final userRole;
+  const SwitchAccountScreen({Key? key}) : super(key: key);
 
   @override
   SwitchAccountScreenState createState() => SwitchAccountScreenState();
 }
 
 class SwitchAccountScreenState extends State<SwitchAccountScreen> {
+  late final String? token;
   String? selectedDropdownValue = 'Company';
   String? fullname = '';
   List<dynamic> roles = [];
@@ -31,17 +35,17 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   @override
   void initState() {
     super.initState();
+    token = Provider.of<AuthProvider>(context, listen: false).token;
     _getUserInfo();
   }
 
   Future<void> _getUserInfo() async {
-    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
     if (token != null) {
       final response = await http.get(
         Uri.parse('http://34.16.137.128/api/auth/me'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'authorization': 'Bearer $token',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -50,8 +54,9 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
+        Provider.of<AuthProvider>(context, listen: false).setLoginUser(User.fromJson(jsonResponse['result']));
         setState(() {
-          fullname = jsonResponse['result']['fullname'];
+          fullname = Provider.of<AuthProvider>(context, listen: false).loginUser?.fullname;
           roles = jsonResponse['result']['roles'];
           isLoading = false;
         });
@@ -65,14 +70,12 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   }
 
   Future<void> logout() async {
-    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
-
     print('Token when logout $token');
     final response = await http.post(
       Uri.parse('http://34.16.137.128/api/auth/logout'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-        'authorization': 'Bearer $token',
+        'Authorization': 'Bearer $token',
       },
     );
 
@@ -139,6 +142,28 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
     }
   }
 
+  dynamic getProfile() async {
+
+    final response = await http.get(
+      Uri.parse('http://34.16.137.128/api/auth/me'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      }
+    );
+
+    final jsonResponse = json.decode(response.body);
+
+    return jsonResponse;
+  }
+
+  Future<bool> IsCreateProfile(String role)
+  async {
+    dynamic jsonResponse = await getProfile();
+    return (jsonResponse['result'] != null && jsonResponse['result'][role] != null);
+
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -180,14 +205,26 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
             ),
             const SizedBox(height: 50),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (selectedDropdownValue == 'Company') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfileInputScreen(),
-                    ),
-                  );
+                  bool isCreateProfileCompany = await IsCreateProfile('company');
+                  if(isCreateProfileCompany) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileEditScreen(),
+                      ),
+                    );
+                  }
+                  else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileInputScreen(),
+                      ),
+                    );
+                  }
+
                 } else {
                   Navigator.push(
                     context,

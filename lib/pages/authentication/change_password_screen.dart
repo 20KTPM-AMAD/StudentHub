@@ -111,12 +111,14 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 height: 30,
               ),
               CustomTextfield(
+                title: AppLocalizations.of(context)!.old_password,
                 controller: oldPassController,
                 obscureText: true,
                 hintText: AppLocalizations.of(context)!.enter_old_password,
                 icon: Icons.lock,
               ),
               CustomTextfield(
+                title: AppLocalizations.of(context)!.new_password,
                 controller: newPassController,
                 obscureText: true,
                 hintText: AppLocalizations.of(context)!.enter_new_password,
