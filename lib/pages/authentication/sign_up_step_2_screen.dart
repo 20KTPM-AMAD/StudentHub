@@ -126,18 +126,21 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                 height: 30,
               ),
               CustomTextfield(
+                title: 'Email',
                 controller: emailController,
                 obscureText: false,
                 hintText: AppLocalizations.of(context)!.enter_work_email_address,
                 icon: Icons.alternate_email,
               ),
               CustomTextfield(
+                title: AppLocalizations.of(context)!.fullname,
                 controller: fullNameController,
                 obscureText: false,
                 hintText: AppLocalizations.of(context)!.enter_fullname,
                 icon: Icons.person,
               ),
               CustomTextfield(
+                title: AppLocalizations.of(context)!.password,
                 controller: passwordController,
                 obscureText: true,
                 hintText: AppLocalizations.of(context)!.password,

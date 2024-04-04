@@ -170,5 +170,9 @@
   "change_password_success": "Đổi mật khẩu thành công",
   "enter_old_password": "Nhập mật khẩu cũ",
   "enter_new_password": "Nhập mật khẩu mới",
-  "forgot__password": "Quên mật khẩu?"
+  "old_password": "Mật khẩu cũ",
+    "new_password": "Mật khẩu mới",
+  "forgot__password": "Quên mật khẩu?",
+    "enter_website": "Nhập website",
+    "enter_description": "Nhập mô tả"
 }

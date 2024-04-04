@@ -110,12 +110,14 @@ class LoginScreenState extends State<LoginScreen> {
                 height: 30,
               ),
               CustomTextfield(
+                title: 'Email',
                 controller: emailController,
                 obscureText: false,
                 hintText: AppLocalizations.of(context)!.enter_email,
                 icon: Icons.alternate_email,
               ),
               CustomTextfield(
+                title: AppLocalizations.of(context)!.password,
                 controller: passwordController,
                 obscureText: true,
                 hintText: AppLocalizations.of(context)!.login_three,

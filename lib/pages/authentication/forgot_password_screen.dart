@@ -106,6 +106,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 height: 30,
               ),
               CustomTextfield(
+                title: 'Email',
                 obscureText: false,
                 hintText: AppLocalizations.of(context)!.enter_email,
                 icon: Icons.alternate_email, controller: emailController,
