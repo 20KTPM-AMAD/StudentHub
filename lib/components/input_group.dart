@@ -29,7 +29,7 @@ class InputGroup extends StatelessWidget {
               name,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 5),
             TextField(
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
