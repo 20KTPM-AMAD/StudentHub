@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/components/company_project/pop_up_menu_project.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
+import 'package:studenthub/utils/auth_provider.dart';
+import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xFF12B28C);
 
@@ -13,20 +19,75 @@ class AllProjectsTab extends StatefulWidget {
 }
 
 class AllProjectsTabState extends State<AllProjectsTab> {
+  List<Project> _projects = [];
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
+    _getProjects();
+  }
+
+  Future<void> _getProjects() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final token = Provider.of<AuthProvider>(context, listen: false).token;
+      final companyId =
+          Provider.of<AuthProvider>(context, listen: false).loginUser!.company!.id;
+      if (token != null) {
+        final response = await http.get(
+          Uri.parse('http://34.16.137.128/api/project/company/$companyId'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        print(response.statusCode);
+
+        if (response.statusCode == 200) {
+          final jsonResponse = json.decode(response.body);
+          print(jsonResponse);
+          if (jsonResponse['result'] is List) { // Check if jsonResponse is a list
+            setState(() {
+              _projects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
+            });
+          } else {
+            print('Response is not a list of projects');
+          }
+        } else {
+          print('Failed to get list project: ${response.body}');
+          // Handle error cases here, show error message to user
+        }
+      }
+    } catch (error) {
+      print('Failed to get list project: $error');
+      // Handle error cases here, show error message to user
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    return _isLoading
+        ? Center(child: CircularProgressIndicator())
+        : _buildProjectList();
+  }
+
+  Widget _buildProjectList() {
     return ListView.separated(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-      itemCount: 10, // Số lượng dự án trong danh sách
+      itemCount: _projects.length,
       itemBuilder: (context, index) {
-        // Mỗi mục trong danh sách là một Card hiển thị thông tin của một dự án
+        final project = _projects[index];
         return Card(
           margin: const EdgeInsets.all(5.0),
           child: ListTile(
@@ -35,15 +96,15 @@ class AllProjectsTabState extends State<AllProjectsTab> {
               children: [
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        'Senior frontend developer (Fintech)',
-                        style: TextStyle(
+                        project.title,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: _green,
                         ),
-                        overflow: TextOverflow.ellipsis, // Hiển thị dấu ... khi văn bản tràn ra ngoài
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 10,),
@@ -55,7 +116,6 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                     ),
                   ],
                 ),
-
                 Text(
                   AppLocalizations.of(context)!.time_created_project('3'),
                   style: const TextStyle(
@@ -65,7 +125,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                 ),
                 const SizedBox(height: 10),
                 RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -75,9 +135,9 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                         ),
                       ),
                       TextSpan(
-                        text: '- Clear expectation about your project or deliverables',
+                        text: project.description,
                         style: TextStyle(
-                          fontSize: 16, // Cỡ chữ
+                          fontSize: 16,
                         ),
                       ),
                     ],
@@ -87,56 +147,11 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                        children: [
-                          const Text(
-                            '2',
-                            style: TextStyle(
-                              fontSize: 16
-                            ),
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.proposals,
-                            style: const TextStyle(
-                                fontSize: 16
-                            ),
-                          )
-                        ],
-                    ),
+                    _buildProjectDetailColumn('${project.countProposals}', AppLocalizations.of(context)!.proposals),
                     const SizedBox(width: 20),
-                    Column(
-                      children: [
-                        const Text(
-                          '8',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.messages,
-                          style: const TextStyle(
-                              fontSize: 16
-                          ),
-                        )
-                      ],
-                    ),
+                    _buildProjectDetailColumn('${project.countMessages}', AppLocalizations.of(context)!.messages),
                     const SizedBox(width: 20),
-                    Column(
-                      children: [
-                        const Text(
-                          '2',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.hired,
-                          style: const TextStyle(
-                              fontSize: 16
-                          ),
-                        )
-                      ],
-                    ),
+                    _buildProjectDetailColumn('${project.countHired}', AppLocalizations.of(context)!.hired),
                   ],
                 )
               ],
@@ -150,6 +165,25 @@ class AllProjectsTabState extends State<AllProjectsTab> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildProjectDetailColumn(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        )
+      ],
     );
   }
 }

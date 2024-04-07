@@ -1,9 +1,9 @@
 import 'Company.dart';
 
 class User {
-  int id;
-  String fullname;
-  List<String> roles; // Sử dụng List thay vì Array
+  late int id;
+  late String fullname;
+  late List<int> roles;
 
   Company? company;
 
@@ -11,9 +11,9 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      json['id'],
-      json['fullname'],
-      List<String>.from(json['roles']),
+      json['id'] as int,
+      json['fullname'] as String,
+      (json['roles'] as List<dynamic>?)?.map((role) => role as int).toList() ?? [],
       json['company'] != null ? Company.fromJson(json['company']) : null,
     );
   }
