@@ -178,5 +178,6 @@
   "days_ago": "Created {day} days ago",
   "hours_ago": "Created {hour} hours ago",
   "minutes_ago": "Created {minute} minutes ago",
-  "just_now": "Just now"
+  "just_now": "Just now",
+  "edit_job": "Edit job"
 }

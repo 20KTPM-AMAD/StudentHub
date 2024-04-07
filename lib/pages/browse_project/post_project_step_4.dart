@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/main_screen.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -23,13 +24,15 @@ class PostProjectStep4Screen extends StatefulWidget {
       required this.title,
       required this.projectScopeFlag,
       required this.numberOfStudents,
-      required this.description})
+      required this.description, this.project})
       : super(key: key);
 
   final String title;
   final String projectScopeFlag;
   final String numberOfStudents;
   final String description;
+
+  final Project? project;
 
   @override
   PostProjectStep4State createState() => PostProjectStep4State();
@@ -56,7 +59,7 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
     }
   }
 
-  Future<void> createProject() async {
+  Future<void> _createProject() async {
     final token = Provider.of<AuthProvider>(context, listen: false).token;
     final loginUser = Provider.of<AuthProvider>(context, listen: false).loginUser;
 
@@ -89,6 +92,42 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
       }
     }
   }
+
+  Future<void> _updateProject() async {
+    final token = Provider.of<AuthProvider>(context, listen: false).token;
+    final loginUser = Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+    final response = await http.patch(
+      Uri.parse('http://34.16.137.128/api/project/${widget.project!.id}'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'projectScopeFlag': int.parse(widget.projectScopeFlag),
+        'title': widget.title,
+        'numberOfStudents': int.parse(widget.numberOfStudents),
+        'description': widget.description,
+      }),
+    );
+
+    final jsonResponse = json.decode(response.body);
+
+    print(response.statusCode);
+    print(jsonResponse);
+
+    if (response.statusCode == 200) {
+      if (jsonResponse['result'] != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainScreen(),
+          ),
+        );
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -238,9 +277,23 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                 Row(
                   children: [
                     const Spacer(),
+                    widget.project != null ?
                     ElevatedButton(
                       onPressed: () {
-                        createProject();
+                        print('update');
+                        _updateProject();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _green,
+                        foregroundColor: Colors.black,
+                      ),
+                      child: Text(AppLocalizations.of(context)!.edit_job,
+                          style: const TextStyle(fontSize: 18)),
+                    ) :
+                    ElevatedButton(
+                      onPressed: () {
+                        print('create');
+                        _createProject();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,

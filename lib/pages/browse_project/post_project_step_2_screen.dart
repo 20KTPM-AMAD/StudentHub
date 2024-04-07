@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_3.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,10 +14,11 @@ enum Range {
 }
 
 class PostProjectStep2Screen extends StatefulWidget {
-  PostProjectStep2Screen({Key? key, required this.title})
+  PostProjectStep2Screen({Key? key, required this.title, this.project})
       : super(key: key);
 
   final String title;
+  final Project? project;
 
   @override
   PostProjectStep2State createState() => PostProjectStep2State();
@@ -31,8 +33,29 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
   @override
   void initState() {
     super.initState();
+    if(widget.project != null) {
+      _range = _mapValueToRange(widget.project!.projectScopeFlag);
+      projectScopeController.text = widget.project!.projectScopeFlag.toString();
+      numberOfStudentController.text = widget.project!.numberOfStudents.toString();
+    }
     projectScopeController.text = mapRangeToValue(_range);
   }
+
+  Range _mapValueToRange(int value) {
+    switch (value) {
+      case 0:
+        return Range.LessThanOneMonth;
+      case 1:
+        return Range.OneToThreeMonths;
+      case 2:
+        return Range.ThreeToSixMonths;
+      case 3:
+        return Range.MoreThanSixMonths;
+      default:
+        return Range.LessThanOneMonth; // Giá trị mặc định nếu không trùng khớp
+    }
+  }
+
 
   String mapRangeToValue(Range range) {
     switch (range) {
@@ -215,7 +238,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                 PostProjectStep3Screen(title: widget.title, projectScopeFlag: projectScopeController.text, numberOfStudents: numberOfStudentController.text)),
+                                 PostProjectStep3Screen(title: widget.title, projectScopeFlag: projectScopeController.text, numberOfStudents: numberOfStudentController.text, project: widget.project)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

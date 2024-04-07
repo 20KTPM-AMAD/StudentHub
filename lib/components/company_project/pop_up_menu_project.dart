@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:studenthub/models/Project.dart';
+import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
 class AllProjectsPopupMenu {
-  static void show(BuildContext context, int id) {
+  static void show(BuildContext context, Project project) {
     final token = Provider.of<AuthProvider>(context, listen: false).token;
 
     showModalBottomSheet(
@@ -94,7 +96,13 @@ class AllProjectsPopupMenu {
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostProjectStep1Screen(project: project)),
+                        );
+                      },
                     ),
                     ListTile(
                       title: Text(
@@ -103,7 +111,7 @@ class AllProjectsPopupMenu {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       onTap: () {
-                        _confirmRemovePosting(context, token!, id);
+                        _confirmRemovePosting(context, token!, project.id);
                       },
                     ),
                     const Divider(
