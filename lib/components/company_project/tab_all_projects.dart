@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/company_project/pop_up_menu_project.dart';
 import 'package:studenthub/models/Project.dart';
@@ -73,6 +74,21 @@ class AllProjectsTabState extends State<AllProjectsTab> {
     }
   }
 
+  String _getTimeElapsed(DateTime createdAt) {
+    final now = DateTime.now();
+    final difference = now.difference(createdAt);
+
+    if (difference.inDays > 0) {
+      return AppLocalizations.of(context)!.days_ago(difference.inDays);
+    } else if (difference.inHours > 0) {
+      return AppLocalizations.of(context)!.hours_ago(difference.inHours);
+    } else if (difference.inMinutes > 0) {
+      return AppLocalizations.of(context)!.minutes_ago(difference.inMinutes);
+    } else {
+      return AppLocalizations.of(context)!.just_now;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
@@ -117,7 +133,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   ],
                 ),
                 Text(
-                  AppLocalizations.of(context)!.time_created_project('3'),
+                  _getTimeElapsed(project.createdAt),
                   style: const TextStyle(
                     fontStyle: FontStyle.italic,
                     color: Colors.grey,
@@ -128,16 +144,15 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   text: TextSpan(
                     style: TextStyle(color: Colors.black),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: 'Students are looking for:\n',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      TextSpan(
-                        text: project.description,
-                        style: TextStyle(
-                          fontSize: 16,
+                      WidgetSpan(
+                        child: MarkdownBody(
+                          data: project.description,
                         ),
                       ),
                     ],
