@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/company_project/pop_up_menu_project.dart';
 import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
-import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xFF12B28C);
 
@@ -97,89 +97,92 @@ class AllProjectsTabState extends State<AllProjectsTab> {
   }
 
   Widget _buildProjectList() {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const ScrollPhysics(),
-      separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-      itemCount: _projects.length,
-      itemBuilder: (context, index) {
-        final project = _projects[index];
-        return Card(
-          margin: const EdgeInsets.all(5.0),
-          child: ListTile(
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        project.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: _green,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 10,),
-                    IconButton(
-                      onPressed: () {
-                        AllProjectsPopupMenu.show(context);
-                      },
-                      icon: const Icon(Icons.pending_outlined, size: 30,),
-                    ),
-                  ],
-                ),
-                Text(
-                  _getTimeElapsed(project.createdAt),
-                  style: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(color: Colors.black),
+    return RefreshIndicator(
+      onRefresh: _getProjects,
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+        itemCount: _projects.length,
+        itemBuilder: (context, index) {
+          final project = _projects[index];
+          return Card(
+            margin: const EdgeInsets.all(5.0),
+            child: ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
-                      const TextSpan(
-                        text: 'Students are looking for:\n',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Text(
+                          project.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: _green,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      WidgetSpan(
-                        child: MarkdownBody(
-                          data: project.description,
-                        ),
+                      const SizedBox(width: 10,),
+                      IconButton(
+                        onPressed: () {
+                          AllProjectsPopupMenu.show(context, project.id);
+                        },
+                        icon: const Icon(Icons.pending_outlined, size: 30,),
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildProjectDetailColumn('${project.countProposals}', AppLocalizations.of(context)!.proposals),
-                    const SizedBox(width: 20),
-                    _buildProjectDetailColumn('${project.countMessages}', AppLocalizations.of(context)!.messages),
-                    const SizedBox(width: 20),
-                    _buildProjectDetailColumn('${project.countHired}', AppLocalizations.of(context)!.hired),
-                  ],
-                )
-              ],
+                  Text(
+                    _getTimeElapsed(project.createdAt),
+                    style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(color: Colors.black),
+                      children: [
+                        const TextSpan(
+                          text: 'Students are looking for:\n',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        WidgetSpan(
+                          child: MarkdownBody(
+                            data: project.description,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildProjectDetailColumn('${project.countProposals}', AppLocalizations.of(context)!.proposals),
+                      const SizedBox(width: 20),
+                      _buildProjectDetailColumn('${project.countMessages}', AppLocalizations.of(context)!.messages),
+                      const SizedBox(width: 20),
+                      _buildProjectDetailColumn('${project.countHired}', AppLocalizations.of(context)!.hired),
+                    ],
+                  )
+                ],
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SendHireOfferScreen(projectId: project.id)),
+                );
+              },
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SendHireOfferScreen()),
-              );
-            },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
