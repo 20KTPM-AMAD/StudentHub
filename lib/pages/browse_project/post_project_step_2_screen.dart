@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_3.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
 enum Range {
+  LessThanOneMonth,
   OneToThreeMonths,
   ThreeToSixMonths,
+  MoreThanSixMonths
 }
 
 class PostProjectStep2Screen extends StatefulWidget {
-  const PostProjectStep2Screen({Key? key}) : super(key: key);
+  PostProjectStep2Screen({Key? key, required this.title})
+      : super(key: key);
+
+  final String title;
 
   @override
   PostProjectStep2State createState() => PostProjectStep2State();
 }
 
 class PostProjectStep2State extends State<PostProjectStep2Screen> {
-  Range _range = Range.OneToThreeMonths;
+  Range _range = Range.LessThanOneMonth;
+
+  TextEditingController projectScopeController = TextEditingController();
+  TextEditingController numberOfStudentController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    projectScopeController.text = mapRangeToValue(_range);
+  }
+
+  String mapRangeToValue(Range range) {
+    switch (range) {
+      case Range.LessThanOneMonth:
+        return '0';
+      case Range.OneToThreeMonths:
+        return '1';
+      case Range.ThreeToSixMonths:
+        return '2';
+      case Range.MoreThanSixMonths:
+        return '3';
+    }
   }
 
   @override
@@ -49,8 +72,10 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   const SizedBox(width: 10),
-                  Text(AppLocalizations.of(context)!.estimate_scope,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  Text(
+                    AppLocalizations.of(context)!.estimate_scope,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -81,25 +106,61 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                   Column(
                     children: [
                       ListTile(
-                        title: Text(AppLocalizations.of(context)!.one_to_three_months,),
+                        title: Text(
+                          AppLocalizations.of(context)!.less_than_one_month,
+                        ),
+                        leading: Radio<Range>(
+                          value: Range.LessThanOneMonth,
+                          groupValue: _range,
+                          onChanged: (Range? value) {
+                            setState(() {
+                              _range = value!;
+                              projectScopeController.text = mapRangeToValue(_range);
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(
+                          AppLocalizations.of(context)!.one_to_three_months,
+                        ),
                         leading: Radio<Range>(
                           value: Range.OneToThreeMonths,
                           groupValue: _range,
                           onChanged: (Range? value) {
                             setState(() {
                               _range = value!;
+                              projectScopeController.text = mapRangeToValue(_range);
                             });
                           },
                         ),
                       ),
                       ListTile(
-                        title: Text(AppLocalizations.of(context)!.three_to_six_months,),
+                        title: Text(
+                          AppLocalizations.of(context)!.three_to_six_months,
+                        ),
                         leading: Radio<Range>(
                           value: Range.ThreeToSixMonths,
                           groupValue: _range,
                           onChanged: (Range? value) {
                             setState(() {
                               _range = value!;
+                              projectScopeController.text = mapRangeToValue(_range);
+                            });
+                          },
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(
+                          AppLocalizations.of(context)!.more_than_six_months,
+                        ),
+                        leading: Radio<Range>(
+                          value: Range.MoreThanSixMonths,
+                          groupValue: _range,
+                          onChanged: (Range? value) {
+                            setState(() {
+                              _range = value!;
+                              projectScopeController.text = mapRangeToValue(_range);
                             });
                           },
                         ),
@@ -120,16 +181,27 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  TextField(
+                  TextFormField(
+                    controller: numberOfStudentController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                    ],
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 15.0),
                       border: const OutlineInputBorder(
-                        // borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide(color: _green),
                       ),
-                      hintText: AppLocalizations.of(context)!.number_of_students,
+                      hintText:
+                          AppLocalizations.of(context)!.number_of_students,
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return AppLocalizations.of(context)!.number_of_students + 'is required';
+                      }
+                      return null;
+                    },
                   ),
                 ],
               ),
@@ -143,7 +215,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const PostProjectStep3Screen()),
+                                 PostProjectStep3Screen(title: widget.title, projectScopeFlag: projectScopeController.text, numberOfStudents: numberOfStudentController.text)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

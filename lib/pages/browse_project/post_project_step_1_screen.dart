@@ -12,6 +12,8 @@ class PostProjectStep1Screen extends StatefulWidget {
 }
 
 class PostProjectStep1State extends State<PostProjectStep1Screen> {
+  TextEditingController titleController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +60,7 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: titleController,
                 decoration: InputDecoration(
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
@@ -111,7 +114,7 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const PostProjectStep2Screen()),
+                                 PostProjectStep2Screen(title: titleController.text)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
