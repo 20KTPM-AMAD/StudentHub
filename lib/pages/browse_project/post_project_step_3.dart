@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_4.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,12 +10,15 @@ class PostProjectStep3Screen extends StatefulWidget {
       {Key? key,
       required this.title,
       required this.projectScopeFlag,
-      required this.numberOfStudents})
+      required this.numberOfStudents, this.project})
       : super(key: key);
 
   final String title;
   final String projectScopeFlag;
   final String numberOfStudents;
+
+  final Project? project;
+
   @override
   PostProjectStep3State createState() => PostProjectStep3State();
 }
@@ -25,6 +29,9 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
   @override
   void initState() {
     super.initState();
+    if(widget.project != null) {
+      descriptionController.text = widget.project!.description;
+    }
   }
 
   @override
@@ -144,7 +151,8 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                                 title: widget.title,
                                 projectScopeFlag: widget.projectScopeFlag,
                                 numberOfStudents: widget.numberOfStudents,
-                                description: descriptionController.text)),
+                                description: descriptionController.text,
+                                project: widget.project)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

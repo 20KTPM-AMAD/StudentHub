@@ -128,7 +128,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                       const SizedBox(width: 10,),
                       IconButton(
                         onPressed: () {
-                          AllProjectsPopupMenu.show(context, project.id);
+                          AllProjectsPopupMenu.show(context, project);
                         },
                         icon: const Icon(Icons.pending_outlined, size: 30,),
                       ),
