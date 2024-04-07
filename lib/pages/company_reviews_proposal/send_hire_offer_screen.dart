@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/company_project/tab_detail.dart';
 import 'package:studenthub/components/company_project/tab_proposals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/models/Project.dart';
 
 const Color _green = Color(0xFF12B28C);
 
 class SendHireOfferScreen extends StatefulWidget{
-  const SendHireOfferScreen({Key? key}) : super(key: key);
+  SendHireOfferScreen({Key? key, required int this.projectId}) : super(key: key);
+
+  final int projectId;
+
 
   @override
   SendHireOfferState createState() => SendHireOfferState();
@@ -69,10 +75,10 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
                           const SizedBox(height: 10),
                           SizedBox(
                             height: MediaQuery.of(context).size.height - kToolbarHeight - 200, // Giảm đi kích thước của AppBar và khoảng cách dưới cùng
-                            child: const TabBarView(
+                            child: TabBarView(
                               children: [
                                 ProposalsTab(),
-                                DetailTab(),
+                                DetailTab(projectId: widget.projectId,),
                                 Center(
                                   child: Text('Message Content'),
                                 ),

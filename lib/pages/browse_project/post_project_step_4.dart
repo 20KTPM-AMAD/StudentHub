@@ -60,12 +60,6 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
     final token = Provider.of<AuthProvider>(context, listen: false).token;
     final loginUser = Provider.of<AuthProvider>(context, listen: false).loginUser;
 
-    print(loginUser!.company!.id);
-    print(widget.title);
-    print(widget.projectScopeFlag);
-    print(widget.numberOfStudents);
-    print(widget.description);
-
     final response = await http.post(
       Uri.parse('http://34.16.137.128/api/project'),
       headers: <String, String>{
@@ -83,9 +77,6 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
     );
 
     final jsonResponse = json.decode(response.body);
-
-    print(response.statusCode);
-    print(jsonResponse);
 
     if (response.statusCode == 201) {
       if (jsonResponse['result'] != null) {
