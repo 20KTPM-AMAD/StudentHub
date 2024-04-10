@@ -3,7 +3,7 @@ class Project {
   int companyId;
   String title;
   String description;
-  int typeFlag;
+  int? typeFlag;
   int projectScopeFlag;
   int numberOfStudents;
   DateTime createdAt;
@@ -13,6 +13,8 @@ class Project {
   int? countProposals;
   int? countMessages;
   int? countHired;
+
+  bool? isFavorite;
 
   Project(
       this.id,
@@ -27,15 +29,16 @@ class Project {
       this.deletedAt,
       this.countProposals,
       this.countMessages,
-      this.countHired);
+      this.countHired,
+      this.isFavorite);
 
   factory Project.fromJson(Map<String, dynamic> json) {
     return Project(
-      json['id'],
+      json['projectId'] ?? json['id'],
       int.parse(json['companyId']), // Parsing companyId as integer
       json['title'],
       json['description'],
-      json['typeFlag'],
+      json['typeFlag'] ?? 0, // Check if typeFlag is null, if so, assign 0
       json['projectScopeFlag'],
       json['numberOfStudents'],
       DateTime.parse(json['createdAt']),
@@ -44,6 +47,7 @@ class Project {
       json['countProposals'],
       json['countMessages'],
       json['countHired'],
+      json['isFavorite'],
     );
   }
 }
