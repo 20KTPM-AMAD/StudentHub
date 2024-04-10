@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/models/Proposal.dart';
+import 'package:studenthub/pages/chat/message_detail_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/proposal_profile_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'notification_send_hire_offer.dart';
@@ -173,7 +174,12 @@ class ProposalsTabState extends State<ProposalsTab> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MessageDetailScreen()),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
                           foregroundColor: Colors.black,
