@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/project_detail_screen.dart';
 import 'package:studenthub/pages/browse_project/saved_projects_screen.dart';
-import 'package:studenthub/components/company_project/card_project_list.dart';
 import 'package:studenthub/components/company_project/pop_up_filter_project.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
@@ -23,6 +22,9 @@ class ProjectListScreen extends StatefulWidget {
 
 class ProjectListState extends State<ProjectListScreen> {
   TextEditingController searchController = TextEditingController();
+  TextEditingController studentsController = TextEditingController();
+  TextEditingController proposalsController = TextEditingController();
+  String? selectedIndex;
   List<Project> projects = [];
   bool isLoading = false;
 
@@ -39,9 +41,27 @@ class ProjectListState extends State<ProjectListScreen> {
 
     String url = 'http://34.16.137.128/api/project';
 
-    if (searchController.text != null && searchController.text!.isNotEmpty) {
-      print(searchController.text);
-      url += '?title=${searchController.text}';
+    Map<String, String> queryParams = {};
+
+    if (searchController.text.isNotEmpty) {
+      queryParams['title'] = searchController.text;
+    }
+
+    if (studentsController.text.isNotEmpty) {
+      queryParams['numberOfStudents'] = studentsController.text;
+    }
+
+    if (proposalsController.text.isNotEmpty) {
+      queryParams['proposalsLessThan'] = proposalsController.text;
+    }
+
+    if (selectedIndex != null) {
+      print(selectedIndex);
+      queryParams['projectScopeFlag'] = selectedIndex.toString();
+    }
+
+    if (queryParams.isNotEmpty) {
+      url += '?${Uri(queryParameters: queryParams).query}';
     }
 
     try {
@@ -144,8 +164,14 @@ class ProjectListState extends State<ProjectListScreen> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {
-                          ProjectPopupFilter.show(context);
+                        onPressed: () async {
+                          Map<String, dynamic?>? filterValues = await ProjectPopupFilter.show(context);
+                          if (filterValues != null) {
+                            studentsController.text = filterValues['students'] ?? '';
+                            proposalsController.text = filterValues['proposals'] ?? '';
+                            selectedIndex = filterValues['range'] as String?;
+                            getAllProjects();
+                          }
                         },
                         icon: const Icon(Icons.filter_alt_outlined, size: 30),
                       ),
@@ -212,6 +238,7 @@ class ProjectListState extends State<ProjectListScreen> {
                       const SizedBox(width: 10,),
                       IconButton(
                         onPressed: () {
+                          // Handle favorite button press
                         },
                         icon: Icon(
                           project.isFavorite == true ? Icons.favorite : Icons.favorite_border_outlined,
