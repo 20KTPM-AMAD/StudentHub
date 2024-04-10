@@ -171,13 +171,14 @@
   "enter_old_password": "Nhập mật khẩu cũ",
   "enter_new_password": "Nhập mật khẩu mới",
   "old_password": "Mật khẩu cũ",
-    "new_password": "Mật khẩu mới",
+  "new_password": "Mật khẩu mới",
   "forgot__password": "Quên mật khẩu?",
-    "enter_website": "Nhập website",
-    "enter_description": "Nhập mô tả",
-    "days_ago": "Được tạo {day} ngày trước",
+  "enter_website": "Nhập website",
+  "enter_description": "Nhập mô tả",
+  "days_ago": "Được tạo {day} ngày trước",
   "hours_ago": "Được tạo {hour} giờ trước",
   "minutes_ago": "Được tạo {minute} phút trước",
   "just_now": "Vừa được tạo",
-  "edit_job": "Chỉnh sửa bài đăng"
+  "edit_job": "Chỉnh sửa bài đăng",
+  "proposal_detail": "Chi tiết đề xuất"
 }

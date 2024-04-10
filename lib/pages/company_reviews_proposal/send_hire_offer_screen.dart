@@ -1,27 +1,59 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/company_project/tab_detail.dart';
 import 'package:studenthub/components/company_project/tab_proposals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/models/Project.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 
-const Color _green = Color(0xFF12B28C);
+var blackColor = Colors.black54;
+var primaryColor = const Color(0xff296e48);
 
 class SendHireOfferScreen extends StatefulWidget{
   SendHireOfferScreen({Key? key, required int this.projectId}) : super(key: key);
 
   final int projectId;
 
-
   @override
   SendHireOfferState createState() => SendHireOfferState();
 }
 
 class SendHireOfferState extends State<SendHireOfferScreen>{
+
+  String title = '';
+
   @override
   void initState() {
     super.initState();
+    getTileProject();
+  }
+
+  Future<void> getTileProject() async {
+    final token = Provider.of<AuthProvider>(context, listen: false).token;
+    if (token != null) {
+      final response = await http.get(
+        Uri.parse('http://34.16.137.128/api/project/${widget.projectId}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+        setState(() {
+          final project = Project.fromJson(jsonResponse['result']['project']);
+          title = project.title;
+        });
+      } else {
+        print('Failed to get list project: ${response.body}');
+        // Handle error cases here, show error message to user
+      }
+    }
   }
 
   @override
@@ -29,7 +61,7 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
     return Scaffold(
       appBar: AppBar(
         title: const Text('StudentHub'),
-        backgroundColor: _green,
+        backgroundColor: primaryColor,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.person),
@@ -44,16 +76,16 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
               padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 30),
-                  const Row(
+                  const SizedBox(height: 10),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Senior frontend developer (Fintech)',
+                        title,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
-                          color: _green,
+                          color: primaryColor,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -74,15 +106,15 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
                           ),
                           const SizedBox(height: 10),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height - kToolbarHeight - 200, // Giảm đi kích thước của AppBar và khoảng cách dưới cùng
+                            height: MediaQuery.of(context).size.height - kToolbarHeight - 200,
                             child: TabBarView(
                               children: [
-                                ProposalsTab(),
+                                ProposalsTab(projectId: widget.projectId),
                                 DetailTab(projectId: widget.projectId,),
-                                Center(
+                                const Center(
                                   child: Text('Message Content'),
                                 ),
-                                Center(
+                                const Center(
                                   child: Text('Hired Content'),
                                 ),
                               ],

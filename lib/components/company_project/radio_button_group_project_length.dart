@@ -9,13 +9,15 @@ enum Range {
 }
 
 class RadioButtonGroupProjectLength extends StatefulWidget {
-  const RadioButtonGroupProjectLength({super.key});
+  final Function(Range?) onValueChanged;
+
+  const RadioButtonGroupProjectLength({required this.onValueChanged, Key? key}) : super(key: key);
 
   @override
-  State<RadioButtonGroupProjectLength> createState() => _RadioButtonGroupeState();
+  State<RadioButtonGroupProjectLength> createState() => _RadioButtonGroupState();
 }
 
-class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
+class _RadioButtonGroupState extends State<RadioButtonGroupProjectLength> {
   Range? _range = Range.LessThanOneMonth;
 
   @override
@@ -31,11 +33,12 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
+              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
             },
           ),
         ),
         ListTile(
-          title: Text(AppLocalizations.of(context)!.one_to_three_months,),
+          title: Text(AppLocalizations.of(context)!.one_to_three_months),
           leading: Radio<Range>(
             value: Range.OneToThreeMonths,
             groupValue: _range,
@@ -43,6 +46,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
+              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
             },
           ),
         ),
@@ -55,6 +59,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
+              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
             },
           ),
         ),
@@ -67,6 +72,7 @@ class _RadioButtonGroupeState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
+              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
             },
           ),
         ),

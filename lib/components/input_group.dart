@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 const Color _green = Color(0xFF12B28C);
 
 class InputGroup extends StatelessWidget {
-
   const InputGroup({
     Key? key,
     required this.name,
+    required this.controller,
     String? hint,
   })  : hint = hint ?? 'Enter $name',
         super(key: key);
 
-  @override
-
   final String name;
   final String hint;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +30,7 @@ class InputGroup extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             TextField(
+              controller: controller,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
                 border: OutlineInputBorder(

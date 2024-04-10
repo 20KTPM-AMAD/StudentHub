@@ -65,7 +65,7 @@ class LoginScreenState extends State<LoginScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.success, style: const TextStyle(fontWeight: FontWeight.bold)),
+            title: Text(AppLocalizations.of(context)!.fail, style: const TextStyle(fontWeight: FontWeight.bold)),
             content: Text(jsonResponse['errorDetails']),
             actions: <Widget>[
               TextButton(

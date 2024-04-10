@@ -63,7 +63,7 @@ class TimeChoosePopupFilter {
                       color: Colors.grey,
                       thickness: 1,
                     ),
-                    InputGroup(name: AppLocalizations.of(context)!.title_interview),
+                    //InputGroup(name: AppLocalizations.of(context)!.title_interview),
                     Padding(
                       padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                       child: Column(
