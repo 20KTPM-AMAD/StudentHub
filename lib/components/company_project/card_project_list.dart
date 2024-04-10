@@ -13,7 +13,9 @@ const Color _green = Color(0xFF12B28C);
 
 class ProjectListTab extends StatefulWidget {
   final String? query;
-  const ProjectListTab({Key? key, this.query}) : super(key: key);
+  final Function(String) onSearch;
+
+  const ProjectListTab({Key? key, this.query, required this.onSearch}) : super(key: key);
 
   @override
   ProjectListTabState createState() => ProjectListTabState();
@@ -35,11 +37,27 @@ class ProjectListTabState extends State<ProjectListTab> {
       isLoading = true;
     });
 
+
+    int numberOfStudent = 0;
+    int projectScopeFlag = 0;
+    int proposalsLessThan = 0;
+
+    String url = 'http://34.16.137.128/api/project';
+
+    if (widget.query != null && widget.query!.isNotEmpty) {
+      print(widget.query);
+      url += '?title=${widget.query}';
+    }
+    String urlNumberOfStudent = 'http://34.16.137.128/api/project?numberOfStudent=$numberOfStudent';
+    String urlProjectScopeFlag = 'http://34.16.137.128/api/project?projectScopeFlag=$projectScopeFlag';
+    String urlProposalsLessThan = 'http://34.16.137.128/api/project?proposalsLessThan=$proposalsLessThan';
+    String urlAll = 'http://34.16.137.128/api/project?numberOfStudent=$numberOfStudent&projectScopeFlag=$projectScopeFlag&proposalsLessThan=$proposalsLessThan';
+
     try {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
       if (token != null) {
         final response = await http.get(
-          Uri.parse('http://34.16.137.128/api/project'),
+          Uri.parse(url),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
