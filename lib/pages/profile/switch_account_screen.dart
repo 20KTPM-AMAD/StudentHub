@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -54,9 +55,12 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        Provider.of<AuthProvider>(context, listen: false).setLoginUser(User.fromJson(jsonResponse['result']));
+        Provider.of<AuthProvider>(context, listen: false)
+            .setLoginUser(User.fromJson(jsonResponse['result']));
         setState(() {
-          fullname = Provider.of<AuthProvider>(context, listen: false).loginUser?.fullname;
+          fullname = Provider.of<AuthProvider>(context, listen: false)
+              .loginUser
+              ?.fullname;
           roles = jsonResponse['result']['roles'];
           isLoading = false;
         });
@@ -88,11 +92,13 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(
-                AppLocalizations.of(context)!.success,
+              AppLocalizations.of(context)!.success,
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            content: Text(AppLocalizations.of(context)!.logout_success,),
+            content: Text(
+              AppLocalizations.of(context)!.logout_success,
+            ),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -121,7 +127,9 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            content: Text(AppLocalizations.of(context)!.logout_fail,),
+            content: Text(
+              AppLocalizations.of(context)!.logout_fail,
+            ),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -143,25 +151,22 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   }
 
   dynamic getProfile() async {
-
     final response = await http.get(
-      Uri.parse('http://34.16.137.128/api/auth/me'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'Bearer $token',
-      }
-    );
+        Uri.parse('http://34.16.137.128/api/auth/me'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        });
 
     final jsonResponse = json.decode(response.body);
 
     return jsonResponse;
   }
 
-  Future<bool> IsCreateProfile(String role)
-  async {
+  Future<bool> IsCreateProfile(String role) async {
     dynamic jsonResponse = await getProfile();
-    return (jsonResponse['result'] != null && jsonResponse['result'][role] != null);
-
+    return (jsonResponse['result'] != null &&
+        jsonResponse['result'][role] != null);
   }
 
   @override
@@ -207,16 +212,16 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
             GestureDetector(
               onTap: () async {
                 if (selectedDropdownValue == 'Company') {
-                  bool isCreateProfileCompany = await IsCreateProfile('company');
-                  if(isCreateProfileCompany) {
+                  bool isCreateProfileCompany =
+                      await IsCreateProfile('company');
+                  if (isCreateProfileCompany) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const ProfileEditScreen(),
                       ),
                     );
-                  }
-                  else {
+                  } else {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -224,14 +229,24 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                       ),
                     );
                   }
-
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ProfileInputStep1Screen(),
-                    ),
-                  );
+                  bool isCreateProfileStudent =
+                      await IsCreateProfile('Student');
+                  if (isCreateProfileStudent) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileEditScreen(),
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileInputStep1Screen(),
+                      ),
+                    );
+                  }
                 }
               },
               child: Container(
@@ -248,8 +263,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                             size: 35,
                           ),
                           color: _green,
-                          onPressed: null
-                      ),
+                          onPressed: null),
                     ),
                     const SizedBox(width: 20.0),
                     Text(
