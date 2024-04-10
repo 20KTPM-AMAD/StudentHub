@@ -189,7 +189,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                       ),
                       ElevatedButton(
                         onPressed:() {
-                          SendHireOfferDialog.showMyDialog(context);
+                          SendHireOfferDialog.showMyDialog(context, proposal.id, getAllProposals);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
@@ -197,7 +197,9 @@ class ProposalsTabState extends State<ProposalsTab> {
                           fixedSize: const Size(130, 40),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)!.send_hired_offer,
+                          proposal.statusFlag == 1
+                              ? AppLocalizations.of(context)!.send_hired_offer
+                              : 'Sent hired offer',
                           style: const TextStyle(fontSize: 18, color: Colors.white70),
                           overflow: TextOverflow.ellipsis,
                         ),
