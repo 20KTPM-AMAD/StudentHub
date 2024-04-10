@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/components/company_project/tab_all_projects.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
+import 'package:studenthub/utils/auth_provider.dart';
+import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xFF12B28C);
 
@@ -13,6 +19,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class DashboardState extends State<DashboardScreen>{
+
   @override
   void initState() {
     super.initState();

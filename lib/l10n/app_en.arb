@@ -174,5 +174,10 @@
   "new_password": "New Password",
   "forgot__password": "Forgot Password?",
   "enter_website": "Enter Website",
-  "enter_description": "Enter Description"
+  "enter_description": "Enter Description",
+  "days_ago": "Created {day} days ago",
+  "hours_ago": "Created {hour} hours ago",
+  "minutes_ago": "Created {minute} minutes ago",
+  "just_now": "Just now",
+  "edit_job": "Edit job"
 }

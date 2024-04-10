@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_2_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
 class PostProjectStep1Screen extends StatefulWidget {
-  const PostProjectStep1Screen({Key? key}) : super(key: key);
+  const PostProjectStep1Screen({Key? key, this.project}) : super(key: key);
+
+  final Project? project;
 
   @override
   PostProjectStep1State createState() => PostProjectStep1State();
 }
 
 class PostProjectStep1State extends State<PostProjectStep1Screen> {
+  TextEditingController titleController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    if(widget.project != null) {
+      titleController.text = widget.project!.title;
+    }
   }
 
   @override
@@ -43,8 +51,9 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                      AppLocalizations.of(context)!.strong_title,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    AppLocalizations.of(context)!.strong_title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -58,9 +67,10 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: titleController,
                 decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 15.0),
                   border: const OutlineInputBorder(
                     // borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide(color: _green),
@@ -110,8 +120,8 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const PostProjectStep2Screen()),
+                            builder: (context) => PostProjectStep2Screen(
+                                title: titleController.text, project: widget.project,)),
                       );
                     },
                     style: ElevatedButton.styleFrom(

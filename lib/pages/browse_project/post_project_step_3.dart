@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_4.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-enum Range {
-  OneToThreeMonths,
-  ThreeToSixMonths,
-}
-
 class PostProjectStep3Screen extends StatefulWidget {
-  const PostProjectStep3Screen({Key? key}) : super(key: key);
+  PostProjectStep3Screen(
+      {Key? key,
+      required this.title,
+      required this.projectScopeFlag,
+      required this.numberOfStudents, this.project})
+      : super(key: key);
+
+  final String title;
+  final String projectScopeFlag;
+  final String numberOfStudents;
+
+  final Project? project;
 
   @override
   PostProjectStep3State createState() => PostProjectStep3State();
 }
 
 class PostProjectStep3State extends State<PostProjectStep3Screen> {
-  final Range _range = Range.OneToThreeMonths;
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    if(widget.project != null) {
+      descriptionController.text = widget.project!.description;
+    }
   }
 
   @override
@@ -52,7 +62,8 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                   const SizedBox(width: 10),
                   Text(
                     AppLocalizations.of(context)!.provide_description,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   )
                 ],
               ),
@@ -112,6 +123,7 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                   ),
                   const SizedBox(height: 20),
                   TextField(
+                    controller: descriptionController,
                     maxLines: 6, //or null
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
@@ -135,8 +147,12 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const PostProjectStep4Screen()),
+                            builder: (context) => PostProjectStep4Screen(
+                                title: widget.title,
+                                projectScopeFlag: widget.projectScopeFlag,
+                                numberOfStudents: widget.numberOfStudents,
+                                description: descriptionController.text,
+                                project: widget.project)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
