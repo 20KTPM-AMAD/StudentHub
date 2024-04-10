@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +12,12 @@ import 'package:studenthub/utils/auth_provider.dart';
 const Color _green = Color(0xFF12B28C);
 
 class ProjectListTab extends StatefulWidget {
-  const ProjectListTab({Key? key}) : super(key: key);
+  final String? query;
+  const ProjectListTab({Key? key, this.query}) : super(key: key);
 
   @override
   ProjectListTabState createState() => ProjectListTabState();
+
 }
 
 class ProjectListTabState extends State<ProjectListTab> {
