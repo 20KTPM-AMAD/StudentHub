@@ -4,7 +4,8 @@ import 'package:studenthub/utils/theme_provider.dart';
 import 'package:studenthub/utils/language_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+var blackColor = Colors.black54;
+var primaryColor = const Color(0xff296e48);
 enum Language { English, Vietnamese }
 
 class SettingsScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('StudentHub'),
-        backgroundColor: _green,
+        backgroundColor: primaryColor,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.person),

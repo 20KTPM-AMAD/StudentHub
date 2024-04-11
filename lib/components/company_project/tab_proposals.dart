@@ -119,9 +119,8 @@ class ProposalsTabState extends State<ProposalsTab> {
                 children: [
                   Row(
                     children: [
-                      const Icon(
-                        Icons.person_4,
-                        size: 100,),
+                      Image.asset('assets/images/student.png', fit: BoxFit.cover, width: 100, height: 100,),
+                      const SizedBox(width: 20,),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

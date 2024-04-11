@@ -23,12 +23,12 @@ class _MessageCardState extends State<MessageCard> {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, top: 35, right: 10),
+          padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
           child: Row(
             children: [
               CircleAvatar(
                 radius: 30,
-                backgroundImage: Image.asset('assets/images/chat111.png').image,
+                backgroundImage: Image.asset('assets/images/user.jpg').image,
               ),
               const SizedBox(
                 width: 10,
