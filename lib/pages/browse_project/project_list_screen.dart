@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +83,9 @@ class ProjectListState extends State<ProjectListScreen> {
           print(jsonResponse);
           if (jsonResponse['result'] is List) {
             setState(() {
-              projects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
+              projects = jsonResponse['result']
+                  .map<Project>((data) => Project.fromJson(data))
+                  .toList();
             });
           } else {
             print('Response is not a list of projects');
@@ -110,6 +113,38 @@ class ProjectListState extends State<ProjectListScreen> {
         isLoading = false;
       });
     }
+  }
+
+  Future<bool> _onFavoriteButtonPressed(int projectId, bool disableFlag) async {
+    final student =
+        Provider.of<AuthProvider>(context, listen: false).loginUser!.student;
+    final token = Provider.of<AuthProvider>(context, listen: false).token;
+    if (student != null && token != null) {
+      final response = await http.patch(
+        Uri.parse('http://34.16.137.128/api/favoriteProject/${student.id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, int>{
+          'projectId': projectId,
+          'disableFlag': disableFlag ? 1 : 0,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        log('Failed to favorite project: ${response.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Failed to favorite project'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return false;
+      }
+    }
+    return false;
   }
 
   String _getTimeElapsed(DateTime createdAt) {
@@ -146,7 +181,8 @@ class ProjectListState extends State<ProjectListScreen> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Column(
                 children: [
                   const SizedBox(height: 20),
@@ -159,9 +195,11 @@ class ProjectListState extends State<ProjectListScreen> {
                           controller: searchController,
                           showCursor: false,
                           decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 15.0),
                             hintText: AppLocalizations.of(context)!.search,
-                            prefixIcon: Icon(Icons.search, color: blackColor.withOpacity(.6)),
+                            prefixIcon: Icon(Icons.search,
+                                color: blackColor.withOpacity(.6)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: BorderSide.none,
@@ -177,10 +215,13 @@ class ProjectListState extends State<ProjectListScreen> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          Map<String, dynamic?>? filterValues = await ProjectPopupFilter.show(context);
+                          Map<String, dynamic?>? filterValues =
+                              await ProjectPopupFilter.show(context);
                           if (filterValues != null) {
-                            studentsController.text = filterValues['students'] ?? '';
-                            proposalsController.text = filterValues['proposals'] ?? '';
+                            studentsController.text =
+                                filterValues['students'] ?? '';
+                            proposalsController.text =
+                                filterValues['proposals'] ?? '';
                             selectedIndex = filterValues['range'] as String?;
                             getAllProjects();
                           }
@@ -224,7 +265,8 @@ class ProjectListState extends State<ProjectListScreen> {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 10),
         itemCount: projects.length,
         itemBuilder: (context, index) {
           final project = projects[index];
@@ -268,11 +310,26 @@ class ProjectListState extends State<ProjectListScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // Handle favorite button press
+                          _onFavoriteButtonPressed(
+                                  project.id, project.isFavorite!)
+                              .then((value) {
+                            if (value) {
+                              setState(() {
+                                project.isFavorite = !project.isFavorite!;
+                              });
+                            }
+                          });
+                        },
                         icon: Icon(
-                          project.isFavorite == true ? Icons.favorite : Icons.favorite_border_outlined,
+                          project.isFavorite == true
+                              ? Icons.favorite
+                              : Icons.favorite_border_outlined,
                           size: 30,
                           color: project.isFavorite == true ? Colors.red : null,
                         ),
@@ -317,7 +374,7 @@ class ProjectListState extends State<ProjectListScreen> {
                         description: project.description,
                         projectScope: project.projectScopeFlag,
                         numberOfStudents: project.numberOfStudents
-                    ), // Pass project detail to ProjectDetailScreen
+                    ), 
                   ),
                 );
               },
