@@ -65,9 +65,9 @@ class DetailTabState extends State<DetailTab> {
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
           print(jsonResponse);
-          if (jsonResponse['result']['project'] != null) {
+          if (jsonResponse['result'] != null) {
             setState(() {
-              _project = Project.fromJson(jsonResponse['result']['project']);
+              _project = Project.fromJson(jsonResponse['result']);
             });
           } else {
             print('Response is not a list of projects');
@@ -147,7 +147,8 @@ class DetailTabState extends State<DetailTab> {
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             Text(
-                                getProjectScopeText(_project!.projectScopeFlag.toString()),
+                              getProjectScopeText(
+                                  _project!.projectScopeFlag.toString()),
                               style: const TextStyle(fontSize: 16),
                             ),
                           ],
