@@ -279,13 +279,13 @@ class SavedProjectsState extends State<SavedProjectsScreen> {
                 ],
               ),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ProjectDetailScreen(), // Pass project detail to ProjectDetailScreen
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) =>
+                //         ProjectDetailScreen(), // Pass project detail to ProjectDetailScreen
+                //   ),
+                // );
               },
             ),
           );

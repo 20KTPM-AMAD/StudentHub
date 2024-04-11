@@ -212,7 +212,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               _buildButton('assets/images/user.jpg', AppLocalizations.of(context)!.profile, () async {
                 if (selectedDropdownValue == 'Company') {
                   bool isCreateProfileCompany =
-                      await IsCreateProfile('company');
+                  await IsCreateProfile('company');
                   if (isCreateProfileCompany) {
                     Navigator.push(
                       context,
@@ -230,7 +230,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                   }
                 } else {
                   bool isCreateProfileStudent =
-                      await IsCreateProfile('Student');
+                  await IsCreateProfile('Student');
                   if (isCreateProfileStudent) {
                     Navigator.push(
                       context,
@@ -246,8 +246,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                       ),
                     );
                   }
-                }),
-
+                }
+              }),
               const SizedBox(height: 8),
               _buildButton('assets/images/password_icon.png', AppLocalizations.of(context)!.change_password, () {
                 Navigator.push(
