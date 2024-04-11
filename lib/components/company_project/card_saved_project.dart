@@ -99,10 +99,10 @@ class SavedProjectCardState extends State<SavedProjectCard> {
               ],
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ProjectDetailScreen()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const ProjectDetailScreen()),
+              // );
             },
           ),
         );

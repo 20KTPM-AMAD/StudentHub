@@ -127,6 +127,18 @@ class ProjectListState extends State<ProjectListScreen> {
     }
   }
 
+  String getProjectScopeFormart(int projectScope) {
+    if (projectScope == 0) {
+      return AppLocalizations.of(context)!.time_needed_project('Less than one month');
+    } else if (projectScope == 1) {
+      return AppLocalizations.of(context)!.time_needed_project('1-3');
+    } else if (projectScope == 2) {
+      return AppLocalizations.of(context)!.time_needed_project('3-6');
+    } else {
+      return AppLocalizations.of(context)!.time_needed_project('More than 6 months');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -224,22 +236,41 @@ class ProjectListState extends State<ProjectListScreen> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
+                      const SizedBox(width: 20,),
                       Expanded(
-                        child: Text(
-                          project.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: _green,
-                          ),
-                          overflow: TextOverflow.ellipsis,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              project.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: _green,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              _getTimeElapsed(project.createdAt),
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              '${AppLocalizations.of(context)!.proposals}: ${project.countProposals}',
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(width: 10,),
                       IconButton(
-                        onPressed: () {
-                          // Handle favorite button press
-                        },
+                        onPressed: () {},
                         icon: Icon(
                           project.isFavorite == true ? Icons.favorite : Icons.favorite_border_outlined,
                           size: 30,
@@ -248,15 +279,9 @@ class ProjectListState extends State<ProjectListScreen> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 10,),
                   Text(
-                    _getTimeElapsed(project.createdAt),
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Text(
-                    '${AppLocalizations.of(context)!.time_needed_project(project.projectScopeFlag)}, ${AppLocalizations.of(context)!.student_needed_project(project.numberOfStudents)}',
+                    '${getProjectScopeFormart(project.projectScopeFlag)}\n${AppLocalizations.of(context)!.student_needed_project(project.numberOfStudents)}',
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
                       color: Colors.grey,
@@ -265,7 +290,7 @@ class ProjectListState extends State<ProjectListScreen> {
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       children: [
                         const TextSpan(
                           text: 'Students are looking for:\n',
@@ -281,21 +306,18 @@ class ProjectListState extends State<ProjectListScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '${AppLocalizations.of(context)!.proposals}: ${project.countProposals}',
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.grey,
-                    ),
-                  ),
                 ],
               ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProjectDetailScreen(), // Pass project detail to ProjectDetailScreen
+                    builder: (context) => ProjectDetailScreen(
+                        name: project.title,
+                        description: project.description,
+                        projectScope: project.projectScopeFlag,
+                        numberOfStudents: project.numberOfStudents
+                    ), // Pass project detail to ProjectDetailScreen
                   ),
                 );
               },

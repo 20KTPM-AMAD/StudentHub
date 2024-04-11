@@ -113,15 +113,29 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                 children: [
                   Row(
                     children: [
+                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
+                      const SizedBox(width: 20,),
                       Expanded(
-                        child: Text(
-                          project.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: _green,
-                          ),
-                          overflow: TextOverflow.ellipsis,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              project.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: _green,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              _getTimeElapsed(project.createdAt),
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(width: 10,),
@@ -132,13 +146,6 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                         icon: const Icon(Icons.pending_outlined, size: 30,),
                       ),
                     ],
-                  ),
-                  Text(
-                    _getTimeElapsed(project.createdAt),
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.grey,
-                    ),
                   ),
                   const SizedBox(height: 10),
                   RichText(
