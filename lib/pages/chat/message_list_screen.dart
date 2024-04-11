@@ -78,12 +78,6 @@ class MessageListScreenState extends State<MessageListScreen> {
                   Container(
                     height: 555,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.green.shade200,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        )),
                     child: ListView(
                       children: const [
                         MessageCard(),

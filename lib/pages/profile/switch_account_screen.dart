@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/drop_down_upgrade.dart';
@@ -13,11 +12,10 @@ import 'package:studenthub/pages/profile/profile_input_step_1_screen.dart';
 import 'package:studenthub/pages/settings/setting_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:page_transition/page_transition.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/utils/auth_provider.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color primaryColor = Color(0xff296e48);
 
 class SwitchAccountScreen extends StatefulWidget {
   const SwitchAccountScreen({Key? key}) : super(key: key);
@@ -172,7 +170,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -188,7 +186,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('StudentHub'),
-        backgroundColor: _green,
+        backgroundColor: primaryColor,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.search),
@@ -197,20 +195,21 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            DropdownUpgrade(
-              onValueChanged: (value) {
-                setState(() {
-                  selectedDropdownValue = value;
-                });
-              },
-              list: list, // Pass the updated list here
-            ),
-            const SizedBox(height: 50),
-            GestureDetector(
-              onTap: () async {
+        child: Center( // Center the content
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start, // Align to the start of the column
+            children: [
+              const SizedBox(height: 30),
+              DropdownUpgrade(
+                onValueChanged: (value) {
+                  setState(() {
+                    selectedDropdownValue = value;
+                  });
+                },
+                list: list, // Pass the updated list here
+              ),
+              const SizedBox(height: 50),
+              _buildButton('assets/images/user.jpg', AppLocalizations.of(context)!.profile, () async {
                 if (selectedDropdownValue == 'Company') {
                   bool isCreateProfileCompany =
                       await IsCreateProfile('company');
@@ -247,111 +246,66 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                       ),
                     );
                   }
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  children: [
-                    const Material(
-                      shape: CircleBorder(),
-                      color: _green,
-                      child: IconButton(
-                          icon: Icon(
-                            Icons.person,
-                            color: Colors.black,
-                            size: 35,
-                          ),
-                          color: _green,
-                          onPressed: null),
-                    ),
-                    const SizedBox(width: 20.0),
-                    Text(
-                      AppLocalizations.of(context)!.profile,
-                      style: const TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            GestureDetector(
-              onTap: () {
+                }),
+
+              const SizedBox(height: 8),
+              _buildButton('assets/images/password_icon.png', AppLocalizations.of(context)!.change_password, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const ChangePasswordScreen(),
                   ),
                 );
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.password_outlined,
-                      size: 50.0,
-                      color: _green,
-                    ),
-                    const SizedBox(width: 20.0),
-                    Text(AppLocalizations.of(context)!.change_password,
-                        style: const TextStyle(fontSize: 20))
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            GestureDetector(
-              onTap: () {
+              }),
+              const SizedBox(height: 8),
+              _buildButton('assets/images/settings.jpg', AppLocalizations.of(context)!.settings, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const SettingsScreen(),
                   ),
                 );
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.settings,
-                      size: 50.0,
-                      color: _green,
-                    ),
-                    const SizedBox(width: 20.0),
-                    Text(AppLocalizations.of(context)!.settings,
-                        style: const TextStyle(fontSize: 20))
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            GestureDetector(
-              onTap: () {
+              }),
+              const SizedBox(height: 8),
+              _buildButton('assets/images/logout.png', AppLocalizations.of(context)!.logout, () {
                 logout();
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  children: [
-                    const SizedBox(width: 4.0),
-                    const Icon(
-                      Icons.logout,
-                      size: 50.0,
-                      color: _green,
-                    ),
-                    const SizedBox(width: 20.0),
-                    Text(AppLocalizations.of(context)!.logout,
-                        style: const TextStyle(fontSize: 20))
-                  ],
-                ),
-              ),
+              }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton(String imagePath, String label, VoidCallback onPressed) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 300,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 10), // Add margin for spacing between buttons
+        decoration: BoxDecoration(
+          color: Colors.white, // Set background color to white
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
             ),
-            const SizedBox(height: 50),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start, // Center the content
+          children: [
+            Image.asset(imagePath, height: 50.0, width: 50.0,),
+            const SizedBox(width: 20.0),
+            Text(label, style: const TextStyle(fontSize: 20),)
           ],
         ),
       ),
     );
   }
+
 }

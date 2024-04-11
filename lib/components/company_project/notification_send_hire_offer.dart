@@ -45,8 +45,9 @@ class SendHireOfferDialog {
           ),
           content: Text(
             AppLocalizations.of(context)!.confirm__send_hire_offer,
+            textAlign: TextAlign.center,
             style: const TextStyle(
-                fontSize: 18
+                fontSize: 16
             ),
           ),
           actions: <Widget>[
@@ -62,7 +63,7 @@ class SendHireOfferDialog {
               child: Text(
                   AppLocalizations.of(context)!.cancel,
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                   )
               ),
             ),
@@ -79,7 +80,7 @@ class SendHireOfferDialog {
               child: Text(
                   AppLocalizations.of(context)!.send,
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 16,
                   )
               ),
             ),
