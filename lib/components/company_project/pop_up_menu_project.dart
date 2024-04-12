@@ -100,8 +100,19 @@ class AllProjectsPopupMenu {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PostProjectStep1Screen(project: project)),
+                              builder: (context) =>
+                                  PostProjectStep1Screen(project: project)),
                         );
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
+                        AppLocalizations.of(context)!.archive_posting,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () {
+                        _confirmArchivePosting(context, token!, project.id);
                       },
                     ),
                     ListTile(
@@ -164,6 +175,34 @@ class AllProjectsPopupMenu {
     );
   }
 
+  static void _confirmArchivePosting(
+      BuildContext context, String? token, int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm archive posting'),
+          content: Text('Are you sure you want to archive this posting?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _handleRemovePosting(token!, id, context);
+                Navigator.of(context).pop();
+              },
+              child: Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   static void _handleRemovePosting(
       String token, int id, BuildContext context) async {
     try {
@@ -185,6 +224,33 @@ class AllProjectsPopupMenu {
       }
     } catch (error) {
       print('Failed to remove posting: $error');
+    }
+  }
+
+  static void _handleArchivePosting(
+      String token, int id, BuildContext context) async {
+    try {
+      final response = await http.patch(
+        Uri.parse('http://34.16.137.128/api/project/$id'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: <String, dynamic>{
+          'typeFlag': '1',
+        },
+      );
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Archive posting successfully'),
+          ),
+        );
+      } else {
+        print('Failed to archive posting: ${response.body}');
+      }
+    } catch (error) {
+      print('Failed to archive posting: $error');
     }
   }
 }

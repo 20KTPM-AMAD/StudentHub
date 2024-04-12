@@ -11,8 +11,9 @@ import 'package:studenthub/utils/auth_provider.dart';
 var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
-class SendHireOfferScreen extends StatefulWidget{
-  SendHireOfferScreen({Key? key, required int this.projectId}) : super(key: key);
+class SendHireOfferScreen extends StatefulWidget {
+  SendHireOfferScreen({Key? key, required int this.projectId})
+      : super(key: key);
 
   final int projectId;
 
@@ -20,8 +21,7 @@ class SendHireOfferScreen extends StatefulWidget{
   SendHireOfferState createState() => SendHireOfferState();
 }
 
-class SendHireOfferState extends State<SendHireOfferScreen>{
-
+class SendHireOfferState extends State<SendHireOfferScreen> {
   String title = '';
 
   @override
@@ -46,7 +46,7 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
         final jsonResponse = json.decode(response.body);
         print(jsonResponse);
         setState(() {
-          final project = Project.fromJson(jsonResponse['result']['project']);
+          final project = Project.fromJson(jsonResponse['result']);
           title = project.title;
         });
       } else {
@@ -57,7 +57,7 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('StudentHub'),
@@ -73,7 +73,8 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Column(
                 children: [
                   const SizedBox(height: 10),
@@ -91,26 +92,38 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   DefaultTabController(
                       length: 4,
                       child: Column(
                         children: [
-                          TabBar(
-                              tabs: [
-                                Tab(text: AppLocalizations.of(context)!.proposals,),
-                                Tab(text: AppLocalizations.of(context)!.detail,),
-                                Tab(text: AppLocalizations.of(context)!.message,),
-                                Tab(text: AppLocalizations.of(context)!.hired,),
-                              ]
-                          ),
+                          TabBar(tabs: [
+                            Tab(
+                              text: AppLocalizations.of(context)!.proposals,
+                            ),
+                            Tab(
+                              text: AppLocalizations.of(context)!.detail,
+                            ),
+                            Tab(
+                              text: AppLocalizations.of(context)!.message,
+                            ),
+                            Tab(
+                              text: AppLocalizations.of(context)!.hired,
+                            ),
+                          ]),
                           const SizedBox(height: 10),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height - kToolbarHeight - 200,
+                            height: MediaQuery.of(context).size.height -
+                                kToolbarHeight -
+                                200,
                             child: TabBarView(
                               children: [
                                 ProposalsTab(projectId: widget.projectId),
-                                DetailTab(projectId: widget.projectId,),
+                                DetailTab(
+                                  projectId: widget.projectId,
+                                ),
                                 const Center(
                                   child: Text('Message Content'),
                                 ),
@@ -121,8 +134,7 @@ class SendHireOfferState extends State<SendHireOfferScreen>{
                             ),
                           ),
                         ],
-                      )
-                  ),
+                      )),
                 ],
               ),
             ),
