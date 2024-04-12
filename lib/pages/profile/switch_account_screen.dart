@@ -95,7 +95,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             content: Text(
-              AppLocalizations.of(context)!.logout_success,
+              AppLocalizations.of(context)!.logout_success, textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               TextButton(
@@ -126,7 +126,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             content: Text(
-              AppLocalizations.of(context)!.logout_fail,
+              AppLocalizations.of(context)!.logout_fail, textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               TextButton(

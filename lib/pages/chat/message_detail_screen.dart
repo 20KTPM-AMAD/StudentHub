@@ -5,7 +5,7 @@ import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/models/ScheduleInterview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class MessageDetailScreen extends StatelessWidget {
   const MessageDetailScreen({Key? key}) : super(key: key);

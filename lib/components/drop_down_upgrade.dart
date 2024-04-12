@@ -5,7 +5,7 @@ List<Map<String, dynamic>> list = [
   {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Student', 'icon': Icons.person}
 ];
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class DropdownUpgrade extends StatefulWidget {
   final ValueChanged<String?> onValueChanged; // Define callback function

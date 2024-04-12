@@ -116,7 +116,7 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
             children: [
               Image.asset('assets/images/signup.png'),
               Text(
-                AppLocalizations.of(context)!.sign_up_as_Company,
+                AppLocalizations.of(context)!.sign_up,
                 style: const TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,

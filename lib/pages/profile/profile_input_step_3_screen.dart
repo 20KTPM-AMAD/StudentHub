@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/main_screen.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class ProfileInputStep3Screen extends StatefulWidget {
   const ProfileInputStep3Screen({Key? key}) : super(key: key);

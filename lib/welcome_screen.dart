@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/main_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);

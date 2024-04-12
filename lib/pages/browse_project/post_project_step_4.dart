@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 enum Range {
   LessThanOneMonth,

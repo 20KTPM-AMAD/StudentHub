@@ -10,7 +10,7 @@ import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class SavedProjectsScreen extends StatefulWidget {
   const SavedProjectsScreen({Key? key}) : super(key: key);
@@ -20,6 +20,9 @@ class SavedProjectsScreen extends StatefulWidget {
 }
 
 class SavedProjectsState extends State<SavedProjectsScreen> {
+
+  int _currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -163,21 +166,33 @@ class SavedProjectsState extends State<SavedProjectsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        height: 60,
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.view_list), label: 'Projects'),
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Dashboard',
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: _green,
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.view_list),
+            label: 'Projects',
+            backgroundColor: Colors.grey[400],
           ),
-          NavigationDestination(icon: Icon(Icons.message), label: 'Message'),
-          NavigationDestination(
-            icon: Icon(Icons.notifications),
-            label: 'Alerts',
-          ),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: 'Dashboard',
+              backgroundColor: Colors.grey[400]),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.message),
+              label: 'Message',
+              backgroundColor: Colors.grey[400]),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.notifications),
+              label: 'Alerts',
+              backgroundColor: Colors.grey[400]),
         ],
-        backgroundColor: _green,
       ),
     );
   }

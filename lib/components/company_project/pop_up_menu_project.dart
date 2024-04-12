@@ -182,7 +182,7 @@ class AllProjectsPopupMenu {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirm archive posting'),
-          content: Text('Are you sure you want to archive this posting?'),
+          content: Text('Are you sure you want to archive this posting?', textAlign: TextAlign.center,),
           actions: <Widget>[
             TextButton(
               onPressed: () {

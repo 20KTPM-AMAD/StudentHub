@@ -4,7 +4,7 @@ import 'package:studenthub/components/notification/invited_interview_notificatio
 import 'package:studenthub/components/notification/offer_notification.dart';
 import 'package:studenthub/components/notification/submitted_notification.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);

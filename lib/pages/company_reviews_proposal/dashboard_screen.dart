@@ -9,7 +9,7 @@ import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart'
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);

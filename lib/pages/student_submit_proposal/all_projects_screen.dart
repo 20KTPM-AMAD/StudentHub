@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/components/student_project/student_project_detail_card.dart';
 import 'package:studenthub/components/student_project/student_tab_all_projects.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class AllProjectsScreen extends StatefulWidget {
   const AllProjectsScreen({Key? key}) : super(key: key);

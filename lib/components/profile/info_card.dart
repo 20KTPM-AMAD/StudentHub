@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class InfoCard extends StatefulWidget {
   const InfoCard({Key? key, required this.title, required this.detail}) : super(key: key);

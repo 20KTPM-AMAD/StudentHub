@@ -3,7 +3,7 @@ import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_2_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class PostProjectStep1Screen extends StatefulWidget {
   const PostProjectStep1Screen({Key? key, this.project}) : super(key: key);

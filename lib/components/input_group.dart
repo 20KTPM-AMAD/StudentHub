@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class InputGroup extends StatelessWidget {
   const InputGroup({

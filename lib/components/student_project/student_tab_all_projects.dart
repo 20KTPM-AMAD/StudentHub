@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/components/student_project/student_project_detail_card.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class StudentAllProjectsTab extends StatefulWidget {
   const StudentAllProjectsTab({Key? key}) : super(key: key);

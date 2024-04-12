@@ -101,7 +101,7 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
             children: [
               Image.asset('assets/images/reset-password.png'),
               Text(
-                AppLocalizations.of(context)!.forgot_password,
+                AppLocalizations.of(context)!.change_password,
                 style: const TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,

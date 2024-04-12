@@ -5,7 +5,7 @@ import 'package:studenthub/components/profile/multi_select.dart';
 import 'package:studenthub/pages/profile/profile_input_step_2_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class ProfileInputStep1Screen extends StatefulWidget {
   const ProfileInputStep1Screen({Key? key}) : super(key: key);

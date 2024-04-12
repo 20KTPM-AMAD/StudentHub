@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 var blackColor = Colors.black54;
 
 class ProjectListScreen extends StatefulWidget {

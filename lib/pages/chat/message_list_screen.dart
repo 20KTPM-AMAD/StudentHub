@@ -3,7 +3,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:studenthub/components/chat/message_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class MessageListScreen extends StatefulWidget {
   const MessageListScreen({Key? key}) : super(key: key);

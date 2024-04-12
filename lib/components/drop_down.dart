@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 const List<String> list = <String>[
   'Fullstack Engineer',
