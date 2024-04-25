@@ -17,3 +17,9 @@ var BottomNavigationStudent = {
   2: const MessageListScreen(),
   3: const NotificationScreen()
 };
+
+enum UserRole { Student, Company }
+
+enum TypeFlag { New, Working, Archieved }
+
+String studentHubUrl = 'https://api.studenthub.dev/api';

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/drop_down_upgrade.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/models/User.dart';
 import 'package:studenthub/pages/authentication/change_password_screen.dart';
 import 'package:studenthub/pages/authentication/login_screen.dart';
@@ -34,6 +35,9 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AuthProvider>(context, listen: false).role == UserRole.Company
+        ? selectedDropdownValue = 'Company'
+        : selectedDropdownValue = 'Student';
     token = Provider.of<AuthProvider>(context, listen: false).token;
     _getUserInfo();
   }
@@ -95,7 +99,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             content: Text(
-              AppLocalizations.of(context)!.logout_success, textAlign: TextAlign.center,
+              AppLocalizations.of(context)!.logout_success,
+              textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               TextButton(
@@ -126,7 +131,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             content: Text(
-              AppLocalizations.of(context)!.logout_fail, textAlign: TextAlign.center,
+              AppLocalizations.of(context)!.logout_fail,
+              textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               TextButton(
@@ -195,24 +201,36 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Center( // Center the content
+        child: Center(
+          // Center the content
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start, // Align to the start of the column
+            mainAxisAlignment:
+                MainAxisAlignment.start, // Align to the start of the column
             children: [
               const SizedBox(height: 30),
               DropdownUpgrade(
                 onValueChanged: (value) {
                   setState(() {
                     selectedDropdownValue = value;
+                    selectedDropdownValue == 'Company'
+                        ? Provider.of<AuthProvider>(context, listen: false)
+                            .setRole(UserRole.Company)
+                        : Provider.of<AuthProvider>(context, listen: false)
+                            .setRole(UserRole.Student);
+
+                    print('Role');
+                    print(
+                        Provider.of<AuthProvider>(context, listen: false).role);
                   });
                 },
                 list: list, // Pass the updated list here
               ),
               const SizedBox(height: 50),
-              _buildButton('assets/images/user.jpg', AppLocalizations.of(context)!.profile, () async {
+              _buildButton('assets/images/user.jpg',
+                  AppLocalizations.of(context)!.profile, () async {
                 if (selectedDropdownValue == 'Company') {
                   bool isCreateProfileCompany =
-                  await IsCreateProfile('company');
+                      await IsCreateProfile('company');
                   if (isCreateProfileCompany) {
                     Navigator.push(
                       context,
@@ -230,7 +248,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                   }
                 } else {
                   bool isCreateProfileStudent =
-                  await IsCreateProfile('Student');
+                      await IsCreateProfile('Student');
                   if (isCreateProfileStudent) {
                     Navigator.push(
                       context,
@@ -249,7 +267,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 }
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/password_icon.png', AppLocalizations.of(context)!.change_password, () {
+              _buildButton('assets/images/password_icon.png',
+                  AppLocalizations.of(context)!.change_password, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -258,7 +277,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 );
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/settings.jpg', AppLocalizations.of(context)!.settings, () {
+              _buildButton('assets/images/settings.jpg',
+                  AppLocalizations.of(context)!.settings, () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -267,7 +287,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 );
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/logout.png', AppLocalizations.of(context)!.logout, () {
+              _buildButton('assets/images/logout.png',
+                  AppLocalizations.of(context)!.logout, () {
                 logout();
               }),
             ],
@@ -283,7 +304,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
       child: Container(
         width: 300,
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        margin: const EdgeInsets.symmetric(vertical: 10), // Add margin for spacing between buttons
+        margin: const EdgeInsets.symmetric(
+            vertical: 10), // Add margin for spacing between buttons
         decoration: BoxDecoration(
           color: Colors.white, // Set background color to white
           borderRadius: BorderRadius.circular(15),
@@ -299,13 +321,19 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start, // Center the content
           children: [
-            Image.asset(imagePath, height: 50.0, width: 50.0,),
+            Image.asset(
+              imagePath,
+              height: 50.0,
+              width: 50.0,
+            ),
             const SizedBox(width: 20.0),
-            Text(label, style: const TextStyle(fontSize: 20),)
+            Text(
+              label,
+              style: const TextStyle(fontSize: 20),
+            )
           ],
         ),
       ),
     );
   }
-
 }

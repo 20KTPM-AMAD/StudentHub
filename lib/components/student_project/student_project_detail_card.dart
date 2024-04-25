@@ -1,19 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:studenthub/models/Proposal.dart';
 const Color _green = Color(0xff296e48);
 
 class StudentProjectDetailCard extends StatefulWidget {
-  const StudentProjectDetailCard(
-      {Key? key})
+  StudentProjectDetailCard(
+      {Key? key, required this.proposal})
       : super(key: key);
+
+  final Proposal proposal;
 
   @override
   State<StudentProjectDetailCard> createState() => _InfoCardState();
 }
 
 class _InfoCardState extends State<StudentProjectDetailCard> {
+
+  String _getTimeElapsed(DateTime createdAt) {
+    final now = DateTime.now();
+    final difference = now.difference(createdAt);
+
+    if (difference.inDays > 0) {
+      return AppLocalizations.of(context)!.days_ago(difference.inDays);
+    } else if (difference.inHours > 0) {
+      return AppLocalizations.of(context)!.hours_ago(difference.inHours);
+    } else if (difference.inMinutes > 0) {
+      return AppLocalizations.of(context)!.minutes_ago(difference.inMinutes);
+    } else {
+      return AppLocalizations.of(context)!.just_now;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Proposal? proposal = widget.proposal;
+
+    if (proposal == null || proposal.project == null) {
+      return SizedBox(); // or any placeholder widget
+    }
+
     return Card(
       margin: const EdgeInsets.all(5.0),
       child: ListTile(
@@ -22,30 +48,22 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
           children: [
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Text(
-                    'Senior frontend developer (Fintech)',
+                    proposal.project!.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: _green,
                     ),
-                    overflow: TextOverflow.ellipsis, // Hiển thị dấu ... khi văn bản tràn ra ngoài
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(width: 10),
               ],
             ),
-
             Text(
-              AppLocalizations.of(context)!.time_created_project('3'),
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.grey,
-              ),
-            ),
-            Text(
-              AppLocalizations.of(context)!.time_needed_project('1-3') + AppLocalizations.of(context)!.student_needed_project('6'),
+              _getTimeElapsed(proposal!.createdAt),
               style: const TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.grey,
@@ -53,36 +71,26 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
             ),
             const SizedBox(height: 10),
             RichText(
-              text: const TextSpan(
-                style: TextStyle(color: Colors.black),
+              text: TextSpan(
+                style: const TextStyle(color: Colors.black),
                 children: [
-                  TextSpan(
+                  const TextSpan(
                     text: 'Students are looking for:\n',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextSpan(
-                    text: '- Clear expectation about your project or deliverables',
-                    style: TextStyle(
-                      fontSize: 16, // Cỡ chữ
+                  WidgetSpan(
+                    child: MarkdownBody(
+                      data: proposal.project!.description,
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 10),
-            Text(
-              '${AppLocalizations.of(context)!.proposals}: Less than 5',
-              style: const TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.grey,
-              ),
-            ),
           ],
         ),
-        onTap: () {
-        },
+        onTap: () {},
       ),
     );
   }
