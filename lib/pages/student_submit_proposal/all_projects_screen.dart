@@ -54,10 +54,10 @@ class AllProjectsScreenState extends State<AllProjectsScreen> {
                       height: MediaQuery.of(context).size.height -
                           kToolbarHeight -
                           200, // Giảm đi kích thước của AppBar và khoảng cách dưới cùng
-                      child: const TabBarView(
+                      child: TabBarView(
                         children: [
                           StudentAllProjectsTab(),
-                          StudentProjectDetailCard(),
+                          StudentAllProjectsTab(),
                           Center(
                             child: Text('Archived Projects Content'),
                           ),

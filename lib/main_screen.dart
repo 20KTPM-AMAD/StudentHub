@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/pages/chat/message_list_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/pages/notification/notification_screen.dart';
 import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/pages/student_submit_proposal/all_projects_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
 import 'models/User.dart';
@@ -24,20 +26,45 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _tabs = [
+  late List<Widget> _tabs = [
     const ProjectListScreen(),
-    const DashboardScreen(),//company
+    const DashboardScreen(), //company
     //const AllProjectsScreen(), //student
     const MessageListScreen(),
     const NotificationScreen()
   ];
 
+  // role
+
   @override
   void initState() {
     super.initState();
-    if(Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
+
+    checkRole();
+
+    if (Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
       _getUserInfo();
     }
+  }
+
+  void checkRole() {
+    Provider.of<AuthProvider>(context, listen: false).role == UserRole.Company
+        ? setState(() {
+            _tabs = [
+              const ProjectListScreen(),
+              const DashboardScreen(),
+              const MessageListScreen(),
+              const NotificationScreen()
+            ];
+          })
+        : setState(() {
+            _tabs = [
+              const ProjectListScreen(),
+              const AllProjectsScreen(),
+              const MessageListScreen(),
+              const NotificationScreen()
+            ];
+          });
   }
 
   Future<void> _getUserInfo() async {
@@ -54,7 +81,8 @@ class MainScreenState extends State<MainScreen> {
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        Provider.of<AuthProvider>(context, listen: false).setLoginUser(User.fromJson(jsonResponse['result']));
+        Provider.of<AuthProvider>(context, listen: false)
+            .setLoginUser(User.fromJson(jsonResponse['result']));
       } else {
         print('Failed to get user info: ${response.body}');
       }
@@ -75,7 +103,10 @@ class MainScreenState extends State<MainScreen> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => const SwitchAccountScreen()),
-              );
+              ).then((result) {
+                checkRole();
+              });
+              ;
             },
           ),
         ],

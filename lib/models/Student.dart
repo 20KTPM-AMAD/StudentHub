@@ -1,5 +1,6 @@
 import 'Education.dart';
 import 'TechStack.dart';
+import 'User.dart';
 
 class Student {
   final int id;
@@ -13,6 +14,8 @@ class Student {
   final String? transcript;
   final TechStack techStack;
   final List<Education> educations;
+
+  User? user;
 
   Student({
     required this.id,

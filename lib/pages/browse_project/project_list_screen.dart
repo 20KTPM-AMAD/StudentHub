@@ -76,11 +76,8 @@ class ProjectListState extends State<ProjectListScreen> {
           },
         );
 
-        print(response.statusCode);
-
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
-          print(jsonResponse);
           if (jsonResponse['result'] is List) {
             setState(() {
               projects = jsonResponse['result']
