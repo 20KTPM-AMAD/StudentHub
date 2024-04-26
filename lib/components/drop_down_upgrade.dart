@@ -23,12 +23,19 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        border: Border.all(
-          color: _green,
-          width: 2.0,
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 7,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
       child: DropdownButton<String>(
         value: dropdownValue,
@@ -48,13 +55,15 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
           return DropdownMenuItem<String>(
             value: value['position'],
             child: Container(
-                width: 340,
+                width: 320,
                 height: 350,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5.0),
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const SizedBox(width: 10,),
                     Icon(value['icon'], size: 50.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
