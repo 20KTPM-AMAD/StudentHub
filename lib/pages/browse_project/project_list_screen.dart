@@ -40,7 +40,7 @@ class ProjectListState extends State<ProjectListScreen> {
       isLoading = true;
     });
 
-    String url = 'http://34.16.137.128/api/project';
+    String url = 'https://api.studenthub.dev/api/project';
 
     Map<String, String> queryParams = {};
 

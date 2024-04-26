@@ -15,14 +15,14 @@ class ScheduleInterview {
     required this.participants,
   });
 
-  ScheduleInterview fromMap(Map<String, dynamic> map) {
+  factory ScheduleInterview.fromMap(Map<String, dynamic> map) {
     return ScheduleInterview(
       id: map['id'],
       title: map['title'],
-      startTime: map['startTime'],
-      endTime: map['endTime'],
-      isCanceled: map['isCanceled'],
-      participants: map['participants'],
+      startTime: DateTime.parse(map['startTime']),
+      endTime: DateTime.parse(map['endTime']),
+      isCanceled: map['isCanceled'] == 'true', // Chuyển đổi từ chuỗi thành bool
+      participants: List<String>.from(map['participants']), // Chuyển đổi từ danh sách chuỗi
     );
   }
 

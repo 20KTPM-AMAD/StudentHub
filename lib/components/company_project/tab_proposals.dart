@@ -103,7 +103,7 @@ class ProposalsTabState extends State<ProposalsTab> {
         itemBuilder: (context, index) {
           if (proposals.isEmpty) {
             return const Center(
-              child: Text('Hiện tại chưa có proposal nào'),
+              child: Text('There are currently no proposals'),
             );
           }
 
@@ -174,10 +174,10 @@ class ProposalsTabState extends State<ProposalsTab> {
                     children: [
                       ElevatedButton(
                         onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MessageDetailScreen()),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => MessageDetailScreen()),
+                          // );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
