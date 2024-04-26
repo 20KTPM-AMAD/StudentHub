@@ -93,7 +93,10 @@ class _MessageCardState extends State<MessageCard> {
               );
             }
             final message = messages[index];
-            final isMe = message.sender.id == userId || message.receiver.id == userId;
+            final senderFullName = message.sender.fullname;
+            final receiverFullName = message.receiver.fullname;
+            final isMeSender = message.sender.id == userId;
+            final displayName = isMeSender ? receiverFullName : senderFullName;
             return Card(
               child: GestureDetector(
                 onTap: () {
@@ -122,7 +125,7 @@ class _MessageCardState extends State<MessageCard> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    isMe ? message.receiver.fullname : message.sender.fullname,
+                                    displayName,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: const TextStyle(
