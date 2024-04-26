@@ -35,7 +35,7 @@ class LoginScreenState extends State<LoginScreen> {
     }
 
     final response = await http.post(
-      Uri.parse('http://34.16.137.128/api/auth/sign-in'),
+      Uri.parse('https://api.studenthub.dev/api/auth/sign-in'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

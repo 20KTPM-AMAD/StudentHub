@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
 import 'package:studenthub/models/Message.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/models/ScheduleInterview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
@@ -13,9 +14,11 @@ import 'package:studenthub/utils/socket_manager.dart';
 const Color _green = Color(0xff296e48);
 
 class MessageDetailScreen extends StatefulWidget {
-  final Message message;
+  final int personID;
+  final int projetcID;
+  final String personFullName;
 
-  const MessageDetailScreen({Key? key, required this.message})
+  const MessageDetailScreen({Key? key, required this.personID, required this.personFullName, required this.projetcID})
       : super(key: key);
 
   @override
@@ -27,23 +30,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
   List<Message> messageList = [];
   List<String> messages = [];
   int userId = 0;
-  int friendId = 0;
-  bool isMe = false;
   final TextEditingController textController = TextEditingController();
-  late Postman sender;
-  late Postman receiver;
 
   @override
   void initState() {
     super.initState();
-    if (widget.message.sender!.id == userId) {
-      sender = widget.message.sender!;
-      receiver = widget.message.receiver!;
-    } else {
-      sender = widget.message.receiver!;
-      receiver = widget.message.sender!;
-    }
-    SocketManager.initializeSocket(context, widget.message.project!.id);
+    SocketManager.initializeSocket(context, widget.projetcID);
     SocketManager.socket.on('RECEIVE_MESSAGE', (data) {
       setState(() {
         messages.add(data['content']);
@@ -60,19 +52,17 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     try {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
       userId = Provider.of<AuthProvider>(context, listen: false).loginUser!.id;
-      isMe = widget.message.sender!.id == userId || widget.message.receiver!.id == userId;
-      friendId = isMe ? widget.message.receiver!.id : widget.message.sender!.id;
 
       if (token != null) {
         final response = await http.get(
-          Uri.parse('https://api.studenthub.dev/api/message/${widget.message.project?.id}/user/${receiver.id}'),
+          Uri.parse('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
           },
         );
 
-        print('https://api.studenthub.dev/api/message/${widget.message.project?.id}/user/${receiver.id}');
+        print('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}');
 
         print(response.statusCode);
         if (response.statusCode == 200) {
@@ -105,9 +95,9 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     if (messageContent.isNotEmpty) {
       SocketManager.sendMessage(
         messageContent,
-        widget.message.project!.id,
+        widget.projetcID,
         userId,
-        friendId,
+        widget.personID,
       );
 
       Message newMessage = Message(
@@ -115,8 +105,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         createdAt: DateTime.now(),
         content: messageContent,
         sender: Postman(id: userId, fullname: 'sender'),
-        receiver: Postman(id: friendId, fullname: 'receiver'),
-        project: widget.message.project,
+        receiver: Postman(id: widget.personID, fullname: 'receiver'),
+        project: Project(1, 1, 'title', 'description', 0, 0, 0, DateTime.now(), DateTime.now(), null, 0, 0, 0, false),
       );
 
       setState(() {
@@ -132,7 +122,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(receiver.fullname),
+        title: Text(widget.personFullName),
         backgroundColor: Colors.green.shade200,
         actions: <Widget>[
           IconButton(

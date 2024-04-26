@@ -97,13 +97,14 @@ class _MessageCardState extends State<MessageCard> {
             final receiverFullName = message.receiver.fullname;
             final isMeSender = message.sender.id == userId;
             final displayName = isMeSender ? receiverFullName : senderFullName;
+            final personId = isMeSender ? message.receiver.id : message.sender.id;
             return Card(
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MessageDetailScreen(message: message)),
+                        builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projetcID: message.project!.id)),
                   );
                 },
                 child: Padding(

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/models/Project.dart';
 import 'Student.dart';
+import 'User.dart';
 
 class Proposal {
   final int id;
@@ -17,6 +18,7 @@ class Proposal {
 
   late Student? student;
   late Project? project;
+  late String? studentname;
 
   Proposal({
     required this.id,
@@ -30,9 +32,13 @@ class Proposal {
     required this.disableFlag,
     this.student,
     this.project,
+    this.studentname,
   });
 
   factory Proposal.fromJson(Map<String, dynamic> json) {
+    final studentJson = json['student'];
+    final studentName = studentJson != null && studentJson['user'] != null ? studentJson['user']['fullname'] : null;
+
     return Proposal(
       id: json['id'],
       createdAt: DateTime.parse(json['createdAt']),
@@ -43,12 +49,12 @@ class Proposal {
       coverLetter: json['coverLetter'],
       statusFlag: json['statusFlag'],
       disableFlag: json['disableFlag'],
-      student:
-          json['student'] != null ? Student.fromJson(json['student']) : null,
-      project:
-          json['project'] != null ? Project.fromJson(json['project']) : null,
+      student: json['student'] != null ? Student.fromJson(json['student']) : null,
+      project: json['project'] != null ? Project.fromJson(json['project']) : null,
+      studentname: studentName,
     );
   }
+
 }
 
 Future<List<Proposal>> getProposalByStudentId(

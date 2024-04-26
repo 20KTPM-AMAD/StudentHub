@@ -126,7 +126,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              student.fullname,
+                              proposal.studentname!,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -174,10 +174,14 @@ class ProposalsTabState extends State<ProposalsTab> {
                     children: [
                       ElevatedButton(
                         onPressed: (){
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => MessageDetailScreen()),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                MessageDetailScreen(
+                                  personID: proposal.studentId,
+                                  personFullName: proposal.studentname!,
+                                  projetcID: proposal.projectId,)),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
@@ -210,7 +214,7 @@ class ProposalsTabState extends State<ProposalsTab> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProposalDetailScreen(fullname: student!.fullname, coverLetter: proposal.coverLetter, techStackName: techStack.name)),
+                  MaterialPageRoute(builder: (context) => ProposalDetailScreen(fullname: proposal.studentname!, coverLetter: proposal.coverLetter, techStackName: techStack.name)),
                 );
               },
             ),
