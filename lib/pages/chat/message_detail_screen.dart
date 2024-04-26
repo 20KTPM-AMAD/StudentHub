@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
 import 'package:studenthub/models/Message.dart';
+import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/models/ScheduleInterview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
@@ -13,9 +14,11 @@ import 'package:studenthub/utils/socket_manager.dart';
 const Color _green = Color(0xff296e48);
 
 class MessageDetailScreen extends StatefulWidget {
-  final Message message;
+  final int personID;
+  final int projetcID;
+  final String personFullName;
 
-  const MessageDetailScreen({Key? key, required this.message})
+  const MessageDetailScreen({Key? key, required this.personID, required this.personFullName, required this.projetcID})
       : super(key: key);
 
   @override
@@ -27,28 +30,30 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
   List<Message> messageList = [];
   List<String> messages = [];
   int userId = 0;
-  int friendId = 0;
-  bool isMe = false;
   final TextEditingController textController = TextEditingController();
-  late Postman sender;
-  late Postman receiver;
 
   @override
   void initState() {
     super.initState();
-    if (widget.message.sender!.id == userId) {
-      sender = widget.message.sender!;
-      receiver = widget.message.receiver!;
-    } else {
-      sender = widget.message.receiver!;
-      receiver = widget.message.sender!;
-    }
-    SocketManager.initializeSocket(context, widget.message.project!.id);
+    SocketManager.initializeSocket(context, widget.projetcID);
     SocketManager.socket.on('RECEIVE_MESSAGE', (data) {
-      setState(() {
-        messages.add(data['content']);
-      });
+      if (mounted && data['receiverId'] == userId) {
+        Message newMessage = Message(
+          id: messageList.length + 1,
+          createdAt: DateTime.now(),
+          content: data['content'],
+          sender: Postman(id: data['senderId'], fullname: widget.personFullName),
+          receiver: Postman(id: data['receiverId'], fullname: 'receiver'),
+          project: null,
+        );
+
+        setState(() {
+          messageList.add(newMessage);
+        });
+        print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
+      }
     });
+
     getMessageList();
   }
 
@@ -60,19 +65,17 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     try {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
       userId = Provider.of<AuthProvider>(context, listen: false).loginUser!.id;
-      isMe = widget.message.sender!.id == userId || widget.message.receiver!.id == userId;
-      friendId = isMe ? widget.message.receiver!.id : widget.message.sender!.id;
 
       if (token != null) {
         final response = await http.get(
-          Uri.parse('https://api.studenthub.dev/api/message/${widget.message.project?.id}/user/${receiver.id}'),
+          Uri.parse('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
           },
         );
 
-        print('https://api.studenthub.dev/api/message/${widget.message.project?.id}/user/${receiver.id}');
+        print('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}');
 
         print(response.statusCode);
         if (response.statusCode == 200) {
@@ -105,9 +108,9 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     if (messageContent.isNotEmpty) {
       SocketManager.sendMessage(
         messageContent,
-        widget.message.project!.id,
+        widget.projetcID,
         userId,
-        friendId,
+        widget.personID,
       );
 
       Message newMessage = Message(
@@ -115,8 +118,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         createdAt: DateTime.now(),
         content: messageContent,
         sender: Postman(id: userId, fullname: 'sender'),
-        receiver: Postman(id: friendId, fullname: 'receiver'),
-        project: widget.message.project,
+        receiver: Postman(id: widget.personID, fullname: widget.personFullName),
+        project: null,
       );
 
       setState(() {
@@ -132,7 +135,19 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(receiver.fullname),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: Image.asset('assets/images/user.jpg').image,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(widget.personFullName),
+          ],
+        ),
         backgroundColor: Colors.green.shade200,
         actions: <Widget>[
           IconButton(
@@ -205,20 +220,38 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                           crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 30,),
-                            Center(child: Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white)),),
-                            const SizedBox(height: 8,),
                             Container(
                               alignment: isMyMessage ? Alignment.centerRight : Alignment.centerLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20), color: isMyMessage ? _green : Colors.white,),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    message.content,
-                                    style: TextStyle(color: isMyMessage ? Colors.white : Colors.black),
-                                  ),
-                                ),
+                              child: Row(
+                                mainAxisAlignment: isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+                                children: [
+                                  if (!isMyMessage)
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: Image.asset('assets/images/user.jpg').image,
+                                    ),
+                                  const SizedBox(width: 10,),
+                                  Column(
+                                    crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: isMyMessage ? _green : Colors.white,
+                                        ),
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
+                                              children: [
+                                                Text(message.content, style: TextStyle(color: isMyMessage ? Colors.white : Colors.black,),),
+                                              ],
+                                            )
+                                        ),
+                                      ),
+                                      Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ],
@@ -230,7 +263,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
               ),
               const SizedBox(height: 10,),
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
                 child: Container(
                   height: 50,
                   width: double.infinity,

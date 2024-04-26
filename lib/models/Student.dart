@@ -1,6 +1,5 @@
 import 'Education.dart';
 import 'TechStack.dart';
-import 'User.dart';
 
 class Student {
   final int id;
@@ -8,14 +7,11 @@ class Student {
   final DateTime updatedAt;
   final int? deletedAt;
   final int userId;
-  final String fullname;
   final int techStackId;
   final String? resume;
   final String? transcript;
   final TechStack techStack;
   final List<Education> educations;
-
-  User? user;
 
   Student({
     required this.id,
@@ -23,7 +19,6 @@ class Student {
     required this.updatedAt,
     this.deletedAt,
     required this.userId,
-    required this.fullname,
     required this.techStackId,
     this.resume,
     this.transcript,
@@ -38,7 +33,6 @@ class Student {
       updatedAt: DateTime.parse(json['updatedAt']),
       deletedAt: json['deletedAt'],
       userId: json['userId'],
-      fullname: 'abc',
       techStackId: json['techStackId'],
       resume: json['resume'],
       transcript: json['transcript'],

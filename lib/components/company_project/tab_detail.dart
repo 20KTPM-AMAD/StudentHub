@@ -89,7 +89,7 @@ class DetailTabState extends State<DetailTab> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : _buildProjectDetails();
   }
 
@@ -109,14 +109,14 @@ class DetailTabState extends State<DetailTab> {
                       text: TextSpan(
                         style: TextStyle(color: Colors.black),
                         children: [
-                          TextSpan(
+                          const TextSpan(
                             text: 'Students are looking for:\n',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
                           ),
-                          WidgetSpan(
+                          const WidgetSpan(
                             child: SizedBox(
                                 height: 30), // Khoảng cách giữa các dòng
                           ),
@@ -174,7 +174,7 @@ class DetailTabState extends State<DetailTab> {
                             ),
                             Text(
                               '${_project!.numberOfStudents} students',
-                              style: TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
@@ -183,17 +183,6 @@ class DetailTabState extends State<DetailTab> {
                   ],
                 ),
               ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.bottomRight,
-            padding: const EdgeInsets.only(bottom: 20),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: _green, foregroundColor: Colors.black),
-              child: Text(AppLocalizations.of(context)!.post_job,
-                  style: const TextStyle(fontSize: 18)),
             ),
           ),
         ],
