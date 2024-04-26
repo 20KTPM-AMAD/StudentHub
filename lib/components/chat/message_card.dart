@@ -135,9 +135,6 @@ class _MessageCardState extends State<MessageCard> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 100,
-                                ),
                                 Text(
                                   message.formattedCreatedAt(),
                                 ),

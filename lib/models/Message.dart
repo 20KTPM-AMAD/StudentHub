@@ -19,8 +19,9 @@ class Message {
   });
 
   String formattedCreatedAt() {
+    final vietnamTime = createdAt.add(const Duration(hours: 7));
     final formatter = DateFormat('HH:mm, dd/MM/yyyy');
-    return formatter.format(createdAt);
+    return formatter.format(vietnamTime);
   }
 
   factory Message.fromJson(Map<String, dynamic>? json) {

@@ -37,10 +37,23 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     super.initState();
     SocketManager.initializeSocket(context, widget.projetcID);
     SocketManager.socket.on('RECEIVE_MESSAGE', (data) {
-      setState(() {
-        messages.add(data['content']);
-      });
+      if (mounted && data['receiverId'] == userId) {
+        Message newMessage = Message(
+          id: messageList.length + 1,
+          createdAt: DateTime.now(),
+          content: data['content'],
+          sender: Postman(id: data['senderId'], fullname: widget.personFullName),
+          receiver: Postman(id: data['receiverId'], fullname: 'receiver'),
+          project: null,
+        );
+
+        setState(() {
+          messageList.add(newMessage);
+        });
+        print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
+      }
     });
+
     getMessageList();
   }
 
@@ -105,8 +118,8 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         createdAt: DateTime.now(),
         content: messageContent,
         sender: Postman(id: userId, fullname: 'sender'),
-        receiver: Postman(id: widget.personID, fullname: 'receiver'),
-        project: Project(1, 1, 'title', 'description', 0, 0, 0, DateTime.now(), DateTime.now(), null, 0, 0, 0, false),
+        receiver: Postman(id: widget.personID, fullname: widget.personFullName),
+        project: null,
       );
 
       setState(() {
@@ -122,7 +135,19 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.personFullName),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: Image.asset('assets/images/user.jpg').image,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(widget.personFullName),
+          ],
+        ),
         backgroundColor: Colors.green.shade200,
         actions: <Widget>[
           IconButton(
@@ -195,20 +220,38 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                           crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 30,),
-                            Center(child: Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white)),),
-                            const SizedBox(height: 8,),
                             Container(
                               alignment: isMyMessage ? Alignment.centerRight : Alignment.centerLeft,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20), color: isMyMessage ? _green : Colors.white,),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    message.content,
-                                    style: TextStyle(color: isMyMessage ? Colors.white : Colors.black),
-                                  ),
-                                ),
+                              child: Row(
+                                mainAxisAlignment: isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+                                children: [
+                                  if (!isMyMessage)
+                                    CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: Image.asset('assets/images/user.jpg').image,
+                                    ),
+                                  const SizedBox(width: 10,),
+                                  Column(
+                                    crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          color: isMyMessage ? _green : Colors.white,
+                                        ),
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: Column(
+                                              children: [
+                                                Text(message.content, style: TextStyle(color: isMyMessage ? Colors.white : Colors.black,),),
+                                              ],
+                                            )
+                                        ),
+                                      ),
+                                      Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
+                                    ],
+                                  )
+                                ],
                               ),
                             ),
                           ],
@@ -220,7 +263,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
               ),
               const SizedBox(height: 10,),
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
+                padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
                 child: Container(
                   height: 50,
                   width: double.infinity,
