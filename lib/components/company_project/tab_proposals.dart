@@ -200,7 +200,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                           fixedSize: const Size(130, 40),
                         ),
                         child: Text(
-                          proposal.statusFlag == 1
+                          proposal.statusFlag == 0
                               ? AppLocalizations.of(context)!.send_hired_offer
                               : 'Sent hired offer',
                           style: const TextStyle(fontSize: 18, color: Colors.white70),

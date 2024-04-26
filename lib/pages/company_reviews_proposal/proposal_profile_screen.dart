@@ -65,146 +65,38 @@ class ProjectDetailState extends State<ProposalDetailScreen>{
                     ),
                     const SizedBox(height: 10,),
                     const Divider(),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.cover_letter,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                          ),
-                        ),
-                        Text(
-                          widget.coverLetter,
-                          style: const TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                          Text(
-                            AppLocalizations.of(context)!.techstack,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16
-                            ),
-                          ),
-                          Text(
-                            widget.techStackName,
-                            style: const TextStyle(
-                                fontSize: 16
-                            ),
+                    const SizedBox(height: 50,),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.circular(10.0), // Bo góc của toàn bảng
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 5,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // Đẩy bóng ra ngoài
                           ),
                         ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.skillset,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                          ),
-                        ),
-                        const Text(
-                          'None',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.education,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                          ),
-                        ),
-                        const Text(
-                          'None',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.experiences,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                          ),
-                        ),
-                        const Text(
-                          'None',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.resume_CV,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                          ),
-                        ),
-                        const Text(
-                          'None',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10,),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.transcript,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16
-                          ),
-                        ),
-                        const Text(
-                          'None',
-                          style: TextStyle(
-                              fontSize: 16
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        child: Table(
+                          columnWidths: const {
+                            0: FlexColumnWidth(2), // Độ rộng cột 1
+                            1: FlexColumnWidth(3), // Độ rộng cột 2
+                          },
+                          children: [
+                            _buildTableRow(context, AppLocalizations.of(context)!.cover_letter, widget.coverLetter),
+                            _buildTableRow(context, AppLocalizations.of(context)!.techstack, widget.techStackName),
+                            _buildTableRow(context, AppLocalizations.of(context)!.skillset, 'None'),
+                            _buildTableRow(context, AppLocalizations.of(context)!.education, 'None'),
+                            _buildTableRow(context, AppLocalizations.of(context)!.experiences, 'None'),
+                            _buildTableRow(context, AppLocalizations.of(context)!.resume_CV, 'None'),
+                            _buildTableRow(context, AppLocalizations.of(context)!.transcript, 'None'),
+                          ],
+                        ),)
+                    )
                   ],
                 ),
               ),
@@ -213,6 +105,36 @@ class ProjectDetailState extends State<ProposalDetailScreen>{
         ),
       ),
     );
-
   }
+
+  TableRow _buildTableRow(BuildContext context, String title, String value) {
+    return TableRow(
+      children: [
+        TableCell(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+        TableCell(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
 }
