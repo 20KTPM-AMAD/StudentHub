@@ -33,35 +33,35 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10),
-            Row(
-              children: [
-                Text(
-                  message.scheduleInterview!.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                const Spacer(),
-                Text(
-                  '${message.scheduleInterview!.endTime.difference(message.scheduleInterview!.startTime).inMinutes} minutes',
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Text(
+            //       message.interview!.title,
+            //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            //     ),
+            //     const Spacer(),
+            //     Text(
+            //       '${message.interview!.endTime.difference(message.interview!.startTime).inMinutes} minutes',
+            //       style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+            //     ),
+            //   ],
+            // ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                Text(
-                  DateFormat('kk:mm dd/MM/yyyy').format(message.scheduleInterview!.startTime),
-                  style: const TextStyle(fontStyle: FontStyle.italic),
-                ),
-                const SizedBox(width: 10),
-                const Text('-'),
-                const SizedBox(width: 10),
-                Text(
-                  DateFormat('kk:mm dd/MM/yyyy').format(message.scheduleInterview!.endTime),
-                  style: const TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     Text(
+            //       DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.startTime),
+            //       style: const TextStyle(fontStyle: FontStyle.italic),
+            //     ),
+            //     const SizedBox(width: 10),
+            //     const Text('-'),
+            //     const SizedBox(width: 10),
+            //     Text(
+            //       DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.endTime),
+            //       style: const TextStyle(fontStyle: FontStyle.italic),
+            //     ),
+            //   ],
+            // ),
             Row(
               children: [
                 const Spacer(),

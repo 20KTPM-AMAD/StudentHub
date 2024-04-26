@@ -1,40 +1,55 @@
-import 'package:studenthub/models/ScheduleInterview.dart';
+import 'package:intl/intl.dart';
+import 'package:studenthub/models/Project.dart';
 
 class Message {
-  String senderUid;
-  String receiverUid;
-  String type;
-  String? message;
-  ScheduleInterview? scheduleInterview;
-  DateTime timestamp;
+  final int id;
+  final DateTime createdAt;
+  final String content;
+  final Postman sender;
+  final Postman receiver;
+  final Project? project;
 
-  Message(
-      {required this.senderUid,
-        required this.receiverUid,
-        required this.type,
-        this.message,
-        this.scheduleInterview,
-        required this.timestamp});
+  Message({
+    required this.id,
+    required this.createdAt,
+    required this.content,
+    required this.sender,
+    required this.receiver,
+    this.project,
+  });
 
-  Map toMap() {
-    var map = <String, dynamic>{};
-    map['senderUid'] = senderUid;
-    map['receiverUid'] = receiverUid;
-    map['type'] = type;
-    map['message'] = message;
-    map['scheduleInterview'] = scheduleInterview;
-    map['timestamp'] = timestamp;
-    return map;
+  String formattedCreatedAt() {
+    final formatter = DateFormat('HH:mm, dd/MM/yyyy');
+    return formatter.format(createdAt);
   }
 
-  Message fromMap(Map<String, dynamic> map) {
-    Message message = Message(
-        senderUid: map['senderUid'],
-        receiverUid: map['receiverUid'],
-        type: map['type'],
-        message: map['message'],
-        scheduleInterview: map['scheduleInterview'],
-        timestamp: map['timestamp']);
-    return message;
+  factory Message.fromJson(Map<String, dynamic>? json) {
+    if (json == null) {
+      throw Exception('Invalid JSON format');
+    }
+
+    return Message(
+      id: json['id'] ?? 0,
+      createdAt: DateTime.parse(json['createdAt'] ?? ''),
+      content: json['content'] ?? '',
+      sender: Postman.fromJson(json['sender'] ?? {}),
+      receiver: Postman.fromJson(json['receiver'] ?? {}),
+      project: json['project'] != null ? Project.fromJson(json['project']) : null,
+    );
+  }
+
+}
+
+class Postman {
+  final int id;
+  final String fullname;
+
+  Postman({required this.id, required this.fullname});
+
+  factory Postman.fromJson(Map<String, dynamic> json) {
+    return Postman(
+      id: json['id'],
+      fullname: json['fullname'],
+    );
   }
 }
