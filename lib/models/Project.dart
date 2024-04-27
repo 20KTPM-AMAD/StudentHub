@@ -1,5 +1,8 @@
 
+import 'dart:convert';
+
 import 'package:studenthub/models/Proposal.dart';
+import 'package:http/http.dart' as http;
 
 class Project {
   int id;
@@ -54,5 +57,27 @@ class Project {
       json['countHired'],
       json['isFavorite'],
     );
+  }
+}
+
+Future<Project> getProjectById(
+    int id, String token) async {
+  
+  final uri = Uri.https('api.studenthub.dev', '/api/project/$id');
+
+  final response = await http.get(uri, headers: <String, String>{
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Authorization': 'Bearer $token',
+  });
+
+  if (response.statusCode == 200) {
+    final jsonResponse = json.decode(response.body);
+    print(jsonResponse);
+
+    final project = Project.fromJson(jsonResponse['result']);
+
+    return project;
+  } else {
+    throw Exception('Failed to load project');
   }
 }
