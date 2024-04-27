@@ -97,7 +97,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               Image.asset('assets/images/reset-password.png'),
               Text(
                 AppLocalizations.of(context)!.forgot_password,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w700,
                 ),
@@ -146,7 +146,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.reset_password,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18.0,
                       ),

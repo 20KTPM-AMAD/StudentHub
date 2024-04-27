@@ -51,7 +51,6 @@ class LoginScreenState extends State<LoginScreen> {
 
     if (response.statusCode == 201) {
       if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
-        print(jsonResponse['result']['token']);
         Provider.of<AuthProvider>(context, listen: false).setToken(jsonResponse['result']['token']);
         Navigator.of(context).pushReplacement(
           PageTransition(

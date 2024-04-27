@@ -1,8 +1,5 @@
-import 'dart:convert';
 
-import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/models/Proposal.dart';
-import 'package:http/http.dart' as http;
 
 class Project {
   int id;

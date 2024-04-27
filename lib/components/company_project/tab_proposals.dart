@@ -13,7 +13,7 @@ var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
 class ProposalsTab extends StatefulWidget {
-  const ProposalsTab({Key? key, required int this.projectId}) : super(key: key);
+  const ProposalsTab({Key? key, required this.projectId}) : super(key: key);
   final int projectId;
   @override
   ProposalsTabState createState() => ProposalsTabState();

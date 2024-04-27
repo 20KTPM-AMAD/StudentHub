@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class VideoCallScreen extends StatefulWidget {
+  const VideoCallScreen({super.key});
+
   @override
   _VideoCallScreenState createState() => _VideoCallScreenState();
 }

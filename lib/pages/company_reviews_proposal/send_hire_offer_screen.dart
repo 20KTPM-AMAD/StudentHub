@@ -12,7 +12,7 @@ var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
 class SendHireOfferScreen extends StatefulWidget {
-  SendHireOfferScreen({Key? key, required int this.projectId})
+  const SendHireOfferScreen({Key? key, required this.projectId})
       : super(key: key);
 
   final int projectId;

@@ -28,8 +28,7 @@ class MainScreenState extends State<MainScreen> {
 
   late List<Widget> _tabs = [
     const ProjectListScreen(),
-    const DashboardScreen(), //company
-    //const AllProjectsScreen(), //student
+    const DashboardScreen(),
     const MessageListScreen(),
     const NotificationScreen()
   ];
@@ -40,11 +39,11 @@ class MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
-    checkRole();
-
     if (Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
       _getUserInfo();
     }
+
+    checkRole();
   }
 
   void checkRole() {
@@ -83,6 +82,17 @@ class MainScreenState extends State<MainScreen> {
         final jsonResponse = json.decode(response.body);
         Provider.of<AuthProvider>(context, listen: false)
             .setLoginUser(User.fromJson(jsonResponse['result']));
+
+        var loginUser =
+            Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+        if (loginUser!.roles.contains(1)) {
+          Provider.of<AuthProvider>(context, listen: false)
+              .setRole(UserRole.Company);
+        } else {
+          Provider.of<AuthProvider>(context, listen: false)
+              .setRole(UserRole.Student);
+        }
       } else {
         print('Failed to get user info: ${response.body}');
       }
@@ -106,7 +116,6 @@ class MainScreenState extends State<MainScreen> {
               ).then((result) {
                 checkRole();
               });
-              ;
             },
           ),
         ],

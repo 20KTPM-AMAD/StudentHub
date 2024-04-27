@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:studenthub/components/student_project/student_project_detail_card.dart';
 import 'package:studenthub/components/student_project/student_tab_all_projects.dart';
+import 'package:studenthub/components/student_project/student_tab_projects.dart';
+import 'package:studenthub/contanst/contanst.dart';
 
 const Color _green = Color(0xff296e48);
 
@@ -56,11 +57,9 @@ class AllProjectsScreenState extends State<AllProjectsScreen> {
                           200, // Giảm đi kích thước của AppBar và khoảng cách dưới cùng
                       child: TabBarView(
                         children: [
-                          StudentAllProjectsTab(),
-                          StudentAllProjectsTab(),
-                          Center(
-                            child: Text('Archived Projects Content'),
-                          ),
+                          const StudentAllProjectsTab(),
+                          StudentProjectsTab(statusFlag: StatusFlag.Hired.index.toString(), typeFlag: '0,1'),
+                          StudentProjectsTab(statusFlag: StatusFlag.Hired.index.toString(), typeFlag: '2'),
                         ],
                       ),
                     ),
