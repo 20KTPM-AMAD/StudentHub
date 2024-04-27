@@ -22,4 +22,11 @@ enum UserRole { Student, Company }
 
 enum TypeFlag { New, Working, Archieved }
 
+enum StatusFlag {
+  Waitting,
+  Active,
+  Offer,
+  Hired,
+}
+
 String studentHubUrl = 'https://api.studenthub.dev/api';

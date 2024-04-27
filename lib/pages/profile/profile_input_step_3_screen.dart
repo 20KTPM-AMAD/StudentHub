@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/components/profile/select_file.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/main_screen.dart';
-import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 
 const Color _green = Color(0xff296e48);
 

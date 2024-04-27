@@ -91,7 +91,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? Center(child: CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : _buildProjectList();
   }
 
@@ -150,7 +150,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       children: [
                         const TextSpan(
                           text: 'Students are looking for:\n',

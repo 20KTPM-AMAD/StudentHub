@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/chat/message_detail_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/models/Message.dart';

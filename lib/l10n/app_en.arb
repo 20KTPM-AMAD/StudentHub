@@ -58,8 +58,8 @@
   "hundred_thousand_employees": "100-1000 employees",
   "more_than_thousand_employees": "More than 1000 employees",
   "select_file": "Select File",
-  "active_proposal": "Active proposal {number}",
-  "submitted_proposal": "Submitted proposal {number}",
+  "active_proposal": "Active proposal ({number})",
+  "submitted_proposal": "Submitted proposal ({number})",
   "fullstack_engineer": "Fullstack Engineer",
   "frontend_developer": "Frontend Developer",
   "backend_developer": "Backend Developer",
@@ -181,5 +181,8 @@
   "minutes_ago": "Created {minute} minutes ago",
   "just_now": "Just now",
   "edit_job": "Edit job",
-  "proposal_detail": "Proposal Detail"
+  "proposal_detail": "Proposal Detail",
+  "submitted_days_ago": "Submitted {day} days ago",
+    "submitted_hours_ago": "Submitted {hour} hours ago",
+    "submitted_minutes_ago": "Submitted {minute} minutes ago"
 }

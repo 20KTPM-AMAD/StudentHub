@@ -107,7 +107,7 @@ class DetailTabState extends State<DetailTab> {
                     ),
                     RichText(
                       text: TextSpan(
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         children: [
                           const TextSpan(
                             text: 'Students are looking for:\n',

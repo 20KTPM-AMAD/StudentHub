@@ -1,10 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:studenthub/pages/student_submit_proposal/submit_proposal.dart';
-import 'package:studenthub/utils/auth_provider.dart';
-import 'package:http/http.dart' as http;
 
 var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
@@ -75,7 +70,7 @@ class ProjectDetailState extends State<ProposalDetailScreen>{
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 5,
-                            offset: Offset(0, 3), // Đẩy bóng ra ngoài
+                            offset: const Offset(0, 3), // Đẩy bóng ra ngoài
                           ),
                         ],
                       ),

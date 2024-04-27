@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:studenthub/models/Proposal.dart';
+
 const Color _green = Color(0xff296e48);
 
 class StudentProjectDetailCard extends StatefulWidget {
-  StudentProjectDetailCard(
-      {Key? key, required this.proposal})
+  const StudentProjectDetailCard({Key? key, required this.proposal})
       : super(key: key);
 
   final Proposal proposal;
@@ -16,17 +16,19 @@ class StudentProjectDetailCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<StudentProjectDetailCard> {
-
   String _getTimeElapsed(DateTime createdAt) {
     final now = DateTime.now();
     final difference = now.difference(createdAt);
 
     if (difference.inDays > 0) {
-      return AppLocalizations.of(context)!.days_ago(difference.inDays);
+      return AppLocalizations.of(context)!
+          .submitted_days_ago(difference.inDays);
     } else if (difference.inHours > 0) {
-      return AppLocalizations.of(context)!.hours_ago(difference.inHours);
+      return AppLocalizations.of(context)!
+          .submitted_hours_ago(difference.inHours);
     } else if (difference.inMinutes > 0) {
-      return AppLocalizations.of(context)!.minutes_ago(difference.inMinutes);
+      return AppLocalizations.of(context)!
+          .submitted_minutes_ago(difference.inMinutes);
     } else {
       return AppLocalizations.of(context)!.just_now;
     }
@@ -34,10 +36,10 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
 
   @override
   Widget build(BuildContext context) {
-    final Proposal? proposal = widget.proposal;
+    final Proposal proposal = widget.proposal;
 
-    if (proposal == null || proposal.project == null) {
-      return SizedBox(); // or any placeholder widget
+    if (proposal.project == null) {
+      return const SizedBox(); // or any placeholder widget
     }
 
     return Card(
@@ -51,7 +53,7 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                 Expanded(
                   child: Text(
                     proposal.project!.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: _green,
@@ -63,7 +65,7 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
               ],
             ),
             Text(
-              _getTimeElapsed(proposal!.createdAt),
+              _getTimeElapsed(proposal.createdAt),
               style: const TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.grey,
