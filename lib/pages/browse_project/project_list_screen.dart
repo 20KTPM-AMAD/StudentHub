@@ -25,24 +25,46 @@ class ProjectListState extends State<ProjectListScreen> {
   TextEditingController searchController = TextEditingController();
   TextEditingController studentsController = TextEditingController();
   TextEditingController proposalsController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   String? selectedIndex;
   List<Project> projects = [];
   bool isLoading = false;
+  bool isAddingMore = false;
+  int currentPage = 1;
+  int pageSize = 10;
 
   @override
   void initState() {
     super.initState();
+    scrollController.addListener(scrollListener);
     getAllProjects();
   }
 
+  @override
+  void dispose() {
+    scrollController.removeListener(scrollListener);
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  void scrollListener() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      loadMoreProjects();
+    }
+  }
+
   Future<void> getAllProjects() async {
+    if (isLoading || isAddingMore) return;
     setState(() {
       isLoading = true;
     });
 
     String url = 'https://api.studenthub.dev/api/project';
 
-    Map<String, String> queryParams = {};
+    Map<String, String> queryParams = {
+      'page': currentPage.toString(),
+      'perPage': pageSize.toString(),
+    };
 
     if (searchController.text.isNotEmpty) {
       queryParams['title'] = searchController.text;
@@ -80,9 +102,12 @@ class ProjectListState extends State<ProjectListScreen> {
           final jsonResponse = json.decode(response.body);
           if (jsonResponse['result'] is List) {
             setState(() {
-              projects = jsonResponse['result']
-                  .map<Project>((data) => Project.fromJson(data))
-                  .toList();
+              final List<Project> newProjects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
+              setState(() {
+                projects.addAll(newProjects);
+                currentPage++;
+                isLoading = false;
+              });
             });
           } else {
             print('Response is not a list of projects');
@@ -108,6 +133,87 @@ class ProjectListState extends State<ProjectListScreen> {
     } finally {
       setState(() {
         isLoading = false;
+      });
+    }
+  }
+
+  Future<void> loadMoreProjects() async {
+    if (isLoading || isAddingMore) return;
+    setState(() {
+      isAddingMore = true;
+    });
+
+    String url = 'https://api.studenthub.dev/api/project';
+
+    Map<String, String> queryParams = {
+      'page': currentPage.toString(),
+      'perPage': pageSize.toString(),
+    };
+
+    if (searchController.text.isNotEmpty) {
+      queryParams['title'] = searchController.text;
+    }
+
+    if (studentsController.text.isNotEmpty) {
+      queryParams['numberOfStudents'] = studentsController.text;
+    }
+
+    if (proposalsController.text.isNotEmpty) {
+      queryParams['proposalsLessThan'] = proposalsController.text;
+    }
+
+    if (selectedIndex != null) {
+      queryParams['projectScopeFlag'] = selectedIndex.toString();
+    }
+
+    if (queryParams.isNotEmpty) {
+      url += '?${Uri(queryParameters: queryParams).query}';
+    }
+
+    try {
+      final token = Provider.of<AuthProvider>(context, listen: false).token;
+      if (token != null) {
+        final response = await http.get(
+          Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          final jsonResponse = json.decode(response.body);
+          if (jsonResponse['result'] is List) {
+            await Future.delayed(const Duration(seconds: 2));
+            setState(() {
+              final List<Project> newProjects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
+              projects.addAll(newProjects);
+              currentPage++;
+              isAddingMore = false;
+            });
+          } else {
+            print('Response is not a list of projects');
+          }
+        } else {
+          print('Failed to get list project: ${response.body}');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to fetch projects'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
+    } catch (error) {
+      print('Failed to get list project: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      setState(() {
+        isAddingMore = false;
       });
     }
   }
@@ -174,6 +280,7 @@ class ProjectListState extends State<ProjectListScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: scrollController,
       child: Center(
         child: Column(
           children: <Widget>[
@@ -264,119 +371,143 @@ class ProjectListState extends State<ProjectListScreen> {
         physics: const ScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) =>
             const SizedBox(height: 10),
-        itemCount: projects.length,
+        itemCount: projects.length + 1,
         itemBuilder: (context, index) {
-          final project = projects[index];
-          return Card(
-            margin: const EdgeInsets.all(5.0),
-            child: ListTile(
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
-                      const SizedBox(width: 20,),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              project.title,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: _green,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              _getTimeElapsed(project.createdAt),
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              '${AppLocalizations.of(context)!.proposals}: ${project.countProposals}',
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // Handle favorite button press
-                          _onFavoriteButtonPressed(
-                                  project.id, project.isFavorite!)
-                              .then((value) {
-                            if (value) {
-                              setState(() {
-                                project.isFavorite = !project.isFavorite!;
-                              });
-                            }
-                          });
-                        },
-                        icon: Icon(
-                          project.isFavorite == true
-                              ? Icons.favorite
-                              : Icons.favorite_border_outlined,
-                          size: 30,
-                          color: project.isFavorite == true ? Colors.red : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10,),
-                  Text(
-                    '${getProjectScopeFormart(project.projectScopeFlag)}\n${AppLocalizations.of(context)!.student_needed_project(project.numberOfStudents)}',
-                    style: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  RichText(
-                    text: TextSpan(
-                      style: const TextStyle(color: Colors.black),
+          if (index == projects.length) {
+            return isAddingMore ? const Center(child: CircularProgressIndicator()) : const SizedBox();
+          }
+          else{
+            final project = projects[index];
+            return Card(
+              margin: const EdgeInsets.all(5.0),
+              child: ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        const TextSpan(
-                          text: 'Students are looking for:\n',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                        Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 60, height: 60,),
+                        const SizedBox(width: 9,),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                project.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: _green,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${AppLocalizations.of(context)!.company}: ',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: _green,
+                                    ),
+                                  ),
+                                  Text(
+                                    project.companyName!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: _green,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                _getTimeElapsed(project.createdAt),
+                                style: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        WidgetSpan(
-                          child: MarkdownBody(
-                            data: project.description,
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            // Handle favorite button press
+                            _onFavoriteButtonPressed(
+                                project.id, project.isFavorite!)
+                                .then((value) {
+                              if (value) {
+                                setState(() {
+                                  project.isFavorite = !project.isFavorite!;
+                                });
+                              }
+                            });
+                          },
+                          icon: Icon(
+                            project.isFavorite == true
+                                ? Icons.favorite
+                                : Icons.favorite_border_outlined,
+                            size: 30,
+                            color: project.isFavorite == true ? Colors.red : null,
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 10,),
+                    Text(
+                      '${AppLocalizations.of(context)!.proposals}: ${project.countProposals}',
+                      style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text(
+                      '${getProjectScopeFormart(project.projectScopeFlag)}\n${AppLocalizations.of(context)!.student_needed_project(project.numberOfStudents)}',
+                      style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(color: Colors.black),
+                        children: [
+                          const TextSpan(
+                            text: 'Students are looking for:\n',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          WidgetSpan(
+                            child: MarkdownBody(
+                              data: project.description,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProjectDetailScreen(
+                          name: project.title,
+                          description: project.description,
+                          projectScope: project.projectScopeFlag,
+                          numberOfStudents: project.numberOfStudents
+                      ),
+                    ),
+                  );
+                },
               ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProjectDetailScreen(
-                        name: project.title,
-                        description: project.description,
-                        projectScope: project.projectScopeFlag,
-                        numberOfStudents: project.numberOfStudents
-                    ), 
-                  ),
-                );
-              },
-            ),
-          );
+            );
+          }
         },
       ),
     );

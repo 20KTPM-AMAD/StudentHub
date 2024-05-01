@@ -9,6 +9,7 @@ class Project {
   int companyId;
   String title;
   String description;
+  String? companyName;
   int? typeFlag;
   int projectScopeFlag;
   int numberOfStudents;
@@ -29,6 +30,7 @@ class Project {
       this.companyId,
       this.title,
       this.description,
+      this.companyName,
       this.typeFlag,
       this.projectScopeFlag,
       this.numberOfStudents,
@@ -46,6 +48,7 @@ class Project {
       int.parse(json['companyId']), // Parsing companyId as integer
       json['title'],
       json['description'],
+      json['companyName'] ?? '',
       json['typeFlag'] ?? 0, // Check if typeFlag is null, if so, assign 0
       json['projectScopeFlag'],
       json['numberOfStudents'],
