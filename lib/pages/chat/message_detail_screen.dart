@@ -5,7 +5,7 @@ import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/models/Project.dart';
-import 'package:studenthub/models/ScheduleInterview.dart';
+import 'package:studenthub/models/Interview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
@@ -74,7 +74,6 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
             'Authorization': 'Bearer $token',
           },
         );
-
         print('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}');
 
         print(response.statusCode);
@@ -234,26 +233,29 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                   Column(
                                     crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(20),
-                                          color: isMyMessage ? _green : Colors.white,
+                                      if (message.content != 'Interview created')
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(20),
+                                            color: isMyMessage ? _green : Colors.white,
+                                          ),
+                                          child: Padding(
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: Column(
+                                                children: [
+                                                  Text(message.content!, style: TextStyle(color: isMyMessage ? Colors.white : Colors.black,),),
+                                                ],
+                                              )
+                                          ),
                                         ),
-                                        child: Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Column(
-                                              children: [
-                                                Text(message.content, style: TextStyle(color: isMyMessage ? Colors.white : Colors.black,),),
-                                              ],
-                                            )
-                                        ),
-                                      ),
-                                      Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
+                                        Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
+                            if (message.interview != null)
+                              ScheduleInterviewMessageCard(message: message)
                           ],
                         ),
                       ),

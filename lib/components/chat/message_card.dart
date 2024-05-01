@@ -81,92 +81,94 @@ class _MessageCardState extends State<MessageCard> {
     return RefreshIndicator(
       onRefresh: getAllMessages,
       child: ListView.separated(
-          shrinkWrap: true,
-          physics: const ScrollPhysics(),
-          itemCount: messages.length,
-          separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-          itemBuilder: (context, index){
-            if (messages.isEmpty) {
-              return const Center(
-                child: Text('There are currently no messages'),
-              );
-            }
-            final message = messages[index];
-            final senderFullName = message.sender.fullname;
-            final receiverFullName = message.receiver.fullname;
-            final isMeSender = message.sender.id == userId;
-            final displayName = isMeSender ? receiverFullName : senderFullName;
-            final personId = isMeSender ? message.receiver.id : message.sender.id;
-            return Card(
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projetcID: message.project!.id)),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: Image.asset('assets/images/user.jpg').image,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    displayName,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontFamily: 'Quicksand',
-                                      fontSize: 17,
-                                    ),
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
+        itemCount: messages.length,
+        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+        itemBuilder: (context, index){
+          if (messages.isEmpty) {
+            return const Center(
+              child: Text('There are currently no messages'),
+            );
+          }
+          final message = messages[index];
+          final senderFullName = message.sender.fullname;
+          final receiverFullName = message.receiver.fullname;
+          final isMeSender = message.sender.id == userId;
+          final displayName = isMeSender ? receiverFullName : senderFullName;
+          final personId = isMeSender ? message.receiver.id : message.sender.id;
+          return Card(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projetcID: message.project?.id ?? 0)),
+                ).then((value) => setState(() {
+                  getAllMessages();
+                }));
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: Image.asset('assets/images/user.jpg').image,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  displayName,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: const TextStyle(
+                                    fontFamily: 'Quicksand',
+                                    fontSize: 17,
                                   ),
                                 ),
-                                Text(
-                                  message.formattedCreatedAt(),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              message.project!.title,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              message.content,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
+                              ),
+                              Text(
+                                message.formattedCreatedAt(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            message.project?.title ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            message.content ?? '',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-            );
-          },
+            ),
+          );
+        },
       ),
     );
   }

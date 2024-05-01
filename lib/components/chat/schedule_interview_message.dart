@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/models/Message.dart';
@@ -8,7 +9,7 @@ const Color _green = Color(0xFF12B28C);
 
 class ScheduleInterviewMessageCard extends StatelessWidget {
   final Message message;
-  ScheduleInterviewMessageCard({Key? key, required this.message}) : super(key: key);
+  const ScheduleInterviewMessageCard({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,41 +28,71 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.schedule_interview('Alex Xu'),
+                  AppLocalizations.of(context)!.schedule_interview(message.sender.fullname),
                   style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-            // Row(
-            //   children: [
-            //     Text(
-            //       message.interview!.title,
-            //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            //     ),
-            //     const Spacer(),
-            //     Text(
-            //       '${message.interview!.endTime.difference(message.interview!.startTime).inMinutes} minutes',
-            //       style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
-            //     ),
-            //   ],
-            // ),
             const SizedBox(height: 10),
-            // Row(
-            //   children: [
-            //     Text(
-            //       DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.startTime),
-            //       style: const TextStyle(fontStyle: FontStyle.italic),
-            //     ),
-            //     const SizedBox(width: 10),
-            //     const Text('-'),
-            //     const SizedBox(width: 10),
-            //     Text(
-            //       DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.endTime),
-            //       style: const TextStyle(fontStyle: FontStyle.italic),
-            //     ),
-            //   ],
-            // ),
+            Row(
+              children: [
+                Text(
+                  message.interview!.title,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const Spacer(),
+                Text(
+                  '${message.interview!.endTime.difference(message.interview!.startTime).inMinutes} minutes',
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                Text(
+                  DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.startTime),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+                const SizedBox(width: 10),
+                const Text('-'),
+                const SizedBox(width: 10),
+                Text(
+                  DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.endTime),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      'Meeting room code: ',
+                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      message.interview!.meetingRoom!.meetingRoomCode,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'Meeting room id: ',
+                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      message.interview!.meetingRoom!.meetingRoomId,
+                      style: const TextStyle(fontStyle: FontStyle.italic),
+                    )
+                  ],
+                ),
+              ],
+            ),
             Row(
               children: [
                 const Spacer(),
@@ -99,7 +130,6 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                             ],
                           ),
                           onTap: () {
-                            // Xử lý khi chọn Edit
                           },
                         ),
                         PopupMenuItem(
@@ -110,13 +140,11 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                               Text(AppLocalizations.of(context)!.cancel_meeting),
                             ],
                           ),
-                          onTap: () {
-                            // Xử lý khi chọn Delete
-                          },
+                          onTap: () {},
                         ),
                       ],
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Đặt bán kính bo góc ở đây
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     );
                   },
