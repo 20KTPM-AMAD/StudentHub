@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:studenthub/models/Interview.dart';
 import 'package:studenthub/models/Project.dart';
 
 class Message {
@@ -8,6 +9,7 @@ class Message {
   final Postman sender;
   final Postman receiver;
   final Project? project;
+  final Interview? interview;
 
   Message({
     required this.id,
@@ -16,18 +18,23 @@ class Message {
     required this.sender,
     required this.receiver,
     this.project,
+    this.interview,
   });
 
   String formattedCreatedAt() {
     final vietnamTime = createdAt.add(const Duration(hours: 7));
     final formatter = DateFormat('HH:mm, dd/MM/yyyy');
-    return formatter.format(vietnamTime);
+    final formattedTime = formatter.format(vietnamTime);
+    return formattedTime;
   }
 
   factory Message.fromJson(Map<String, dynamic>? json) {
     if (json == null) {
       throw Exception('Invalid JSON format');
     }
+
+    final interviewJson = json['interview'];
+    final interview = interviewJson != null ? Interview.fromJson(interviewJson) : null;
 
     return Message(
       id: json['id'] ?? 0,
@@ -36,9 +43,9 @@ class Message {
       sender: Postman.fromJson(json['sender'] ?? {}),
       receiver: Postman.fromJson(json['receiver'] ?? {}),
       project: json['project'] != null ? Project.fromJson(json['project']) : null,
+      interview: interview,
     );
   }
-
 }
 
 class Postman {
