@@ -159,7 +159,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: _green,
-                              foregroundColor: Colors.black),
+                              foregroundColor: Colors.white),
                           child: Text(AppLocalizations.of(context)!.continue_,
                               style: const TextStyle(fontSize: 18)),
                         ),

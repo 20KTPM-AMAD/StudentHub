@@ -80,13 +80,11 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
               _getTimeElapsed(proposal.createdAt),
               style: const TextStyle(
                 fontStyle: FontStyle.italic,
-                color: Colors.grey,
               ),
             ),
             const SizedBox(height: 10),
             RichText(
               text: TextSpan(
-                style: const TextStyle(color: Colors.black),
                 children: [
                   const TextSpan(
                     text: 'Students are looking for:\n',

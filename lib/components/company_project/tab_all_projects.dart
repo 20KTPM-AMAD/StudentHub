@@ -96,6 +96,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
   }
 
   Widget _buildProjectList() {
+    final theme = Theme.of(context);
     return RefreshIndicator(
       onRefresh: _getProjects,
       child: ListView.separated(
@@ -113,7 +114,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
+                      Image.asset('assets/images/project.png', color: Colors.grey, fit: BoxFit.cover, width: 80, height: 80,),
                       const SizedBox(width: 20,),
                       Expanded(
                         child: Column(
@@ -132,7 +133,6 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                               _getTimeElapsed(project.createdAt),
                               style: const TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.grey,
                               ),
                             ),
                           ],
@@ -150,12 +150,12 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                      style: const TextStyle(color: Colors.black),
                       children: [
                         const TextSpan(
                           text: 'Students are looking for:\n',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            color: Colors.grey
                           ),
                         ),
                         WidgetSpan(

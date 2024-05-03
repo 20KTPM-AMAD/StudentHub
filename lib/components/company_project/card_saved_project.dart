@@ -46,7 +46,6 @@ class SavedProjectCardState extends State<SavedProjectCard> {
                     const SizedBox(width: 10,),
                     IconButton(
                       onPressed: () {
-
                       },
                       icon: const Icon(Icons.favorite_sharp, size: 30, color: Colors.red,),
                     ),
@@ -57,20 +56,17 @@ class SavedProjectCardState extends State<SavedProjectCard> {
                   AppLocalizations.of(context)!.time_created_project('3'),
                   style: const TextStyle(
                     fontStyle: FontStyle.italic,
-                    color: Colors.grey,
                   ),
                 ),
                 Text(
                   AppLocalizations.of(context)!.time_needed_project('1-3') + AppLocalizations.of(context)!.student_needed_project('6'),
                   style: const TextStyle(
                     fontStyle: FontStyle.italic,
-                    color: Colors.grey,
                   ),
                 ),
                 const SizedBox(height: 10),
                 RichText(
                   text: const TextSpan(
-                    style: TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Students are looking for:\n',
@@ -92,7 +88,6 @@ class SavedProjectCardState extends State<SavedProjectCard> {
                   '${AppLocalizations.of(context)!.proposals}: Less than 5',
                   style: const TextStyle(
                     fontStyle: FontStyle.italic,
-                    color: Colors.grey,
                   ),
                 ),
               ],

@@ -99,14 +99,14 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _green,
-                      foregroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                     ),
                     child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 18)),
                   ),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: _green, foregroundColor: Colors.black),
+                        backgroundColor: _green, foregroundColor: Colors.white),
                     child: Text(AppLocalizations.of(context)!.submit_proposal,
                         style: const TextStyle(fontSize: 18)),
                   ),

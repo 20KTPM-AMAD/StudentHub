@@ -26,8 +26,8 @@ class _InfoCardState extends State<InfoCard> {
               Expanded(
                 child: Text(
                   widget.title,
-                  overflow: TextOverflow.ellipsis, // Hiển thị "..." nếu title quá dài
-                  maxLines: 1, // Giới hạn số dòng hiển thị
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -61,7 +61,6 @@ class _InfoCardState extends State<InfoCard> {
           ),
           Text(
             widget.detail,
-            style: const TextStyle(color: Colors.grey),
           ),
         ],
       ),

@@ -266,7 +266,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 }
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/password_icon.png',
+              _buildButton('assets/images/padlock.png',
                   AppLocalizations.of(context)!.change_password, () {
                 Navigator.push(
                   context,
@@ -276,7 +276,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 );
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/settings.jpg',
+              _buildButton('assets/images/setting.png',
                   AppLocalizations.of(context)!.settings, () {
                 Navigator.push(
                   context,
@@ -298,15 +298,15 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   }
 
   Widget _buildButton(String imagePath, String label, VoidCallback onPressed) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         width: 300,
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        margin: const EdgeInsets.symmetric(
-            vertical: 10), // Add margin for spacing between buttons
+        margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: Colors.white, // Set background color to white
+          color: Colors.white70, // Set background color to white
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(

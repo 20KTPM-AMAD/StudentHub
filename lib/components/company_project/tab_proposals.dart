@@ -138,7 +138,6 @@ class ProposalsTabState extends State<ProposalsTab> {
                               getTimeElapsed(proposal.createdAt),
                               style: const TextStyle(
                                 fontStyle: FontStyle.italic,
-                                color: Colors.grey,
                               ),
                             ),
                           ],
@@ -164,7 +163,6 @@ class ProposalsTabState extends State<ProposalsTab> {
                     proposal.coverLetter,
                     style: const TextStyle(
                       fontSize: 16,
-                      color: Colors.black,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -185,10 +183,10 @@ class ProposalsTabState extends State<ProposalsTab> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
-                          foregroundColor: Colors.black,
+                          foregroundColor: Colors.white,
                           fixedSize: const Size(130, 40),
                         ),
-                        child: Text(AppLocalizations.of(context)!.message, style: const TextStyle(fontSize: 18, color: Colors.white70)),
+                        child: Text(AppLocalizations.of(context)!.message, style: const TextStyle(fontSize: 18,)),
                       ),
                       ElevatedButton(
                         onPressed:() {
@@ -196,14 +194,14 @@ class ProposalsTabState extends State<ProposalsTab> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
-                          foregroundColor: Colors.black,
+                          foregroundColor: Colors.white,
                           fixedSize: const Size(130, 40),
                         ),
                         child: Text(
                           proposal.statusFlag == 0
                               ? AppLocalizations.of(context)!.send_hired_offer
                               : 'Sent hired offer',
-                          style: const TextStyle(fontSize: 18, color: Colors.white70),
+                          style: const TextStyle(fontSize: 18,),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

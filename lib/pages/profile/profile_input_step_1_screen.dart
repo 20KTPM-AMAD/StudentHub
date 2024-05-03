@@ -101,7 +101,7 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
             ),
             const Text(
               'English: Native or Bilingual',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
             Row(
@@ -147,7 +147,7 @@ class _ProfileInputStep1ScreenState extends State<ProfileInputStep1Screen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: _green, foregroundColor: Colors.black),
+                      backgroundColor: _green, foregroundColor: Colors.white),
                   child: Text(AppLocalizations.of(context)!.next, style: const TextStyle(fontSize: 18)),
                 ),
               ),

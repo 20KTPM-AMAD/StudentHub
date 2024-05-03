@@ -215,8 +215,8 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                     TextSpan(children: [
                       TextSpan(
                         text: AppLocalizations.of(context)!.looking_for_a_project,
-                        style: TextStyle(
-                          color: blackColor, fontSize: 16
+                        style: const TextStyle(
+                          fontSize: 16
                         ),
                       ),
                       TextSpan(

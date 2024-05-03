@@ -42,7 +42,6 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
                         '6/6/2024',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          color: Colors.grey,
                         ),
                       ),
                       SizedBox(
@@ -51,7 +50,7 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
                           onPressed: (){},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: _green,
-                              foregroundColor: Colors.black
+                              foregroundColor: Colors.white
                           ),
                           child: Text(
                               AppLocalizations.of(context)!.view_offer,

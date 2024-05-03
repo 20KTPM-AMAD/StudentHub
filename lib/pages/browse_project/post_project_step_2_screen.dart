@@ -243,7 +243,7 @@ class PostProjectStep2State extends State<PostProjectStep2Screen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _green,
-                      foregroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                     ),
                     child: Text(AppLocalizations.of(context)!.next_description,
                         style: const TextStyle(fontSize: 18)),

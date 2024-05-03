@@ -100,7 +100,7 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: _green, foregroundColor: Colors.black),
+                      backgroundColor: _green, foregroundColor: Colors.white),
                   child: Text(AppLocalizations.of(context)!.continue_,
                       style: const TextStyle(fontSize: 18)),
                 ),

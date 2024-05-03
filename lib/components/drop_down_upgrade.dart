@@ -26,7 +26,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
       margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white70,
         borderRadius: BorderRadius.circular(15.0),
         boxShadow: [
           BoxShadow(
@@ -64,7 +64,7 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const SizedBox(width: 10,),
-                    Icon(value['icon'], size: 50.0),
+                    Icon(value['icon'], size: 50.0, color: Colors.black,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

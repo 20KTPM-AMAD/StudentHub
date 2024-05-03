@@ -106,7 +106,7 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
               ),
             ),
             const SizedBox(height: 10,),
-            const Divider(color: Colors.grey, thickness: 1,),
+            const Divider(),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Column(
@@ -362,7 +362,7 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      foregroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                     ),
                     child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 14)),
                   ),
@@ -371,7 +371,7 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
-                        foregroundColor: Colors.black
+                        foregroundColor: Colors.white
                     ),
                     child: Text(AppLocalizations.of(context)!.send_invite, style: const TextStyle(fontSize: 14)),
                   ),

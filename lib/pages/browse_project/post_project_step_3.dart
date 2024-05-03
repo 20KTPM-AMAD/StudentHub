@@ -157,7 +157,7 @@ class PostProjectStep3State extends State<PostProjectStep3Screen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _green,
-                      foregroundColor: Colors.black,
+                      foregroundColor: Colors.white,
                     ),
                     child: Text(AppLocalizations.of(context)!.review_your_post,
                         style: const TextStyle(fontSize: 18)),

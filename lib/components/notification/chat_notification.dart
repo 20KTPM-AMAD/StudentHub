@@ -44,7 +44,6 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
                         '6/6/2024',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          color: Colors.grey,
                         ),
                       ),
                     ],

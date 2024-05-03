@@ -78,10 +78,7 @@ class AllProjectsPopupMenu {
                       ),
                       onTap: () {},
                     ),
-                    const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
+                    const Divider(),
                     ListTile(
                       title: Text(
                         AppLocalizations.of(context)!.view_job_posting,
@@ -125,10 +122,7 @@ class AllProjectsPopupMenu {
                         _confirmRemovePosting(context, token!, project.id);
                       },
                     ),
-                    const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
+                    const Divider(),
                     ListTile(
                       title: Text(
                         AppLocalizations.of(context)!.start_working_this_job,

@@ -36,13 +36,12 @@ class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
                       Text(
                         AppLocalizations.of(context)!.submitted_notification('Javis - AI Copilot'),
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 2, // Số dòng tối đa
+                        maxLines: 2
                       ),
                       const Text(
                         '6/6/2024',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          color: Colors.grey,
                         ),
                       ),
                     ],
