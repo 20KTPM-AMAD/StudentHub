@@ -46,12 +46,10 @@ class CustomTextfieldState extends State<CustomTextfield> {
         TextFormField(
           controller: widget.controller,
           obscureText: widget.obscureText && _obscureText,
-          style: const TextStyle(color: Colors.black54),
           decoration: InputDecoration(
             border: InputBorder.none,
             prefixIcon: Icon(
               widget.icon,
-              color: Colors.black54.withOpacity(.3),
             ),
             hintText: widget.hintText,
             suffixIcon: widget.obscureText

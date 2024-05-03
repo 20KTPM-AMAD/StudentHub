@@ -254,20 +254,17 @@ class SavedProjectsState extends State<SavedProjectsScreen> {
                     _getTimeElapsed(project.createdAt),
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
-                      color: Colors.grey,
                     ),
                   ),
                   Text(
                     '${AppLocalizations.of(context)!.time_needed_project(project.projectScopeFlag)}, ${AppLocalizations.of(context)!.student_needed_project(project.numberOfStudents)}',
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
-                      color: Colors.grey,
                     ),
                   ),
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                      style: TextStyle(color: Colors.black),
                       children: [
                         const TextSpan(
                           text: 'Students are looking for:\n',
@@ -288,7 +285,6 @@ class SavedProjectsState extends State<SavedProjectsScreen> {
                     '${AppLocalizations.of(context)!.proposals}: ${project.countProposals}',
                     style: const TextStyle(
                       fontStyle: FontStyle.italic,
-                      color: Colors.grey,
                     ),
                   ),
                 ],

@@ -79,10 +79,7 @@ class ProjectPopupFilter {
                         ),
                       ),
                     ),
-                    const Divider(
-                      color: Colors.grey,
-                      thickness: 1,
-                    ),
+                    const Divider(),
                     Padding(
                       padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
                       child: Text(
@@ -123,7 +120,7 @@ class ProjectPopupFilter {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.grey,
-                              foregroundColor: Colors.black,
+                              foregroundColor: Colors.white,
                             ),
                             child: Text(AppLocalizations.of(context)!.clear_filters, style: const TextStyle(fontSize: 18)),
                           ),
@@ -144,7 +141,7 @@ class ProjectPopupFilter {
                             },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: _green,
-                                foregroundColor: Colors.black
+                                foregroundColor: Colors.white
                             ),
                             child: Text(AppLocalizations.of(context)!.apply, style: const TextStyle(fontSize: 18)),
                           ),

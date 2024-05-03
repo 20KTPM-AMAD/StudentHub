@@ -74,7 +74,6 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                     const Divider(),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(color: Colors.black),
                         children: [
                           const TextSpan(
                             text: 'Students are looking for:\n',
@@ -164,7 +163,7 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
-                        foregroundColor: Colors.black,
+                        foregroundColor: Colors.white,
                       ),
                       child: const Text('Apply Now', style: TextStyle(fontSize: 16)),
                     ),
@@ -172,7 +171,7 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                       onPressed: (){},
                       style: ElevatedButton.styleFrom(
                           backgroundColor: _green,
-                          foregroundColor: Colors.black
+                          foregroundColor: Colors.white
                       ),
                       child: const Text('Saved', style: TextStyle(fontSize: 16)),
                     ),

@@ -223,8 +223,8 @@ class LoginScreenState extends State<LoginScreen> {
                     TextSpan(children: [
                       TextSpan(
                         text: AppLocalizations.of(context)!.login_four,
-                        style: TextStyle(
-                            color: blackColor, fontSize: 16
+                        style: const TextStyle(
+                            fontSize: 16
                         ),
                       ),
                       TextSpan(

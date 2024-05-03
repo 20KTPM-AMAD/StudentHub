@@ -170,8 +170,8 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     TextSpan(children: [
                       TextSpan(
                         text: AppLocalizations.of(context)!.have_an_account,
-                        style: TextStyle(
-                          color: blackColor,fontSize: 16
+                        style: const TextStyle(
+                          fontSize: 16
                         ),
                       ),
                       TextSpan(

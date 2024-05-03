@@ -54,7 +54,7 @@ class DashboardState extends State<DashboardScreen>{
                           },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: _green,
-                              foregroundColor: Colors.black
+                              foregroundColor: Colors.white
                           ),
                           child: Text(AppLocalizations.of(context)!.post_a_project, style: const TextStyle(fontSize: 18)),
                         ),

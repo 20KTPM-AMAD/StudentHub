@@ -113,7 +113,6 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                       const Divider(),
                       RichText(
                         text: TextSpan(
-                          style: const TextStyle(color: Colors.black),
                           children: [
                             const TextSpan(
                               text: 'Students are looking for:\n',

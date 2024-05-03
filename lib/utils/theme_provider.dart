@@ -13,7 +13,10 @@ class ThemeProvider extends ChangeNotifier {
       buttonTheme: const ButtonThemeData(buttonColor: Color(0xFF12B28C)),
     );
 
-    _darkTheme = ThemeData.dark();
+    _darkTheme = ThemeData(
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: Colors.grey.shade800,
+    );
     _currentTheme = _lightTheme;
   }
 

@@ -54,7 +54,6 @@ class MessageListScreenState extends State<MessageListScreen> {
                               borderRadius: BorderRadius.circular(25.0),
                             ),
                             filled: true,
-                            fillColor: Colors.grey[200],
                           ),
                           itemSubmitted: (String item) {
                             // Xử lý khi người dùng chọn gợi ý

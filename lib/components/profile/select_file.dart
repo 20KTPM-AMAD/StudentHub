@@ -35,7 +35,6 @@ class SelectFileButton extends StatelessWidget {
             children: [
               const Icon(
                 Icons.folder_open_rounded,
-                color: Colors.black,
                 size: 32,
               ),
               const SizedBox(width: 16),
@@ -44,7 +43,7 @@ class SelectFileButton extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge
-                    ?.copyWith(color: Colors.black),
+                    ?.copyWith(),
               )
             ],
           ),

@@ -285,7 +285,7 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
-                        foregroundColor: Colors.black,
+                        foregroundColor: Colors.white,
                       ),
                       child: Text(AppLocalizations.of(context)!.edit_job,
                           style: const TextStyle(fontSize: 18)),
@@ -297,7 +297,7 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
-                        foregroundColor: Colors.black,
+                        foregroundColor: Colors.white,
                       ),
                       child: Text(AppLocalizations.of(context)!.post_job,
                           style: const TextStyle(fontSize: 18)),

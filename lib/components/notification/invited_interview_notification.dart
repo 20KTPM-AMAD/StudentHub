@@ -42,7 +42,6 @@ class InvitedInterviewNotificationCardState extends State<InvitedInterviewNotifi
                         '6/6/2024',
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
-                          color: Colors.grey,
                         ),
                       ),
                       SizedBox(
@@ -51,7 +50,7 @@ class InvitedInterviewNotificationCardState extends State<InvitedInterviewNotifi
                           onPressed: (){},
                           style: ElevatedButton.styleFrom(
                               backgroundColor: _green,
-                              foregroundColor: Colors.black
+                              foregroundColor: Colors.white
                           ),
                           child: const Text(
                               'Join',

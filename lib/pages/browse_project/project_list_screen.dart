@@ -302,14 +302,12 @@ class ProjectListState extends State<ProjectListScreen> {
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 15.0),
                             hintText: AppLocalizations.of(context)!.search,
-                            prefixIcon: Icon(Icons.search,
-                                color: blackColor.withOpacity(.6)),
+                            prefixIcon: const Icon(Icons.search,),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: _green.withOpacity(.1),
                           ),
                           onSubmitted: (value) {
                             print('searchText: $value');
@@ -364,6 +362,7 @@ class ProjectListState extends State<ProjectListScreen> {
   }
 
   Widget _buildProjectList() {
+    final theme = Theme.of(context);
     return RefreshIndicator(
       onRefresh: getAllProjects,
       child: ListView.separated(
@@ -386,7 +385,7 @@ class ProjectListState extends State<ProjectListScreen> {
                   children: [
                     Row(
                       children: [
-                        Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 60, height: 60,),
+                        Image.asset('assets/images/project.png', color: Colors.grey, fit: BoxFit.cover, width: 60, height: 60,),
                         const SizedBox(width: 9,),
                         Expanded(
                           child: Column(
@@ -424,7 +423,6 @@ class ProjectListState extends State<ProjectListScreen> {
                                 _getTimeElapsed(project.createdAt),
                                 style: const TextStyle(
                                   fontStyle: FontStyle.italic,
-                                  color: Colors.grey,
                                 ),
                               ),
                             ],
@@ -461,25 +459,23 @@ class ProjectListState extends State<ProjectListScreen> {
                       '${AppLocalizations.of(context)!.proposals}: ${project.countProposals}',
                       style: const TextStyle(
                         fontStyle: FontStyle.italic,
-                        color: Colors.grey,
                       ),
                     ),
                     Text(
                       '${getProjectScopeFormart(project.projectScopeFlag)}\n${AppLocalizations.of(context)!.student_needed_project(project.numberOfStudents)}',
                       style: const TextStyle(
                         fontStyle: FontStyle.italic,
-                        color: Colors.grey,
                       ),
                     ),
                     const SizedBox(height: 10),
                     RichText(
                       text: TextSpan(
-                        style: const TextStyle(color: Colors.black),
                         children: [
                           const TextSpan(
                             text: 'Students are looking for:\n',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
+                              color: Colors.grey
                             ),
                           ),
                           WidgetSpan(

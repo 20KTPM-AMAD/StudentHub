@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:provider/provider.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
@@ -57,7 +56,7 @@ class SendHireOfferDialog {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
-                foregroundColor: Colors.black,
+                foregroundColor: Colors.white,
                 fixedSize: const Size(130, 40),
               ),
               child: Text(
@@ -74,7 +73,7 @@ class SendHireOfferDialog {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF12B28C),
-                foregroundColor: Colors.black,
+                foregroundColor: Colors.white,
                 fixedSize: const Size(130, 40),
               ),
               child: Text(
