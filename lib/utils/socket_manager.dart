@@ -69,7 +69,10 @@ class SocketManager {
     }
   }
 
-  static void updateInterview(int interviewId, int projectId, int senderId, int receiverId, String title, String startTime, String endTime, bool updateAction, bool deleteAction) {
+  static void updateInterview(int interviewId, int projectId, int senderId, int receiverId, String title, DateTime startDate, DateTime endDate, TimeOfDay startTime, TimeOfDay endTime, bool updateAction) {
+    DateTime startDateTime = DateTime(startDate.year, startDate.month, startDate.day, startTime.hour, startTime.minute);
+    DateTime endDateTime = DateTime(endDate.year, endDate.month, endDate.day, endTime.hour, endTime.minute);
+
     if (socket.connected) {
       socket.emit('UPDATE_INTERVIEW', {
         'interviewId': interviewId,
@@ -77,8 +80,23 @@ class SocketManager {
         'receiverId': receiverId,
         'projectId': projectId,
         'title': title,
-        'startTime': startTime,
-        'updateAction': updateAction,
+        'startTime': startDateTime.toIso8601String(),
+        'endTime': endDateTime.toIso8601String(),
+        'updateAction': updateAction
+      });
+    } else {
+      print('Socket is not connected');
+    }
+  }
+
+  static void cancelInterview(int interviewId, int projectId, int senderId, int receiverId, bool deleteAction) {
+
+    if (socket.connected) {
+      socket.emit('UPDATE_INTERVIEW', {
+        'interviewId': interviewId,
+        'senderId': senderId,
+        'receiverId': receiverId,
+        'projectId': projectId,
         'deleteAction': deleteAction,
       });
     } else {

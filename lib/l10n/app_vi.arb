@@ -183,6 +183,17 @@
   "edit_job": "Chỉnh sửa bài đăng",
   "proposal_detail": "Chi tiết đề xuất",
   "submitted_days_ago": "Đã gửi {day} ngày trước",
-    "submitted_hours_ago": "Đã gửi {hour} giờ trước",
-    "submitted_minutes_ago": "Đã gửi {minute} phút trước"
+  "submitted_hours_ago": "Đã gửi {hour} giờ trước",
+  "submitted_minutes_ago": "Đã gửi {minute} phút trước",
+  "enter_title": "Nhập tiêu đề...",
+  "content": "Nội dung",
+  "enter_content": "Nhập nội dung...",
+  "meeting_room_id": "ID phòng họp: ",
+  "enter_meeting_room_id": "Nhập ID phòng họp",
+  "meeting_room_code": "Mã phòng họp: ",
+  "enter_meeting_room_code": "Nhập mã phòng họp",
+  "type_your_message_here": "Nhập tin nhắn của bạn ở đây...",
+  "create_interview_success": "Tạo cuộc phỏng vấn thành công",
+  "update_interview": "Đổi lịch hẹn phỏng vấn",
+  "update_interview_success": "Cập nhật cuộc phòng vấn thành công"
 }

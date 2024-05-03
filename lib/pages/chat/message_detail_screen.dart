@@ -178,7 +178,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                       ],
                     ),
                     onTap: () {
-                      // Xử lý khi chọn Schedule an interview
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return TimeChoosePopupFilter(personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList);
+                        },
+                      );
                     },
                   ),
                   PopupMenuItem(
@@ -190,12 +195,11 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                       ],
                     ),
                     onTap: () {
-                      // Xử lý khi chọn Cancel
                     },
                   ),
                 ],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Đặt bán kính bo góc ở đây
+                  borderRadius: BorderRadius.circular(10),
                 ),
               );
             },
@@ -234,7 +238,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                   Column(
                                     crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                                     children: [
-                                      if (message.content != 'Interview created')
+                                      if (message.content != 'Interview created' && message.interview!.disableFlag == 0)
                                         Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(20),
@@ -249,14 +253,15 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                               )
                                           ),
                                         ),
+                                      if (message.content != 'Interview created' && message.interview!.disableFlag == 0)
                                         Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            if (message.interview != null)
-                              ScheduleInterviewMessageCard(message: message)
+                            if (message.interview != null && message.interview!.disableFlag == 0)
+                              ScheduleInterviewMessageCard(message: message, personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList,)
                           ],
                         ),
                       ),

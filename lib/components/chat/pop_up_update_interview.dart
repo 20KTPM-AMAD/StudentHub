@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:studenthub/models/Interview.dart';
 import 'package:studenthub/utils/socket_manager.dart';
 
 const Color _green = Color(0xff296e48);
 
-class TimeChoosePopupFilter extends StatefulWidget {
+class UpdateInterviewPopUp extends StatefulWidget {
+  final Interview interview;
+  final int projectID;
   final int personID;
-  final int projetcID;
   final int meID;
   final Function refreshMessageList;
-  const TimeChoosePopupFilter({Key? key, required this.personID, required this.projetcID, required this.meID, required this.refreshMessageList})
+  const UpdateInterviewPopUp({Key? key, required this.interview, required this.projectID, required this.personID, required this.meID, required this.refreshMessageList})
       : super(key: key);
 
   @override
-  TimeChoosePopupFilterState createState() => TimeChoosePopupFilterState();
+  UpdateInterviewPopUpState createState() => UpdateInterviewPopUpState();
 }
 
-class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
+class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
   TimeOfDay? selectedStartTime;
@@ -25,37 +27,38 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   String? startTimeFormat;
   String? endTimeFormat;
   String? duration;
+  bool updateInterview = true;
   TextEditingController titleController = TextEditingController();
-  TextEditingController contentController = TextEditingController();
-  TextEditingController meetingCodeController = TextEditingController();
-  TextEditingController meetingIdController = TextEditingController();
-  int userId = 0;
 
   @override
   void initState() {
     super.initState();
-    SocketManager.initializeSocket(context, widget.projetcID);
+    SocketManager.initializeSocket(context, widget.projectID);
+    titleController.text = widget.interview.title;
   }
 
-  void _createInterview() {
-    if (titleController.text.isNotEmpty ||
-        meetingCodeController.text.isNotEmpty || meetingIdController.text.isNotEmpty) {
-      SocketManager.createInterview(
+  void _updateInterview() {
+    print(widget.interview.id);
+    print(widget.projectID);
+    print(widget.meID);
+    print(widget.personID);
+    print(updateInterview);
+    print(widget.interview.startTime);
+      SocketManager.updateInterview(
+        widget.interview.id,
+        widget.meID,
+        widget.personID,
+        widget.projectID,
         titleController.text,
-        contentController.text,
         selectedStartDate!,
         selectedEndDate!,
         selectedStartTime!,
         selectedEndTime!,
-        widget.projetcID,
-        widget.meID,
-        widget.personID,
-        meetingCodeController.text,
-        meetingIdController.text,
+        updateInterview
       );
-      showSuccessDialog();
-      widget.refreshMessageList();
-    }
+    showSuccessDialog();
+    widget.refreshMessageList();
+
   }
 
   void showSuccessDialog() {
@@ -63,8 +66,8 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.success),
-          content: Text(AppLocalizations.of(context)!.create_interview_success),
+          title: Text(AppLocalizations.of(context)!.success, textAlign: TextAlign.center,),
+          content: Text(AppLocalizations.of(context)!.update_interview_success, textAlign: TextAlign.center,),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -82,7 +85,6 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   @override
   void dispose() {
     titleController.dispose();
-    contentController.dispose();
     super.dispose();
   }
 
@@ -97,7 +99,7 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Text(
-                AppLocalizations.of(context)!.schedule_video_call,
+                AppLocalizations.of(context)!.update_interview,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 18,
@@ -133,28 +135,6 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
-                  Text(
-                    AppLocalizations.of(context)!.content,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 50,
-                    child: TextField(
-                      controller: contentController,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.enter_content,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: _green),
-                        ),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -210,13 +190,12 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       )
                     ],
                   ),
-                  if (startTimeFormat != null)
-                    Text(
-                      startTimeFormat!,
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic
-                      ),
+                  Text(
+                    DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.startTime),
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic
                     ),
+                  ),
                 ],
               ),
             ),
@@ -273,13 +252,12 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       )
                     ],
                   ),
-                  if (endTimeFormat != null)
-                    Text(
-                      endTimeFormat!,
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic
-                      ),
+                  Text(
+                    DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.endTime),
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic
                     ),
+                  ),
                 ],
               ),
             ),
@@ -301,57 +279,6 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
             ),
             const SizedBox(height: 5,),
             Padding(
-              padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.meeting_room_id,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 50,
-                    child: TextField(
-                      controller: meetingCodeController,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.enter_meeting_room_id,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: _green),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  Text(
-                    AppLocalizations.of(context)!.meeting_room_code,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 50,
-                    child: TextField(
-                      controller: meetingIdController,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.enter_meeting_room_code,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: _green),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -367,8 +294,8 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                     child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 14)),
                   ),
                   ElevatedButton(
-                    onPressed: (){_createInterview();
-                      },
+                    onPressed: (){_updateInterview();
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: _green,
                         foregroundColor: Colors.black
@@ -407,19 +334,18 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   }
 
   void calculateDuration() {
-    if (selectedStartDate != null && selectedStartTime != null && selectedEndDate != null && selectedEndTime != null) {
-      final startTime = DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute);
-      final endTime = DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute);
-      final difference = endTime.difference(startTime);
-      final hours = difference.inHours;
-      final minutes = difference.inMinutes.remainder(60);
-      setState(() {
-        duration = '$hours hours $minutes';
-      });
-    } else {
-      setState(() {
-        duration = '';
-      });
-    }
+    DateTime start = selectedStartDate ?? widget.interview.startTime;
+    DateTime end = selectedEndDate ?? widget.interview.endTime;
+
+    final startTime = DateTime(start.year, start.month, start.day, selectedStartTime?.hour ?? widget.interview.startTime.hour, selectedStartTime?.minute ?? widget.interview.startTime.minute);
+    final endTime = DateTime(end.year, end.month, end.day, selectedEndTime?.hour ?? widget.interview.endTime.hour, selectedEndTime?.minute ?? widget.interview.endTime.minute);
+
+    final difference = endTime.difference(startTime);
+    final hours = difference.inHours;
+    final minutes = difference.inMinutes.remainder(60);
+
+    setState(() {
+      duration = '$hours hours $minutes';
+    });
   }
 }
