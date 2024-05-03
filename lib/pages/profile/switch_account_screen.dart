@@ -225,7 +225,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 list: list, // Pass the updated list here
               ),
               const SizedBox(height: 50),
-              _buildButton('assets/images/user.jpg',
+              _buildButton('assets/images/account.png',
                   AppLocalizations.of(context)!.profile, () async {
                 if (selectedDropdownValue == 'Company') {
                   bool isCreateProfileCompany =

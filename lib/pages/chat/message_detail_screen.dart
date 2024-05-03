@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
 import 'package:studenthub/models/Message.dart';
-import 'package:studenthub/models/Project.dart';
-import 'package:studenthub/models/Interview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
@@ -53,7 +51,6 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
       }
     });
-
     getMessageList();
   }
 
@@ -126,6 +123,10 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
       });
       textController.clear();
     }
+  }
+
+  void refreshMessageList() {
+    getMessageList();
   }
 
   @override
@@ -283,7 +284,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                               borderRadius: BorderRadius.circular(50)),
                           child: IconButton(
                             onPressed: (){
-                              TimeChoosePopupFilter.show(context);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return TimeChoosePopupFilter(personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList);
+                                },
+                              );
                             },
                             icon: const Icon(Icons.calendar_today_rounded, color: Colors.white,),
                           ),
@@ -303,10 +309,10 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                   child: TextField(
                                     controller: textController,
                                     style: const TextStyle(color: Colors.white),
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Type your message here...',
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintText: AppLocalizations.of(context)!.type_your_message_here,
+                                      hintStyle: const TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -334,6 +340,3 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     );
   }
 }
-
-
-

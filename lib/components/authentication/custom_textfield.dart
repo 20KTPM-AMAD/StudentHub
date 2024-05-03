@@ -56,14 +56,14 @@ class CustomTextfieldState extends State<CustomTextfield> {
             hintText: widget.hintText,
             suffixIcon: widget.obscureText
                 ? IconButton(
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-              icon: Icon(_obscureText
-                  ? Icons.visibility
-                  : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  icon: Icon(_obscureText
+                    ? Icons.visibility
+                    : Icons.visibility_off),
             )
                 : null,
           ),

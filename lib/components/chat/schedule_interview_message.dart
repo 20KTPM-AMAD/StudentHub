@@ -43,7 +43,7 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                 const Spacer(),
                 Text(
                   '${message.interview!.endTime.difference(message.interview!.startTime).inMinutes} minutes',
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -69,9 +69,9 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Text(
-                      'Meeting room code: ',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    Text(
+                      AppLocalizations.of(context)!.meeting_room_code,
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       message.interview!.meetingRoom!.meetingRoomCode,
@@ -81,9 +81,9 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Meeting room id: ',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    Text(
+                      AppLocalizations.of(context)!.meeting_room_id,
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       message.interview!.meetingRoom!.meetingRoomId,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 List<Map<String, dynamic>> list = [
-  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Company', 'icon': Icons.person},
-  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Student', 'icon': Icons.person}
+  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Company', 'icon': Icons.account_circle_sharp},
+  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Student', 'icon': Icons.account_circle_sharp}
 ];
 
 const Color _green = Color(0xff296e48);
