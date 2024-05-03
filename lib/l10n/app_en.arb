@@ -183,6 +183,17 @@
   "edit_job": "Edit job",
   "proposal_detail": "Proposal Detail",
   "submitted_days_ago": "Submitted {day} days ago",
-    "submitted_hours_ago": "Submitted {hour} hours ago",
-    "submitted_minutes_ago": "Submitted {minute} minutes ago"
+  "submitted_hours_ago": "Submitted {hour} hours ago",
+  "submitted_minutes_ago": "Submitted {minute} minutes ago",
+  "enter_title": "Enter title...",
+  "content": "Content",
+  "enter_content": "Enter content...",
+  "meeting_room_id": "Meeting room id: ",
+  "enter_meeting_room_id": "Enter meeting room id",
+  "meeting_room_code": "Meeting room code: ",
+  "enter_meeting_room_code": "Enter meeting room code",
+  "type_your_message_here": "Type your message here...",
+  "create_interview_success": "Interview created successfully",
+  "update_interview": "Re-schedule the meeting",
+  "update_interview_success": "Interview updated successfully"
 }

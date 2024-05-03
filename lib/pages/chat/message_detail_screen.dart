@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
 import 'package:studenthub/models/Message.dart';
-import 'package:studenthub/models/Project.dart';
-import 'package:studenthub/models/Interview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
@@ -53,7 +51,6 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
       }
     });
-
     getMessageList();
   }
 
@@ -128,6 +125,10 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     }
   }
 
+  void refreshMessageList() {
+    getMessageList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final iconKey = GlobalKey();
@@ -177,7 +178,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                       ],
                     ),
                     onTap: () {
-                      // Xử lý khi chọn Schedule an interview
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return TimeChoosePopupFilter(personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList);
+                        },
+                      );
                     },
                   ),
                   PopupMenuItem(
@@ -189,12 +195,11 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                       ],
                     ),
                     onTap: () {
-                      // Xử lý khi chọn Cancel
                     },
                   ),
                 ],
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10), // Đặt bán kính bo góc ở đây
+                  borderRadius: BorderRadius.circular(10),
                 ),
               );
             },
@@ -233,7 +238,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                   Column(
                                     crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                                     children: [
-                                      if (message.content != 'Interview created')
+                                      if (message.content != 'Interview created' && message.interview!.disableFlag == 0)
                                         Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(20),
@@ -248,14 +253,15 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                               )
                                           ),
                                         ),
+                                      if (message.content != 'Interview created' && message.interview!.disableFlag == 0)
                                         Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            if (message.interview != null)
-                              ScheduleInterviewMessageCard(message: message)
+                            if (message.interview != null && message.interview!.disableFlag == 0)
+                              ScheduleInterviewMessageCard(message: message, personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList,)
                           ],
                         ),
                       ),
@@ -283,7 +289,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                               borderRadius: BorderRadius.circular(50)),
                           child: IconButton(
                             onPressed: (){
-                              TimeChoosePopupFilter.show(context);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return TimeChoosePopupFilter(personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList);
+                                },
+                              );
                             },
                             icon: const Icon(Icons.calendar_today_rounded, color: Colors.white,),
                           ),
@@ -303,10 +314,10 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                   child: TextField(
                                     controller: textController,
                                     style: const TextStyle(color: Colors.white),
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Type your message here...',
-                                      hintStyle: TextStyle(color: Colors.white),
+                                      hintText: AppLocalizations.of(context)!.type_your_message_here,
+                                      hintStyle: const TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -334,6 +345,3 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     );
   }
 }
-
-
-

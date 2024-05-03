@@ -1,15 +1,73 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:studenthub/components/chat/pop_up_time_choose.dart';
+import 'package:studenthub/components/chat/pop_up_update_interview.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/pages/chat/video_call_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/utils/socket_manager.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class ScheduleInterviewMessageCard extends StatelessWidget {
+class ScheduleInterviewMessageCard extends StatefulWidget {
   final Message message;
-  const ScheduleInterviewMessageCard({Key? key, required this.message}) : super(key: key);
+  final int personID;
+  final int projetcID;
+  final int meID;
+  final Function refreshMessageList;
+
+  const ScheduleInterviewMessageCard({Key? key, required this.message, required this.personID, required this.projetcID, required this.meID, required this.refreshMessageList})
+      : super(key: key);
+
+  @override
+  State<ScheduleInterviewMessageCard> createState() => ScheduleInterviewMessageCardState();
+}
+
+class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCard> {
+
+  bool cancelMeeting = true;
+
+  void initState() {
+    super.initState();
+    SocketManager.initializeSocket(context, widget.projetcID);
+  }
+
+  void _cancelInterview(){
+    print(widget.message.interview!.id);
+    print(widget.projetcID);
+    print(widget.meID);
+    print(widget.personID);
+    print(cancelMeeting);
+    SocketManager.cancelInterview(
+      widget.message.interview!.id,
+      widget.projetcID,
+      widget.meID,
+      widget.personID,
+      cancelMeeting
+    );
+    showSuccessDialog();
+    widget.refreshMessageList();
+  }
+
+  void showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.success, textAlign: TextAlign.center,),
+          content: Text(AppLocalizations.of(context)!.create_interview_success, textAlign: TextAlign.center,),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK', textAlign: TextAlign.center,),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +86,7 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.schedule_interview(message.sender.fullname),
+                  AppLocalizations.of(context)!.schedule_interview(widget.message.sender.fullname),
                   style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
                 ),
               ],
@@ -37,13 +95,13 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  message.interview!.title,
+                  widget.message.interview!.title,
                   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const Spacer(),
                 Text(
-                  '${message.interview!.endTime.difference(message.interview!.startTime).inMinutes} minutes',
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+                  '${widget.message.interview!.endTime.difference(widget.message.interview!.startTime).inMinutes} minutes',
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -51,14 +109,14 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.startTime),
+                  DateFormat('kk:mm dd/MM/yyyy').format(widget.message.interview!.startTime),
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
                 const SizedBox(width: 10),
                 const Text('-'),
                 const SizedBox(width: 10),
                 Text(
-                  DateFormat('kk:mm dd/MM/yyyy').format(message.interview!.endTime),
+                  DateFormat('kk:mm dd/MM/yyyy').format(widget.message.interview!.endTime),
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ],
@@ -69,24 +127,24 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Text(
-                      'Meeting room code: ',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    Text(
+                      AppLocalizations.of(context)!.meeting_room_code,
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      message.interview!.meetingRoom!.meetingRoomCode,
+                      widget.message.interview!.meetingRoom!.meetingRoomCode,
                       style: const TextStyle(fontStyle: FontStyle.italic),
                     )
                   ],
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Meeting room id: ',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    Text(
+                      AppLocalizations.of(context)!.meeting_room_id,
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      message.interview!.meetingRoom!.meetingRoomId,
+                      widget.message.interview!.meetingRoom!.meetingRoomId,
                       style: const TextStyle(fontStyle: FontStyle.italic),
                     )
                   ],
@@ -130,6 +188,17 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                             ],
                           ),
                           onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return UpdateInterviewPopUp(
+                                  interview: widget.message.interview!,
+                                  projectID: widget.projetcID,
+                                  personID: widget.personID,
+                                  meID: widget.meID,
+                                  refreshMessageList: widget.refreshMessageList,);
+                              },
+                            );
                           },
                         ),
                         PopupMenuItem(
@@ -140,7 +209,7 @@ class ScheduleInterviewMessageCard extends StatelessWidget {
                               Text(AppLocalizations.of(context)!.cancel_meeting),
                             ],
                           ),
-                          onTap: () {},
+                          onTap: () {_cancelInterview();},
                         ),
                       ],
                       shape: RoundedRectangleBorder(
