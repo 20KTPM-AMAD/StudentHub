@@ -5,6 +5,7 @@ import 'package:studenthub/components/chat/pop_up_update_interview.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/pages/chat/video_call_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/pages/chat/zego/zego.dart';
 import 'package:studenthub/utils/socket_manager.dart';
 
 const Color _green = Color(0xFF12B28C);
@@ -159,7 +160,7 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => VideoCallScreen()),
+                      MaterialPageRoute(builder: (context) => VideoCallPage(conferenceID: widget.message.interview!.meetingRoom!.meetingRoomCode,)),
                     );
                   },
                   child: Text(AppLocalizations.of(context)!.join),
