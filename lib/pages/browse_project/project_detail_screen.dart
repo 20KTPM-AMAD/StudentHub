@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:studenthub/pages/student_submit_proposal/submit_proposal.dart';
@@ -6,9 +7,9 @@ import 'package:studenthub/pages/student_submit_proposal/submit_proposal.dart';
 const Color _green = Color(0xff296e48);
 
 class ProjectDetailScreen extends StatefulWidget {
-  final String name, description;
+  final String name, description, compnayName;
   final int projectScope, numberOfStudents;
-  const ProjectDetailScreen({Key? key, required this.name, required this.description, required this.projectScope, required this.numberOfStudents}) : super(key: key);
+  const ProjectDetailScreen({Key? key, required this.name, required this.description, required this.compnayName, required this.projectScope, required this.numberOfStudents}) : super(key: key);
 
   @override
   ProjectDetailState createState() => ProjectDetailState();
@@ -53,34 +54,84 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset('assets/images/project_detail.jpg'),
-                    Text(
-                      AppLocalizations.of(context)!.project_detail,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                    Text(
-                      widget.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: _green,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('assets/images/project_detail.png', fit: BoxFit.cover, width: 100, height: 100,),
+                        const SizedBox(width: 10,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.project_detail,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.project_name}: ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                                  child: Text(
+                                  widget.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),)
+                              ],
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.company}: ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                                Text(
+                                  widget.compnayName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                     const Divider(),
+                    const Text(
+                      'Students are looking for:\n',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                     RichText(
                       text: TextSpan(
                         children: [
-                          const TextSpan(
-                            text: 'Students are looking for:\n',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           WidgetSpan(
                             child: MarkdownBody(
                               data: widget.description,
@@ -94,7 +145,7 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/clock.jpeg', height: 50.0, width: 50.0,),
+                        Image.asset('assets/images/clock.png', height: 50.0, width: 50.0,),
                         const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

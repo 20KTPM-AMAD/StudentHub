@@ -8,7 +8,7 @@ import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/models/Project.dart';
 import 'package:http/http.dart' as http;
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class DetailTab extends StatefulWidget {
   const DetailTab({Key? key, required this.projectId}) : super(key: key);
@@ -101,24 +101,77 @@ class DetailTabState extends State<DetailTab> {
             child: SingleChildScrollView(
               child: Center(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 30,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset('assets/images/project_detail.png', fit: BoxFit.cover, width: 100, height: 100,),
+                        const SizedBox(width: 10,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.project_name}: ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                                  child: Text(
+                                    _project!.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: _green,
+                                    ),
+                                  ),)
+                              ],
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.company}: ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                                Text(
+                                  _project!.companyName!,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Students are looking for:\n',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                     RichText(
                       text: TextSpan(
                         children: [
-                          const TextSpan(
-                            text: 'Students are looking for:\n',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          const WidgetSpan(
-                            child: SizedBox(
-                                height: 30), // Khoảng cách giữa các dòng
-                          ),
                           WidgetSpan(
                             child: MarkdownBody(
                               data: _project!.description,
@@ -127,15 +180,11 @@ class DetailTabState extends State<DetailTab> {
                         ],
                       ),
                     ),
-                    const Divider(thickness: 3),
                     const SizedBox(height: 30),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.alarm_outlined,
-                          size: 40,
-                        ),
+                        Image.asset('assets/images/clock.png', fit: BoxFit.cover, width: 50, height: 50,),
                         const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,10 +207,7 @@ class DetailTabState extends State<DetailTab> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.group_outlined,
-                          size: 40,
-                        ),
+                        Image.asset('assets/images/group.png', fit: BoxFit.cover, width: 50, height: 50,),
                         const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
