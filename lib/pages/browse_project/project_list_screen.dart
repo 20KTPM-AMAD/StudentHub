@@ -104,7 +104,7 @@ class ProjectListState extends State<ProjectListScreen> {
             setState(() {
               final List<Project> newProjects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
               setState(() {
-                projects.addAll(newProjects);
+                projects.addAll(newProjects.reversed.toList());
                 currentPage++;
                 isLoading = false;
               });
@@ -187,7 +187,7 @@ class ProjectListState extends State<ProjectListScreen> {
             await Future.delayed(const Duration(seconds: 2));
             setState(() {
               final List<Project> newProjects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
-              projects.addAll(newProjects);
+              projects.addAll(newProjects.reversed.toList());
               currentPage++;
               isAddingMore = false;
             });
@@ -385,7 +385,7 @@ class ProjectListState extends State<ProjectListScreen> {
                   children: [
                     Row(
                       children: [
-                        Image.asset('assets/images/project.png', color: Colors.grey, fit: BoxFit.cover, width: 60, height: 60,),
+                        Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 60, height: 60,),
                         const SizedBox(width: 9,),
                         Expanded(
                           child: Column(
@@ -409,13 +409,16 @@ class ProjectListState extends State<ProjectListScreen> {
                                       color: _green,
                                     ),
                                   ),
-                                  Text(
-                                    project.companyName!,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: _green,
+                                  Container(
+                                    constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.27),
+                                    child: Text(
+                                      project.companyName!,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: _green,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ),
@@ -468,16 +471,17 @@ class ProjectListState extends State<ProjectListScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
+                    const Text(
+                      'Students are looking for:\n',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
                     RichText(
                       text: TextSpan(
                         children: [
-                          const TextSpan(
-                            text: 'Students are looking for:\n',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey
-                            ),
-                          ),
                           WidgetSpan(
                             child: MarkdownBody(
                               data: project.description,
@@ -495,6 +499,7 @@ class ProjectListState extends State<ProjectListScreen> {
                       builder: (context) => ProjectDetailScreen(
                           name: project.title,
                           description: project.description,
+                          compnayName: project.companyName!,
                           projectScope: project.projectScopeFlag,
                           numberOfStudents: project.numberOfStudents
                       ),

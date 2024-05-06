@@ -195,5 +195,6 @@
   "type_your_message_here": "Type your message here...",
   "create_interview_success": "Interview created successfully",
   "update_interview": "Re-schedule the meeting",
-  "update_interview_success": "Interview updated successfully"
+  "update_interview_success": "Interview updated successfully",
+  "project_name": "Project name"
 }

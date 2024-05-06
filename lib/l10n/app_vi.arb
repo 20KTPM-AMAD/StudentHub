@@ -195,5 +195,6 @@
   "type_your_message_here": "Nhập tin nhắn của bạn ở đây...",
   "create_interview_success": "Tạo cuộc phỏng vấn thành công",
   "update_interview": "Đổi lịch hẹn phỏng vấn",
-  "update_interview_success": "Cập nhật cuộc phòng vấn thành công"
+  "update_interview_success": "Cập nhật cuộc phòng vấn thành công",
+  "project_name": "Tên dự án"
 }

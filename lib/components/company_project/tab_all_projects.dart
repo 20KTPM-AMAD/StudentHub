@@ -114,7 +114,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/project.png', color: Colors.grey, fit: BoxFit.cover, width: 80, height: 80,),
+                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
                       const SizedBox(width: 20,),
                       Expanded(
                         child: Column(

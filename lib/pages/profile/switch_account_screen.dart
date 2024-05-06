@@ -225,7 +225,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 list: list, // Pass the updated list here
               ),
               const SizedBox(height: 50),
-              _buildButton('assets/images/account.png',
+              _buildButton('assets/images/user.png',
                   AppLocalizations.of(context)!.profile, () async {
                 if (selectedDropdownValue == 'Company') {
                   bool isCreateProfileCompany =
@@ -266,7 +266,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 }
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/padlock.png',
+              _buildButton('assets/images/password.png',
                   AppLocalizations.of(context)!.change_password, () {
                 Navigator.push(
                   context,
@@ -276,7 +276,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 );
               }),
               const SizedBox(height: 8),
-              _buildButton('assets/images/setting.png',
+              _buildButton('assets/images/settings.png',
                   AppLocalizations.of(context)!.settings, () {
                 Navigator.push(
                   context,
