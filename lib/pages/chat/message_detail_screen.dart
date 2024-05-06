@@ -238,7 +238,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                   Column(
                                     crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                                     children: [
-                                      if (message.content != 'Interview created' && message.interview!.disableFlag == 0)
+                                      if (message.content != 'Interview created')
                                         Container(
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(20),
@@ -253,14 +253,14 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                               )
                                           ),
                                         ),
-                                      if (message.content != 'Interview created' && message.interview!.disableFlag == 0)
+                                      if (message.content != 'Interview created')
                                         Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            if (message.interview != null && message.interview!.disableFlag == 0)
+                            if (message.interview != null)
                               ScheduleInterviewMessageCard(message: message, personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList,)
                           ],
                         ),
