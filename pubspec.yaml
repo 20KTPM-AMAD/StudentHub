@@ -47,6 +47,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  zego_uikit_prebuilt_video_conference: ^2.7.4
 
 dev_dependencies:
   flutter_test:
