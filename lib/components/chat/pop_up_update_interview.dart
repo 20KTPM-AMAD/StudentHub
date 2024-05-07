@@ -24,10 +24,10 @@ class UpdateInterviewPopUp extends StatefulWidget {
 }
 
 class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
-  late DateTime selectedStartDate;
-  late DateTime selectedEndDate;
-  late TimeOfDay selectedStartTime;
-  late TimeOfDay selectedEndTime;
+  DateTime? selectedStartDate;
+  DateTime? selectedEndDate;
+  TimeOfDay? selectedStartTime;
+  TimeOfDay? selectedEndTime;
   String? startTimeFormat;
   String? endTimeFormat;
   String? duration;
@@ -45,12 +45,24 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
     final String? token = Provider.of<AuthProvider>(context, listen: false).token;
 
     String newTitle = titleController.text;
-    DateTime newStartTime = DateTime(selectedStartDate.year, selectedStartDate.month, selectedStartDate.day, selectedStartTime.hour, selectedStartTime.minute);
-    DateTime newEndTime = DateTime(selectedEndDate.year, selectedEndDate.month, selectedEndDate.day, selectedEndTime.hour, selectedEndTime.minute);
+    DateTime newStartTime = DateTime.utc(
+      selectedStartDate?.year ?? widget.interview.startTime.year,
+      selectedStartDate?.month ?? widget.interview.startTime.month,
+      selectedStartDate?.day ?? widget.interview.startTime.day,
+      selectedStartTime?.hour ?? widget.interview.startTime.hour,
+      selectedStartTime?.minute ?? widget.interview.startTime.minute,
+    );
+    DateTime newEndTime = DateTime.utc(
+      selectedEndDate?.year ?? widget.interview.endTime.year,
+      selectedEndDate?.month ?? widget.interview.endTime.month,
+      selectedEndDate?.day ?? widget.interview.endTime.day,
+      selectedEndTime?.hour ?? widget.interview.endTime.hour,
+      selectedEndTime?.minute ?? widget.interview.endTime.minute,
+    );
 
     bool isTitleChanged = newTitle != widget.interview.title;
-    bool isStartTimeChanged = newStartTime != widget.interview.startTime;
-    bool isEndTimeChanged = newEndTime != widget.interview.endTime;
+    bool isStartTimeChanged = newStartTime.toUtc() != widget.interview.startTime;
+    bool isEndTimeChanged = newEndTime.toUtc() != widget.interview.endTime;
 
     if (isTitleChanged || isStartTimeChanged || isEndTimeChanged) {
       Map<String, dynamic> newData = {
@@ -69,7 +81,7 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
       );
 
       print(response.statusCode);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         showSuccessDialog();
         widget.refreshMessageList();
       } else {
@@ -210,7 +222,7 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                     ],
                   ),
                   Text(
-                    DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.startTime),
+                      startTimeFormat ?? DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.startTime),
                     style: const TextStyle(
                         fontStyle: FontStyle.italic
                     ),
@@ -272,7 +284,7 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                     ],
                   ),
                   Text(
-                    DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.endTime),
+                    endTimeFormat ?? DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.endTime),
                     style: const TextStyle(
                         fontStyle: FontStyle.italic
                     ),

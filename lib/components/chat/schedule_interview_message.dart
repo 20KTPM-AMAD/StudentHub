@@ -38,12 +38,6 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
   }
 
   Future<void> _cancelInterview() async {
-    print(widget.message.interview!.id);
-    print(widget.projetcID);
-    print(widget.meID);
-    print(widget.personID);
-    print(cancelMeeting);
-
     final String? token = Provider.of<AuthProvider>(context, listen: false).token;
 
     final response = await http.patch(
@@ -100,7 +94,7 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
               children: [
                 Text(
                   AppLocalizations.of(context)!.schedule_interview(widget.message.sender.fullname),
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, color: Colors.black),
                 ),
               ],
             ),
@@ -109,12 +103,12 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
               children: [
                 Text(
                   widget.message.interview!.title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
                 ),
                 const Spacer(),
                 Text(
                   '${widget.message.interview!.endTime.difference(widget.message.interview!.startTime).inMinutes} minutes',
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ],
             ),
@@ -123,14 +117,14 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
               children: [
                 Text(
                   DateFormat('kk:mm dd/MM/yyyy').format(widget.message.interview!.startTime),
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
                 ),
                 const SizedBox(width: 10),
-                const Text('-'),
+                const Text('-', style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black),),
                 const SizedBox(width: 10),
                 Text(
                   DateFormat('kk:mm dd/MM/yyyy').format(widget.message.interview!.endTime),
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
                 ),
               ],
             ),
@@ -142,11 +136,11 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                   children: [
                     Text(
                       AppLocalizations.of(context)!.meeting_room_code,
-                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     Text(
                       widget.message.interview!.meetingRoom!.meetingRoomCode,
-                      style: const TextStyle(fontStyle: FontStyle.italic),
+                      style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
                     )
                   ],
                 ),
@@ -154,30 +148,30 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                   children: [
                     Text(
                       AppLocalizations.of(context)!.meeting_room_id,
-                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     Text(
                       widget.message.interview!.meetingRoom!.meetingRoomId,
-                      style: const TextStyle(fontStyle: FontStyle.italic),
+                      style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
                     )
                   ],
                 ),
                 const SizedBox(height: 10,),
                 Row(
                   children: [
-                    const Text(
-                      'Status: ',
-                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    Text(
+                      '${AppLocalizations.of(context)!.status}: ',
+                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                     if (widget.message.interview!.disableFlag == 0)
-                      const Text(
-                        'Active',
-                        style: TextStyle(fontStyle: FontStyle.italic, color: _green),
+                      Text(
+                        AppLocalizations.of(context)!.active,
+                        style: const TextStyle(fontStyle: FontStyle.italic, color: _green),
                       )
-                    else
-                      const Text(
-                        'Cancel',
-                        style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
+                    else if (widget.message.interview!.disableFlag == 1)
+                      Text(
+                        AppLocalizations.of(context)!.cancel,
+                        style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
                       )
                   ],
                 ),

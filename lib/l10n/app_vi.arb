@@ -197,5 +197,8 @@
   "update_interview": "Đổi lịch hẹn phỏng vấn",
   "update_interview_success": "Cập nhật cuộc phòng vấn thành công",
   "project_name": "Tên dự án",
-  "cancel_interview_success": "Hủy cuộc phòng vấn thành công"
+  "cancel_interview_success": "Hủy cuộc phòng vấn thành công",
+  "status": "Trạng thái",
+  "active": "Hoạt động",
+  "expired": "Hết hạn"
 }
