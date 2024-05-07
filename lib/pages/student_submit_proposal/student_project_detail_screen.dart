@@ -1,17 +1,33 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/models/Project.dart';
+import 'package:studenthub/models/Proposal.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
 const Color _green = Color(0xff296e48);
 
 class StudentProjectDetailScreen extends StatefulWidget {
-  const StudentProjectDetailScreen({Key? key, required this.id})
-      : super(key: key);
+  StudentProjectDetailScreen({
+    Key? key,
+    required this.id,
+    bool? isOffer,
+    int? proposalId,
+  })  : isOffer = isOffer ?? false,
+        proposalId =
+            isOffer != null && isOffer ? (proposalId ?? 0) : (proposalId ?? -1),
+        super(key: key);
 
   final int id;
+
+  final bool isOffer;
+
+  final int proposalId;
+
   @override
   StudentProjectDetailState createState() => StudentProjectDetailState();
 }
@@ -48,6 +64,17 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
     }
   }
 
+  Future<void> update() async {
+    try {
+      final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+
+      await updateProposal(
+          widget.proposalId, StatusFlag.Hired.index, token);
+    } catch (error) {
+      print(error);
+    }
+  }
+
   String getProjectScopeFormart(int projectScope) {
     if (projectScope == 0) {
       return AppLocalizations.of(context)!
@@ -71,125 +98,223 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
 
   Widget buildProject() {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('StudentHub'),
-          backgroundColor: _green,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {},
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 20.0),
-                  child: Column(
-                    children: [
-                      Image.asset('assets/images/project_detail.jpg'),
-                      Text(
-                        AppLocalizations.of(context)!.project_detail,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
+      appBar: AppBar(
+        title: const Text('StudentHub'),
+        backgroundColor: _green,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/project_detail.png',
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        project.title,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          color: _green,
+                        const SizedBox(
+                          width: 10,
                         ),
-                      ),
-                      const Divider(),
-                      RichText(
-                        text: TextSpan(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const TextSpan(
-                              text: 'Students are looking for:\n',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.project_detail,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.bold,
+                                fontSize: 20,
                               ),
                             ),
-                            WidgetSpan(
-                              child: MarkdownBody(
-                                data: project.description,
-                              ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.project_name}: ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                                Container(
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.3),
+                                  child: Text(
+                                    project.title,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: _green,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${AppLocalizations.of(context)!.company}: ',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                                Text(
+                                  project.companyName!,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                    color: _green,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    const Divider(),
+                    const Text(
+                      'Students are looking for:\n',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          WidgetSpan(
+                            child: MarkdownBody(
+                              data: project.description,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(),
+                    const SizedBox(height: 30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/clock.png',
+                          height: 50.0,
+                          width: 50.0,
+                        ),
+                        const SizedBox(width: 30),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.project_scope,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              getProjectScopeFormart(project.projectScopeFlag),
+                              style: const TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
-                      ),
-                      const Divider(),
-                      const SizedBox(height: 30),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/clock.jpeg',
-                            height: 50.0,
-                            width: 50.0,
-                          ),
-                          const SizedBox(width: 30),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.project_scope,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Text(
-                                getProjectScopeFormart(
-                                    project.projectScopeFlag),
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/group.png',
-                            height: 50.0,
-                            width: 50.0,
-                          ),
-                          const SizedBox(width: 30),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.student_required,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .student_needed_project(
-                                        project.numberOfStudents),
-                                style: const TextStyle(fontSize: 16),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/group.png',
+                          height: 50.0,
+                          width: 50.0,
+                        ),
+                        const SizedBox(width: 30),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.student_required,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .student_needed_project(
+                                      project.numberOfStudents),
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    widget.isOffer
+                        ? Container(
+                            alignment: Alignment.bottomCenter,
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _green,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                  child: const Text('Cancel',
+                                      style: TextStyle(fontSize: 16)),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    update();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: _green,
+                                      foregroundColor: Colors.white),
+                                  child: const Text('Accept',
+                                      style: TextStyle(fontSize: 16)),
+                                ),
+                              ],
+                            ),
+                          )
+                        : SizedBox()
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

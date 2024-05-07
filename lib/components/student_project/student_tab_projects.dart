@@ -7,7 +7,9 @@ import 'package:studenthub/utils/auth_provider.dart';
 const Color _green = Color(0xff296e48);
 
 class StudentProjectsTab extends StatefulWidget {
-   const StudentProjectsTab({Key? key, required this.statusFlag, required this.typeFlag}) : super(key: key);
+  const StudentProjectsTab(
+      {Key? key, required this.statusFlag, required this.typeFlag})
+      : super(key: key);
 
   final String statusFlag;
   final String typeFlag;
@@ -19,6 +21,8 @@ class StudentProjectsTab extends StatefulWidget {
 class StudentProjectsTabState extends State<StudentProjectsTab> {
   late List<Proposal> proposals = [];
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -26,34 +30,51 @@ class StudentProjectsTabState extends State<StudentProjectsTab> {
   }
 
   Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+
     final loginUser =
         Provider.of<AuthProvider>(context, listen: false).loginUser;
     final token = Provider.of<AuthProvider>(context, listen: false).token;
 
     try {
       //active
-      final List<dynamic> proposalsActiveList = await getProposalByStudentId(
+      List<dynamic> proposalsActiveList = await getProposalByStudentId(
           loginUser!.student!.id, widget.statusFlag, widget.typeFlag, token!);
       setState(() {
-        proposals = proposalsActiveList.cast<Proposal>();
+        proposals = proposalsActiveList
+            .map((dynamic item) => Proposal.fromJson(item))
+            .toList();
       });
     } catch (error) {
       // Handle error here
       print('Error fetching proposals: $error');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : buildProject();
+  }
+
+  Widget buildProject() {
     return SingleChildScrollView(
       child: Column(
         children: [
-          if (proposals.isEmpty) ...[
-            ListView.separated(
+          Visibility(
+            visible: proposals.isNotEmpty,
+            child: ListView.separated(
               shrinkWrap: true,
               physics: const ScrollPhysics(),
               separatorBuilder: (BuildContext context, int index) =>
-              const SizedBox(height: 10),
+                  const SizedBox(height: 10),
               itemCount: proposals.length,
               itemBuilder: (context, index) {
                 final Proposal proposal = proposals[index];
@@ -62,10 +83,17 @@ class StudentProjectsTabState extends State<StudentProjectsTab> {
                 );
               },
             ),
-          ] else ...[
-            // Placeholder widget when proposals are not loaded yet
-            const Text('You do not having project on working'),
-          ],
+          ),
+          Visibility(
+            visible: proposals.isEmpty,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: const Text(
+                'You do not have any projects yet.',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
         ],
       ),
     );

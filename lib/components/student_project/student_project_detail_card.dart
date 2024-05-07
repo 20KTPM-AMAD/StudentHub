@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/models/Proposal.dart';
 import 'package:studenthub/pages/student_submit_proposal/student_project_detail_screen.dart';
 
 const Color _green = Color(0xff296e48);
 
 class StudentProjectDetailCard extends StatefulWidget {
-  const StudentProjectDetailCard({Key? key, required this.proposal})
-      : super(key: key);
+  StudentProjectDetailCard({Key? key, required this.proposal, bool? isActive})
+      : isActive = isActive ?? false,
+        super(key: key);
 
   final Proposal proposal;
+  final bool isActive;
 
   @override
   State<StudentProjectDetailCard> createState() => _InfoCardState();
 }
 
 class _InfoCardState extends State<StudentProjectDetailCard> {
-
   late final Proposal proposal;
 
   String _getTimeElapsed(DateTime createdAt) {
@@ -49,7 +51,6 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
 
   @override
   Widget build(BuildContext context) {
-
     if (proposal.project == null) {
       return const SizedBox();
     }
@@ -90,6 +91,7 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                     text: 'Students are looking for:\n',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: Colors.black
                     ),
                   ),
                   WidgetSpan(
@@ -100,15 +102,35 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                 ],
               ),
             ),
+            const SizedBox(height: 10),
+            widget.isActive &&
+                    proposal.statusFlag.toString() ==
+                        StatusFlag.Offer.index.toString()
+                ? Text('You have OFFER')
+                : SizedBox()
           ],
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    StudentProjectDetailScreen(id: proposal.project!.id)),
-          );
+          if (widget.isActive &&
+              proposal.statusFlag.toString() ==
+                  StatusFlag.Offer.index.toString()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => StudentProjectDetailScreen(
+                        id: proposal.project!.id,
+                        isOffer: true,
+                        proposalId: proposal.id
+                      )),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      StudentProjectDetailScreen(id: proposal.project!.id)),
+            );
+          }
         },
       ),
     );
