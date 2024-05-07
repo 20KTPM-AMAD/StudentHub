@@ -11,16 +11,16 @@ import 'package:studenthub/utils/auth_provider.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class AllProjectsTab extends StatefulWidget {
-  const AllProjectsTab({Key? key}) : super(key: key);
+class AllProjectsWorkingTab extends StatefulWidget {
+  const AllProjectsWorkingTab({Key? key}) : super(key: key);
 
   @override
-  AllProjectsTabState createState() => AllProjectsTabState();
+  AllProjectsWorkingTabState createState() => AllProjectsWorkingTabState();
 }
 
-class AllProjectsTabState extends State<AllProjectsTab> {
-  List<Project> _projects = [];
-  bool _isLoading = false;
+class AllProjectsWorkingTabState extends State<AllProjectsWorkingTab> {
+  List<Project> projects = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
 
   Future<void> getProjects() async {
     setState(() {
-      _isLoading = true;
+      isLoading = true;
     });
 
     try {
@@ -39,7 +39,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
           Provider.of<AuthProvider>(context, listen: false).loginUser!.company!.id;
       if (token != null) {
         final response = await http.get(
-          Uri.parse('http://34.16.137.128/api/project/company/$companyId'),
+          Uri.parse('http://34.16.137.128/api/project/company/$companyId?typeFlag=1'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
@@ -53,7 +53,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
           print(jsonResponse);
           if (jsonResponse['result'] is List) { // Check if jsonResponse is a list
             setState(() {
-              _projects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
+              projects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
             });
           } else {
             print('Response is not a list of projects');
@@ -68,7 +68,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
       // Handle error cases here, show error message to user
     } finally {
       setState(() {
-        _isLoading = false;
+        isLoading = false;
       });
     }
   }
@@ -90,7 +90,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
+    return isLoading
         ? const Center(child: CircularProgressIndicator())
         : buildProjectList();
   }
@@ -98,13 +98,15 @@ class AllProjectsTabState extends State<AllProjectsTab> {
   Widget buildProjectList() {
     return RefreshIndicator(
       onRefresh: getProjects,
-      child: ListView.separated(
+      child: projects.isEmpty
+          ? Center(child: Text(AppLocalizations.of(context)!.no_projects, style: const TextStyle(fontSize: 18.0),),)
+          : ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-        itemCount: _projects.length,
+        itemCount: projects.length,
         itemBuilder: (context, index) {
-          final project = _projects[index];
+          final project = projects[index];
           return Card(
             margin: const EdgeInsets.all(5.0),
             child: ListTile(

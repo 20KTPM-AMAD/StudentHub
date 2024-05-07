@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:studenthub/components/company_project/tab_detail.dart';
+import 'package:studenthub/components/company_project/tab_message.dart';
+import 'package:studenthub/components/company_project/tab_proposal_hired.dart';
 import 'package:studenthub/components/company_project/tab_proposals.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/models/Project.dart';
@@ -27,10 +29,10 @@ class SendHireOfferState extends State<SendHireOfferScreen> {
   @override
   void initState() {
     super.initState();
-    getTileProject();
+    getTitleProject();
   }
 
-  Future<void> getTileProject() async {
+  Future<void> getTitleProject() async {
     final token = Provider.of<AuthProvider>(context, listen: false).token;
     if (token != null) {
       final response = await http.get(
@@ -121,15 +123,9 @@ class SendHireOfferState extends State<SendHireOfferScreen> {
                             child: TabBarView(
                               children: [
                                 ProposalsTab(projectId: widget.projectId),
-                                DetailTab(
-                                  projectId: widget.projectId,
-                                ),
-                                const Center(
-                                  child: Text('Message Content'),
-                                ),
-                                const Center(
-                                  child: Text('Hired Content'),
-                                ),
+                                DetailTab(projectId: widget.projectId,),
+                                MessageListTab(projectId: widget.projectId),
+                                ProposalsHiredTab(projectId: widget.projectId)
                               ],
                             ),
                           ),
