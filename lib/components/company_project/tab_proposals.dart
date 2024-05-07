@@ -178,7 +178,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                                 MessageDetailScreen(
                                   personID: proposal.studentId,
                                   personFullName: proposal.studentname!,
-                                  projetcID: proposal.projectId,)),
+                                  projectID: proposal.projectId,)),
                           );
                         },
                         style: ElevatedButton.styleFrom(

@@ -5,6 +5,7 @@ import 'package:studenthub/pages/chat/message_detail_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -103,7 +104,7 @@ class _MessageCardState extends State<MessageCard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projetcID: message.project?.id ?? 0)),
+                      builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projectID: message.project?.id ?? 0)),
                 ).then((value) => setState(() {
                   getAllMessages();
                 }));
@@ -145,7 +146,7 @@ class _MessageCardState extends State<MessageCard> {
                             height: 5,
                           ),
                           Text(
-                            message.project?.title ?? '',
+                            '${AppLocalizations.of(context)!.project_name}: ${message.project!.title}' ?? '',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -153,7 +154,7 @@ class _MessageCardState extends State<MessageCard> {
                             height: 5,
                           ),
                           Text(
-                            message.content ?? '',
+                            '${AppLocalizations.of(context)!.content}: ${message.content}' ?? '',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),

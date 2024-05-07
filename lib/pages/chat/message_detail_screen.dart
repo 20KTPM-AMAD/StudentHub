@@ -13,10 +13,14 @@ const Color _green = Color(0xff296e48);
 
 class MessageDetailScreen extends StatefulWidget {
   final int personID;
-  final int projetcID;
+  final int projectID;
   final String personFullName;
 
-  const MessageDetailScreen({Key? key, required this.personID, required this.personFullName, required this.projetcID})
+  const MessageDetailScreen(
+      {Key? key,
+      required this.personID,
+      required this.personFullName,
+      required this.projectID})
       : super(key: key);
 
   @override
@@ -33,20 +37,20 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
   @override
   void initState() {
     super.initState();
-    SocketManager.initializeSocket(context, widget.projetcID);
+    SocketManager.initializeSocket(context, widget.projectID);
     SocketManager.socket.on('RECEIVE_MESSAGE', (data) {
-      if (mounted && data['receiverId'] == userId) {
+      if (mounted && data['notification']['receiverId'] == userId) {
         Message newMessage = Message(
           id: messageList.length + 1,
           createdAt: DateTime.now(),
-          content: data['content'],
-          sender: Postman(id: data['senderId'], fullname: widget.personFullName),
-          receiver: Postman(id: data['receiverId'], fullname: 'receiver'),
+          content: data['notification']['message']['content'],
+          sender: Postman(id: data['notification']['senderId'], fullname: 'sender'),
+          receiver: Postman(id: data['notification']['receiverId'], fullname: 'receiver'),
           project: null,
         );
 
         setState(() {
-          messageList.add(newMessage);
+          messageList.insert(0, newMessage);
         });
         print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
       }
@@ -65,21 +69,26 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
 
       if (token != null) {
         final response = await http.get(
-          Uri.parse('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}'),
+          Uri.parse(
+              'https://api.studenthub.dev/api/message/${widget.projectID}/user/${widget.personID}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
           },
         );
-        print('https://api.studenthub.dev/api/message/${widget.projetcID}/user/${widget.personID}');
+        print(
+            'https://api.studenthub.dev/api/message/${widget.projectID}/user/${widget.personID}');
 
         print(response.statusCode);
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
           print(jsonResponse);
-          if (jsonResponse['result'] is List){
+          if (jsonResponse['result'] is List) {
             setState(() {
-              messageList = jsonResponse['result'].map<Message>((data) => Message.fromJson(data)).toList();
+              messageList = jsonResponse['result']
+                  .map<Message>((data) => Message.fromJson(data))
+                  .toList();
+              messageList = messageList.reversed.toList();
             });
           }
         }
@@ -99,29 +108,50 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     }
   }
 
-  void _sendMessage() {
-    String messageContent = textController.text;
-    if (messageContent.isNotEmpty) {
-      SocketManager.sendMessage(
-        messageContent,
-        widget.projetcID,
-        userId,
-        widget.personID,
+  Future<void> _sendMessage() async {
+    final String? token =
+        Provider.of<AuthProvider>(context, listen: false).token;
+    if (textController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Message must not empty'),
+          backgroundColor: Colors.red,
+        ),
       );
+    }
+    final response = await http.post(
+      Uri.parse('https://api.studenthub.dev/api/message/sendMessage'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'projectId': widget.projectID,
+        'content': textController.text,
+        'messageFlag': 0,
+        'senderId': userId,
+        'receiverId': widget.personID
+      }),
+    );
 
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
       Message newMessage = Message(
         id: messageList.length + 1,
         createdAt: DateTime.now(),
-        content: messageContent,
+        content: textController.text,
         sender: Postman(id: userId, fullname: 'sender'),
         receiver: Postman(id: widget.personID, fullname: widget.personFullName),
         project: null,
       );
 
       setState(() {
-        messageList.add(newMessage);
+        messageList.insert(0, newMessage);
       });
       textController.clear();
+    } else {
+      print('Failed to send message:  ${response.body}');
     }
   }
 
@@ -134,85 +164,104 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     final iconKey = GlobalKey();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: Image.asset('assets/images/user.jpg').image,
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 20,
+                backgroundImage: Image.asset('assets/images/user.jpg').image,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(widget.personFullName),
+            ],
+          ),
+          backgroundColor: Colors.green.shade200,
+          actions: <Widget>[
+            IconButton(
+              key: iconKey,
+              icon: const Icon(
+                Icons.pending,
+                color: _green,
+              ),
+              iconSize: 35,
+              onPressed: () {
+                final RenderBox iconRenderBox =
+                    iconKey.currentContext!.findRenderObject() as RenderBox;
+                final iconPosition = iconRenderBox.localToGlobal(Offset.zero);
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(
+                    iconPosition.dx,
+                    iconPosition.dy + iconRenderBox.size.height,
+                    MediaQuery.of(context).size.width -
+                        iconPosition.dx -
+                        iconRenderBox.size.width,
+                    MediaQuery.of(context).size.height -
+                        iconPosition.dy -
+                        iconRenderBox.size.height,
+                  ),
+                  items: [
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.schedule_rounded,
+                            color: Colors.blue,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            AppLocalizations.of(context)!.schedule_an_interview,
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return TimeChoosePopupFilter(
+                                personID: widget.personID,
+                                projetcID: widget.projectID,
+                                meID: userId,
+                                refreshMessageList: refreshMessageList);
+                          },
+                        );
+                      },
+                    ),
+                    PopupMenuItem(
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.cancel,
+                            color: Colors.red,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            AppLocalizations.of(context)!.cancel,
+                          ),
+                        ],
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                );
+              },
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(widget.personFullName),
           ],
         ),
         backgroundColor: Colors.green.shade200,
-        actions: <Widget>[
-          IconButton(
-            key: iconKey,
-            icon: const Icon(
-              Icons.pending,
-              color: _green,
-            ),
-            iconSize: 35,
-            onPressed: () {
-              final RenderBox iconRenderBox = iconKey.currentContext!.findRenderObject() as RenderBox;
-              final iconPosition = iconRenderBox.localToGlobal(Offset.zero);
-              showMenu(
-                context: context,
-                position: RelativeRect.fromLTRB(
-                  iconPosition.dx,
-                  iconPosition.dy + iconRenderBox.size.height,
-                  MediaQuery.of(context).size.width - iconPosition.dx - iconRenderBox.size.width,
-                  MediaQuery.of(context).size.height - iconPosition.dy - iconRenderBox.size.height,
-                ),
-                items: [
-                  PopupMenuItem(
-                    child: Row(
-                      children: [
-                        const Icon(Icons.schedule_rounded, color: Colors.blue,),
-                        const SizedBox(width: 8),
-                        Text(AppLocalizations.of(context)!.schedule_an_interview,),
-                      ],
-                    ),
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return TimeChoosePopupFilter(personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList);
-                        },
-                      );
-                    },
-                  ),
-                  PopupMenuItem(
-                    child: Row(
-                      children: [
-                        const Icon(Icons.cancel, color: Colors.red,),
-                        const SizedBox(width: 8),
-                        Text(AppLocalizations.of(context)!.cancel,),
-                      ],
-                    ),
-                    onTap: () {
-                    },
-                  ),
-                ],
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      backgroundColor: Colors.green.shade200,
-      body: Center(
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: ListView.builder(
+                  reverse: true,
                   itemCount: messageList.length,
                   itemBuilder: (context, index) {
                     final Message message = messageList[index];
@@ -221,47 +270,83 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                       padding: const EdgeInsets.only(left: 14.0, right: 14),
                       child: SafeArea(
                         child: Column(
-                          crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                          crossAxisAlignment: isMyMessage
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 30,),
+                            const SizedBox(
+                              height: 30,
+                            ),
                             Container(
-                              alignment: isMyMessage ? Alignment.centerRight : Alignment.centerLeft,
+                              alignment: isMyMessage
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
                               child: Row(
-                                mainAxisAlignment: isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+                                mainAxisAlignment: isMyMessage
+                                    ? MainAxisAlignment.end
+                                    : MainAxisAlignment.start,
                                 children: [
                                   if (!isMyMessage)
                                     CircleAvatar(
                                       radius: 20,
-                                      backgroundImage: Image.asset('assets/images/user.jpg').image,
+                                      backgroundImage:
+                                          Image.asset('assets/images/user.jpg')
+                                              .image,
                                     ),
-                                  const SizedBox(width: 10,),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Column(
-                                    crossAxisAlignment: isMyMessage ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                                    crossAxisAlignment: isMyMessage
+                                        ? CrossAxisAlignment.end
+                                        : CrossAxisAlignment.start,
                                     children: [
-                                      if (message.content != 'Interview created')
+                                      if (message.content !=
+                                          'Interview created')
                                         Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: isMyMessage ? _green : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: isMyMessage
+                                                ? _green
+                                                : Colors.white,
                                           ),
                                           child: Padding(
-                                              padding: const EdgeInsets.all(10.0),
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Text(message.content!, style: TextStyle(color: isMyMessage ? Colors.white : Colors.black,),),
+                                                  Text(
+                                                    message.content!,
+                                                    style: TextStyle(
+                                                      color: isMyMessage
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                    ),
+                                                  ),
                                                 ],
-                                              )
-                                          ),
+                                              )),
                                         ),
-                                      if (message.content != 'Interview created')
-                                        Text(message.formattedCreatedAt(), style: const TextStyle(color: Colors.white),),
+                                      if (message.content !=
+                                          'Interview created')
+                                        Text(
+                                          message.formattedCreatedAt(),
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
                             if (message.interview != null)
-                              ScheduleInterviewMessageCard(message: message, personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList,)
+                              ScheduleInterviewMessageCard(
+                                message: message,
+                                personID: widget.personID,
+                                projetcID: widget.projectID,
+                                meID: userId,
+                                refreshMessageList: refreshMessageList,
+                              )
                           ],
                         ),
                       ),
@@ -269,9 +354,12 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+                padding:
+                    const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
                 child: Container(
                   height: 50,
                   width: double.infinity,
@@ -288,15 +376,22 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                               color: Colors.white30,
                               borderRadius: BorderRadius.circular(50)),
                           child: IconButton(
-                            onPressed: (){
+                            onPressed: () {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return TimeChoosePopupFilter(personID: widget.personID, projetcID: widget.projetcID, meID: userId, refreshMessageList: refreshMessageList);
+                                  return TimeChoosePopupFilter(
+                                      personID: widget.personID,
+                                      projetcID: widget.projectID,
+                                      meID: userId,
+                                      refreshMessageList: refreshMessageList);
                                 },
                               );
                             },
-                            icon: const Icon(Icons.calendar_today_rounded, color: Colors.white,),
+                            icon: const Icon(
+                              Icons.calendar_today_rounded,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -316,8 +411,10 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                     style: const TextStyle(color: Colors.white),
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: AppLocalizations.of(context)!.type_your_message_here,
-                                      hintStyle: const TextStyle(color: Colors.white),
+                                      hintText: AppLocalizations.of(context)!
+                                          .type_your_message_here,
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -341,7 +438,6 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }
