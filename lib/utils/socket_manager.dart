@@ -31,21 +31,6 @@ class SocketManager {
     socket.onError((data) => print(data));
     socket.on('RECEIVE_MESSAGE', (data) => print(data));
     socket.on('RECEIVE_INTERVIEW', (data) => print(data));
-    socket.on('ERROR', (data) => print(data));
-  }
-
-  static void sendMessage(String message, int projectId, int senderId, int receiverId) {
-    if (socket.connected) {
-      socket.emit('SEND_MESSAGE', {
-        'content': message,
-        'projectId': projectId,
-        'senderId': senderId,
-        'receiverId': receiverId,
-        'messageFlag': 0,
-      });
-    } else {
-      print('Socket is not connected');
-    }
   }
 
   static void createInterview(String title, String content, DateTime startDate, DateTime endDate, TimeOfDay startTime, TimeOfDay endTime, int projectId, int senderId, int receiverId, String meetingRoomCode, String meetingRoomID) {
