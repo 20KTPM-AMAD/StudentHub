@@ -176,7 +176,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                             context,
                             MaterialPageRoute(builder: (context) =>
                                 MessageDetailScreen(
-                                  personID: proposal.studentId,
+                                  personID: proposal.student!.userId,
                                   personFullName: proposal.studentname!,
                                   projectID: proposal.projectId,)),
                           );
