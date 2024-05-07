@@ -107,6 +107,8 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   void dispose() {
     titleController.dispose();
     contentController.dispose();
+    meetingIdController.dispose();
+    meetingCodeController.dispose();
     super.dispose();
   }
 

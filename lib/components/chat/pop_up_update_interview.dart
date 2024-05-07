@@ -1,8 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/models/Interview.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/utils/socket_manager.dart';
+import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xff296e48);
 
@@ -20,10 +24,10 @@ class UpdateInterviewPopUp extends StatefulWidget {
 }
 
 class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
-  DateTime? selectedStartDate;
-  DateTime? selectedEndDate;
-  TimeOfDay? selectedStartTime;
-  TimeOfDay? selectedEndTime;
+  late DateTime selectedStartDate;
+  late DateTime selectedEndDate;
+  late TimeOfDay selectedStartTime;
+  late TimeOfDay selectedEndTime;
   String? startTimeFormat;
   String? endTimeFormat;
   String? duration;
@@ -34,31 +38,46 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
   void initState() {
     super.initState();
     SocketManager.initializeSocket(context, widget.projectID);
-    titleController.text = widget.interview.title;
+    titleController!.text = widget.interview.title;
   }
 
-  void _updateInterview() {
-    print(widget.interview.id);
-    print(widget.projectID);
-    print(widget.meID);
-    print(widget.personID);
-    print(updateInterview);
-    print(widget.interview.startTime);
-      SocketManager.updateInterview(
-        widget.interview.id,
-        widget.meID,
-        widget.personID,
-        widget.projectID,
-        titleController.text,
-        selectedStartDate!,
-        selectedEndDate!,
-        selectedStartTime!,
-        selectedEndTime!,
-        updateInterview
-      );
-    showSuccessDialog();
-    widget.refreshMessageList();
+  Future<void> _updateInterview() async {
+    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
 
+    String newTitle = titleController.text;
+    DateTime newStartTime = DateTime(selectedStartDate.year, selectedStartDate.month, selectedStartDate.day, selectedStartTime.hour, selectedStartTime.minute);
+    DateTime newEndTime = DateTime(selectedEndDate.year, selectedEndDate.month, selectedEndDate.day, selectedEndTime.hour, selectedEndTime.minute);
+
+    bool isTitleChanged = newTitle != widget.interview.title;
+    bool isStartTimeChanged = newStartTime != widget.interview.startTime;
+    bool isEndTimeChanged = newEndTime != widget.interview.endTime;
+
+    if (isTitleChanged || isStartTimeChanged || isEndTimeChanged) {
+      Map<String, dynamic> newData = {
+        if (isTitleChanged) 'title': newTitle,
+        if (isStartTimeChanged) 'startTime': newStartTime.toIso8601String(),
+        if (isEndTimeChanged) 'endTime': newEndTime.toIso8601String(),
+      };
+
+      final response = await http.patch(
+        Uri.parse('https://api.studenthub.dev/api/interview/${widget.interview.id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': 'Bearer $token',
+        },
+        body: jsonEncode(newData),
+      );
+
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        showSuccessDialog();
+        widget.refreshMessageList();
+      } else {
+        print('Failed to update interview:  ${response.body}');
+      }
+    } else {
+      print('No changes detected. No update required.');
+    }
   }
 
   void showSuccessDialog() {
@@ -84,7 +103,7 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
 
   @override
   void dispose() {
-    titleController.dispose();
+    titleController!.dispose();
     super.dispose();
   }
 

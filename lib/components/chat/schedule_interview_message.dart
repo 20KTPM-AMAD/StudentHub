@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/pop_up_update_interview.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/pages/chat/video_call_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/pages/chat/zego/zego.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/utils/socket_manager.dart';
+import 'package:http/http.dart' as http;
 
-const Color _green = Color(0xFF12B28C);
+
+const Color _green = Color(0xff296e48);
 
 class ScheduleInterviewMessageCard extends StatefulWidget {
   final Message message;
@@ -33,21 +37,29 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
     SocketManager.initializeSocket(context, widget.projetcID);
   }
 
-  void _cancelInterview(){
+  Future<void> _cancelInterview() async {
     print(widget.message.interview!.id);
     print(widget.projetcID);
     print(widget.meID);
     print(widget.personID);
     print(cancelMeeting);
-    SocketManager.cancelInterview(
-      widget.message.interview!.id,
-      widget.projetcID,
-      widget.meID,
-      widget.personID,
-      cancelMeeting
+
+    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+
+    final response = await http.patch(
+      Uri.parse('https://api.studenthub.dev/api/interview/${widget.message.interview!.id}/disable'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': 'Bearer $token',
+      },
     );
-    showSuccessDialog();
-    widget.refreshMessageList();
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      showSuccessDialog();
+      widget.refreshMessageList();
+    } else {
+      print('Failed to cancel interview:  ${response.body}');
+    }
   }
 
   void showSuccessDialog() {
@@ -56,7 +68,7 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(AppLocalizations.of(context)!.success, textAlign: TextAlign.center,),
-          content: Text(AppLocalizations.of(context)!.create_interview_success, textAlign: TextAlign.center,),
+          content: Text(AppLocalizations.of(context)!.cancel_interview_success, textAlign: TextAlign.center,),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -148,6 +160,25 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                       widget.message.interview!.meetingRoom!.meetingRoomId,
                       style: const TextStyle(fontStyle: FontStyle.italic),
                     )
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  children: [
+                    const Text(
+                      'Status: ',
+                      style: TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                    ),
+                    if (widget.message.interview!.disableFlag == 0)
+                      const Text(
+                        'Active',
+                        style: TextStyle(fontStyle: FontStyle.italic, color: _green),
+                      )
+                    else
+                      const Text(
+                        'Cancel',
+                        style: TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
+                      )
                   ],
                 ),
               ],

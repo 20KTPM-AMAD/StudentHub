@@ -196,5 +196,6 @@
   "create_interview_success": "Interview created successfully",
   "update_interview": "Re-schedule the meeting",
   "update_interview_success": "Interview updated successfully",
-  "project_name": "Project name"
+  "project_name": "Project name",
+  "cancel_interview_success": "Interview cancelled successfully"
 }
