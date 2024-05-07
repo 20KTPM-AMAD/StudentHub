@@ -114,11 +114,13 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     if (textController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Message must not empty'),
+          content: Text('Message must not empty',),
           backgroundColor: Colors.red,
         ),
       );
     }
+    print(userId);
+    print(widget.personID);
     final response = await http.post(
       Uri.parse('https://api.studenthub.dev/api/message/sendMessage'),
       headers: <String, String>{
