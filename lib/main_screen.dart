@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
+import 'package:studenthub/pages/chat/interview_list.dart';
 import 'package:studenthub/pages/chat/message_list_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/pages/notification/notification_screen.dart';
@@ -53,6 +54,7 @@ class MainScreenState extends State<MainScreen> {
               const ProjectListScreen(),
               const DashboardScreen(),
               const MessageListScreen(),
+              const InterviewListScreen(),
               const NotificationScreen()
             ];
           })
@@ -61,6 +63,7 @@ class MainScreenState extends State<MainScreen> {
               const ProjectListScreen(),
               const AllProjectsScreen(),
               const MessageListScreen(),
+              const InterviewListScreen(),
               const NotificationScreen()
             ];
           });
@@ -142,6 +145,10 @@ class MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
               icon: const Icon(Icons.message),
               label: 'Message',
+              backgroundColor: Colors.grey[400]),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.videocam),
+              label: 'Interview',
               backgroundColor: Colors.grey[400]),
           BottomNavigationBarItem(
               icon: const Icon(Icons.notifications),
