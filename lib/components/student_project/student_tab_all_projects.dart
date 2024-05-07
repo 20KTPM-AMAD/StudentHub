@@ -20,6 +20,8 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
 
   late List<Proposal> proposalsSubmitted = [];
 
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,32 +29,59 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
   }
 
   Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+
     final loginUser =
         Provider.of<AuthProvider>(context, listen: false).loginUser;
     final token = Provider.of<AuthProvider>(context, listen: false).token;
 
     try {
       //active
-      final List<dynamic> proposalsActiveList =
-          await getProposalByStudentId(loginUser!.student!.id, StatusFlag.Active.index.toString() , null, token!);
+      final List<dynamic> proposalsActiveList = await getProposalByStudentId(
+          loginUser!.student!.id,
+          '1,2',
+          null,
+          token!);
+
       setState(() {
-        proposalsActive = proposalsActiveList.cast<Proposal>();
+        proposalsActive = proposalsActiveList
+            .map((dynamic item) => Proposal.fromJson(item))
+            .toList();
       });
 
       // submitted
-      final List<dynamic> proposalsSubmittedlist =
-          await getProposalByStudentId(loginUser.student!.id, StatusFlag.Waitting.index.toString(), null, token);
+      final List<dynamic> proposalsSubmittedlist = await getProposalByStudentId(
+          loginUser.student!.id,
+          StatusFlag.Waitting.index.toString(),
+          null,
+          token);
+
       setState(() {
-        proposalsSubmitted = proposalsSubmittedlist.cast<Proposal>();
+        proposalsSubmitted = proposalsSubmittedlist
+            .map((dynamic item) => Proposal.fromJson(item))
+            .toList();
       });
+
     } catch (error) {
       // Handle error here
       print('Error fetching proposals: $error');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : buildProject();
+  }
+
+  Widget buildProject() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,32 +94,32 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
             child: Column(
               children: [
                 ...[
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 10),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      AppLocalizations.of(context)!
-                          .active_proposal(proposalsActive.length.toString()),
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 10),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .active_proposal(proposalsActive.length.toString()),
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(height: 10),
-                  itemCount: proposalsActive.length,
-                  itemBuilder: (context, index) {
-                    final Proposal proposal = proposalsActive[index];
-                    return StudentProjectDetailCard(
-                      proposal: proposal,
-                    );
-                  },
-                ),
-              ],
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 10),
+                    itemCount: proposalsActive.length,
+                    itemBuilder: (context, index) {
+                      final Proposal proposal = proposalsActive[index];
+                      return StudentProjectDetailCard(
+                        proposal: proposal, isActive: true
+                      );
+                    },
+                  ),
+                ],
               ],
             ),
           ),
@@ -105,31 +134,31 @@ class StudentAllProjectsTabState extends State<StudentAllProjectsTab> {
             child: Column(
               children: [
                 ...[
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, top: 10),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                        AppLocalizations.of(context)!.submitted_proposal(
-                            proposalsSubmitted.length.toString()),
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 10),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                          AppLocalizations.of(context)!.submitted_proposal(
+                              proposalsSubmitted.length.toString()),
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold)),
+                    ),
                   ),
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(height: 10),
-                  itemCount: proposalsSubmitted.length,
-                  itemBuilder: (context, index) {
-                    final Proposal proposal = proposalsSubmitted[index];
-                    return StudentProjectDetailCard(
-                      proposal: proposal,
-                    );
-                  },
-                ),
-              ],
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 10),
+                    itemCount: proposalsSubmitted.length,
+                    itemBuilder: (context, index) {
+                      final Proposal proposal = proposalsSubmitted[index];
+                      return StudentProjectDetailCard(
+                        proposal: proposal,
+                      );
+                    },
+                  ),
+                ],
               ],
             ),
           ),

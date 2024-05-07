@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:studenthub/contanst/contanst.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -59,21 +61,22 @@ class Proposal {
   }
 }
 
-Future<List<Proposal>> getProposalByStudentId(
+Future<List<dynamic>> getProposalByStudentId(
     int studentId, String? statusFlag, String? typeFlag, String token) async {
   studentHubUrl = '$studentHubUrl/proposal/project/$studentId';
 
-  var queryParameters;
-
+  Map<String, dynamic>? queryParameters;
   if (statusFlag != null) {
     queryParameters = {'statusFlag': statusFlag};
   }
 
   if (typeFlag != null) {
-    queryParameters = {...queryParameters, 'typeFlag': typeFlag};
+    queryParameters = queryParameters ?? {};
+    queryParameters['typeFlag'] = typeFlag;
   }
 
-  final uri = Uri.https('api.studenthub.dev', '/api/proposal/project/$studentId', queryParameters);
+  final uri = Uri.https('api.studenthub.dev',
+      '/api/proposal/project/$studentId', queryParameters);
 
   final response = await http.get(uri, headers: <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -86,15 +89,32 @@ Future<List<Proposal>> getProposalByStudentId(
 
     final List<dynamic> proposalList = jsonResponse['result'];
 
-    List<Proposal> proposals = [];
-    for (var proposalJson in proposalList) {
-      proposals.add(Proposal.fromJson(proposalJson));
-    }
-
-    return proposals;
+    return proposalList;
   } else {
     throw Exception('Failed to load proposals');
   }
+}
 
-  return [];
+Future<void> updateProposal(int id, int statusFlag, String? token) async {
+  try {
+    if (token != null) {
+      final response = await http.patch(
+        Uri.parse('https://api.studenthub.dev/api/proposal/${id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{'statusFlag': statusFlag}),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+      } else {
+        print('Failed to update proposal: ${response.body}');
+      }
+    }
+  } catch (error) {
+    print(error);
+  }
 }
