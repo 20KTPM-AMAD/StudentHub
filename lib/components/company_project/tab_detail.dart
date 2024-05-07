@@ -111,30 +111,18 @@ class DetailTabState extends State<DetailTab> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  '${AppLocalizations.of(context)!.project_name}: ',
+                            Container(
+                                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                                child: Text(
+                                  _project!.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                     color: _green,
                                   ),
-                                ),
-                                Container(
-                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-                                  child: Text(
-                                    _project!.title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: _green,
-                                    ),
-                                  ),)
-                              ],
-                            ),
+                                ),),
                             const SizedBox(height: 10,),
                             Row(
                               children: [
@@ -142,18 +130,22 @@ class DetailTabState extends State<DetailTab> {
                                   '${AppLocalizations.of(context)!.company}: ',
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     color: _green,
                                   ),
                                 ),
-                                Text(
-                                  _project!.companyName!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+                                  child: Text(
+                                    _project!.companyName!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: _green,
+                                    ),
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ],

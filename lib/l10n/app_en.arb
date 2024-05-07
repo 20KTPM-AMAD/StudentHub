@@ -200,5 +200,16 @@
   "cancel_interview_success": "Interview cancelled successfully",
   "status": "Status",
   "active": "Active",
-  "expired": "Expired"
+  "expired": "Expired",
+  "no_projects": "No projects",
+  "confirm": "Confirm",
+  "sure_remove_posting": "Are you sure you want to remove this posting?",
+  "confirm_remove_posting": "Confirm remove posting",
+  "confirm_archive_posting": "Confirm archive posting",
+  "sure_archive_posting": "Are you sure you want to archive this posting?",
+  "remove_posting_successfully": "Remove posting successfully",
+  "archive_posting_successfully": "Archive posting successfully",
+  "confirm_working_posting": "Confirm work posting",
+  "sure_working_posting": "Are you sure you want to work this posting?",
+  "working_posting_successfully": "Working posting successfully"
 }

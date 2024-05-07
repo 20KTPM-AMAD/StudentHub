@@ -200,5 +200,16 @@
   "cancel_interview_success": "Hủy cuộc phòng vấn thành công",
   "status": "Trạng thái",
   "active": "Hoạt động",
-  "expired": "Hết hạn"
+  "expired": "Hết hạn",
+  "no_projects": "Không có dự án",
+  "confirm": "Xác nhận",
+  "sure_remove_posting": "Bạn có chắc chắn muốn xóa bài đăng này không?",
+  "confirm_remove_posting": "Xác nhận xóa bài đăng",
+  "confirm_archive_posting": "Xác nhận lưu trữ bài đăng",
+  "sure_archive_posting": "Bạn có chắc chắn muốn lưu trữ bài đăng này không?",
+  "remove_posting_successfully": "Xóa bài đăng thành công",
+  "archive_posting_successfully": "Lưu trữ bài đăng thành công",
+  "confirm_working_posting": "Xác nhận làm việc với bài đăng",
+  "sure_working_posting": "Bạn có chắc chắn muốn làm việc với bài đăng này không?",
+  "working_posting_successfully": "Làm việc với bài đăng thành công"
 }

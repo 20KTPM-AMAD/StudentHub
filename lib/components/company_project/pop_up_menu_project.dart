@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
+import 'package:studenthub/pages/browse_project/project_detail_screen.dart';
+import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
 class AllProjectsPopupMenu {
@@ -60,7 +62,14 @@ class AllProjectsPopupMenu {
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SendHireOfferScreen(projectId: project.id)),
+                        );
+                      },
                     ),
                     ListTile(
                       title: Text(
@@ -85,7 +94,20 @@ class AllProjectsPopupMenu {
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectDetailScreen(
+                                    name: project.title,
+                                    description: project.description,
+                                    compnayName: project.companyName!,
+                                    projectScope: project.projectScopeFlag,
+                                    numberOfStudents: project.numberOfStudents,
+                                  )
+                          ),
+                        );
+                      },
                     ),
                     ListTile(
                       title: Text(
@@ -129,7 +151,9 @@ class AllProjectsPopupMenu {
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        _confirmWorkingPosting(context, token!, project.id);
+                      },
                     ),
                   ],
                 ),
@@ -147,21 +171,21 @@ class AllProjectsPopupMenu {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm remove posting'),
-          content: Text('Are you sure you want to remove this posting?'),
+          title: Text(AppLocalizations.of(context)!.confirm_remove_posting),
+          content: Text(AppLocalizations.of(context)!.sure_remove_posting),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () {
                 _handleRemovePosting(token!, id, context);
                 Navigator.of(context).pop();
               },
-              child: Text('Confirm'),
+              child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],
         );
@@ -175,21 +199,24 @@ class AllProjectsPopupMenu {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm archive posting'),
-          content: Text('Are you sure you want to archive this posting?', textAlign: TextAlign.center,),
+          title: Text(AppLocalizations.of(context)!.confirm_archive_posting),
+          content: Text(
+            AppLocalizations.of(context)!.sure_archive_posting,
+            textAlign: TextAlign.center,
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () {
-                _handleRemovePosting(token!, id, context);
+                _handleArchivePosting(token!, id, context);
                 Navigator.of(context).pop();
               },
-              child: Text('Confirm'),
+              child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],
         );
@@ -210,7 +237,7 @@ class AllProjectsPopupMenu {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Remove posting successfully'),
+            content: Text(AppLocalizations.of(context)!.remove_posting_successfully),
           ),
         );
       } else {
@@ -231,13 +258,71 @@ class AllProjectsPopupMenu {
           'Authorization': 'Bearer $token',
         },
         body: <String, dynamic>{
+          'typeFlag': '2',
+        },
+      );
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.archive_posting_successfully),
+          ),
+        );
+      } else {
+        print('Failed to archive posting: ${response.body}');
+      }
+    } catch (error) {
+      print('Failed to archive posting: $error');
+    }
+  }
+
+  static void _confirmWorkingPosting(
+      BuildContext context, String? token, int id) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.confirm_working_posting),
+          content: Text(
+            AppLocalizations.of(context)!.sure_working_posting,
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                _handleWorkingPosting(token!, id, context);
+                Navigator.of(context).pop();
+              },
+              child: Text(AppLocalizations.of(context)!.confirm),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  static void _handleWorkingPosting(
+      String token, int id, BuildContext context) async {
+    try {
+      final response = await http.patch(
+        Uri.parse('http://34.16.137.128/api/project/$id'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: <String, dynamic>{
           'typeFlag': '1',
         },
       );
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Archive posting successfully'),
+            content: Text(AppLocalizations.of(context)!.working_posting_successfully),
           ),
         );
       } else {

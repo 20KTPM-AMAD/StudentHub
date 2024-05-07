@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:studenthub/components/company_project/tab_all_project_archived.dart';
+import 'package:studenthub/components/company_project/tab_all_project_working.dart';
 import 'package:studenthub/components/company_project/tab_all_projects.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/pages/browse_project/post_project_step_1_screen.dart';
@@ -31,7 +33,7 @@ class DashboardState extends State<DashboardScreen>{
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 child: Column(
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -77,12 +79,8 @@ class DashboardState extends State<DashboardScreen>{
                               child: const TabBarView(
                                 children: [
                                   AllProjectsTab(),
-                                  Center(
-                                    child: Text('Working Projects Content'),
-                                  ),
-                                  Center(
-                                    child: Text('Archived Projects Content'),
-                                  ),
+                                  AllProjectsWorkingTab(),
+                                  AllProjectsArchivedTab()
                                 ],
                               ),
                             ),
