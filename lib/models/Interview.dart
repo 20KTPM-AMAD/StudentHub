@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:studenthub/models/MeetingRoom.dart';
 
 class Interview {
@@ -24,6 +25,20 @@ class Interview {
     required this.meetingRoomId,
     this.meetingRoom,
   });
+
+  String formattedStartTime() {
+    final vietnamTime = startTime.add(const Duration(hours: 7));
+    final formatter = DateFormat('HH:mm, dd/MM/yyyy');
+    final formattedTime = formatter.format(vietnamTime);
+    return formattedTime;
+  }
+
+  String formattedEndTime() {
+    final vietnamTime = endTime.add(const Duration(hours: 7));
+    final formatter = DateFormat('HH:mm, dd/MM/yyyy');
+    final formattedTime = formatter.format(vietnamTime);
+    return formattedTime;
+  }
 
   factory Interview.fromJson(Map<String, dynamic> json) {
     return Interview(
