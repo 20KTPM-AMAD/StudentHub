@@ -33,27 +33,6 @@ class SocketManager {
     socket.on('RECEIVE_INTERVIEW', (data) => print(data));
   }
 
-  static void createInterview(String title, String content, DateTime startDate, DateTime endDate, TimeOfDay startTime, TimeOfDay endTime, int projectId, int senderId, int receiverId, String meetingRoomCode, String meetingRoomID) {
-    DateTime startDateTime = DateTime(startDate.year, startDate.month, startDate.day, startTime.hour, startTime.minute);
-    DateTime endDateTime = DateTime(endDate.year, endDate.month, endDate.day, endTime.hour, endTime.minute);
-
-    if (socket.connected) {
-      socket.emit('SCHEDULE_INTERVIEW', {
-        'title': title,
-        'content': content,
-        'startTime': startDateTime.toIso8601String(),
-        'endTime': endDateTime.toIso8601String(),
-        'projectId': projectId,
-        'senderId': senderId,
-        'receiverId': receiverId,
-        'meeting_room_code': meetingRoomCode,
-        'meeting_room_id': meetingRoomID
-      });
-    } else {
-      print('Socket is not connected');
-    }
-  }
-
   static void updateInterview(int interviewId, int projectId, int senderId, int receiverId, String title, DateTime startDate, DateTime endDate, TimeOfDay startTime, TimeOfDay endTime, bool updateAction) {
     DateTime startDateTime = DateTime(startDate.year, startDate.month, startDate.day, startTime.hour, startTime.minute);
     DateTime endDateTime = DateTime(endDate.year, endDate.month, endDate.day, endTime.hour, endTime.minute);

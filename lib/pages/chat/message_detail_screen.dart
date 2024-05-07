@@ -108,7 +108,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     }
   }
 
-  Future<void> _sendMessage() async {
+  Future<void> sendMessage() async {
     final String? token =
         Provider.of<AuthProvider>(context, listen: false).token;
     if (textController.text.isEmpty) {
@@ -420,7 +420,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    _sendMessage();
+                                    sendMessage();
                                   },
                                   icon: const Icon(
                                     Icons.send,

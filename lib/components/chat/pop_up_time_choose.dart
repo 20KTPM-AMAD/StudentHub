@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/utils/socket_manager.dart';
+import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xff296e48);
 
@@ -37,24 +41,44 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
     SocketManager.initializeSocket(context, widget.projetcID);
   }
 
-  void _createInterview() {
-    if (titleController.text.isNotEmpty ||
-        meetingCodeController.text.isNotEmpty || meetingIdController.text.isNotEmpty) {
-      SocketManager.createInterview(
-        titleController.text,
-        contentController.text,
-        selectedStartDate!,
-        selectedEndDate!,
-        selectedStartTime!,
-        selectedEndTime!,
-        widget.projetcID,
-        widget.meID,
-        widget.personID,
-        meetingCodeController.text,
-        meetingIdController.text,
+  Future<void> _createInterview() async {
+    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+    if (titleController.text.isEmpty || contentController.text.isEmpty || meetingCodeController.text.isEmpty || meetingIdController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('All fields must not empty'),
+          backgroundColor: Colors.red,
+        ),
       );
+    }
+
+    DateTime startDateTime = DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute);
+    DateTime endDateTime = DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute);
+
+    final response = await http.post(
+      Uri.parse('https://api.studenthub.dev/api/interview'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'authorization': 'Bearer $token',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'title': titleController.text,
+        'content': contentController.text,
+        'startTime': startDateTime.toIso8601String(),
+        'endTime': endDateTime.toIso8601String(),
+        'projectId': widget.projetcID,
+        'senderId': widget.meID,
+        'receiverId': widget.personID,
+        'meeting_room_code': meetingCodeController.text,
+        'meeting_room_id': meetingIdController.text
+      }),
+    );
+    print(response.statusCode);
+    if (response.statusCode == 201) {
       showSuccessDialog();
       widget.refreshMessageList();
+    } else {
+      print('Failed to invite interview:  ${response.body}');
     }
   }
 
