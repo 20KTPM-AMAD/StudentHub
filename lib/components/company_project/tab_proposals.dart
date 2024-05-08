@@ -186,7 +186,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                           foregroundColor: Colors.white,
                           fixedSize: const Size(130, 40),
                         ),
-                        child: Text(AppLocalizations.of(context)!.message, style: const TextStyle(fontSize: 18,)),
+                        child: Text(AppLocalizations.of(context)!.message, style: const TextStyle(fontSize: 14,)),
                       ),
                       ElevatedButton(
                         onPressed:() {
@@ -200,8 +200,8 @@ class ProposalsTabState extends State<ProposalsTab> {
                         child: Text(
                           proposal.statusFlag == 0
                               ? AppLocalizations.of(context)!.send_hired_offer
-                              : 'Sent hired offer',
-                          style: const TextStyle(fontSize: 18,),
+                              : AppLocalizations.of(context)!.sent_hired_offer,
+                          style: const TextStyle(fontSize: 14,),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

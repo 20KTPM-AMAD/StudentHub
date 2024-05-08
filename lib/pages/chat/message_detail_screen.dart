@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
+import 'package:studenthub/models/Interview.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:studenthub/utils/auth_provider.dart';
@@ -54,6 +55,11 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         });
         print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
       }
+    });
+
+    SocketManager.socket.on('RECEIVE_INTERVIEW', (data) {
+      getMessageList();
+      print('đã lắng nghe sự kiện RECEIVE_INTERVIEW');
     });
     getMessageList();
   }

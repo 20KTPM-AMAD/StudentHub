@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:studenthub/main_screen.dart';
 
 const Color _green = Color(0xff296e48);
@@ -61,10 +62,11 @@ class WelcomeScreenState extends State<WelcomeScreen> {
                   const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MainScreen()),
+                      Navigator.of(context).pushReplacement(
+                        PageTransition(
+                          child: const MainScreen(),
+                          type: PageTransitionType.bottomToTop,
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(

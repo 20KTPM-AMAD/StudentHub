@@ -80,7 +80,17 @@ class LoginScreenState extends State<LoginScreen> {
     } else {
       print('Failed to login  ${response.body}');
       setState(() {
-        errorText = jsonResponse['errorDetails'];
+        if (jsonResponse['errorDetails'] != null) {
+          if (jsonResponse['errorDetails'].contains("email must be an email")) {
+            errorText = 'Invalid email format';
+          } else if (jsonResponse['errorDetails'].contains("password is too weak, password must be longer than or equal to 8 characters")) {
+            errorText = 'Password is too weak. It must be longer than or equal to 8 characters.';
+          } else {
+            errorText = jsonResponse['errorDetails'] ?? 'Failed to login';
+          }
+        } else {
+          errorText = jsonResponse['errorDetails'] ?? 'Failed to login';
+        }
       });
     }
   }

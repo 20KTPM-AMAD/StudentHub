@@ -331,7 +331,7 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                         backgroundColor: _green,
                         foregroundColor: Colors.white
                     ),
-                    child: Text(AppLocalizations.of(context)!.send_invite, style: const TextStyle(fontSize: 14)),
+                    child: Text(AppLocalizations.of(context)!.update_interview_btn, style: const TextStyle(fontSize: 14)),
                   ),
                 ],
               ),
