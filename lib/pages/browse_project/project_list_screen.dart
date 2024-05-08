@@ -12,7 +12,6 @@ import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 
 const Color _green = Color(0xff296e48);
-var blackColor = Colors.black54;
 
 class ProjectListScreen extends StatefulWidget {
   const ProjectListScreen({Key? key}) : super(key: key);
@@ -26,7 +25,7 @@ class ProjectListState extends State<ProjectListScreen> {
   TextEditingController studentsController = TextEditingController();
   TextEditingController proposalsController = TextEditingController();
   ScrollController scrollController = ScrollController();
-  String? selectedIndex;
+  String selectedIndex = '';
   List<Project> projects = [];
   bool isLoading = false;
   bool isAddingMore = false;
@@ -37,7 +36,7 @@ class ProjectListState extends State<ProjectListScreen> {
   void initState() {
     super.initState();
     scrollController.addListener(scrollListener);
-    getAllProjects();
+    _getProjects();
   }
 
   @override
@@ -49,20 +48,24 @@ class ProjectListState extends State<ProjectListScreen> {
 
   void scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-      loadMoreProjects();
+      _getProjects(loadMore: true);
     }
   }
 
-  Future<void> getAllProjects() async {
-    if (isLoading || isAddingMore) return;
+  Future<void> _getProjects({bool loadMore = false}) async {
+    if (isLoading || (loadMore && isAddingMore)) return;
     setState(() {
-      isLoading = true;
+      if (!loadMore) {
+        isLoading = true;
+      } else {
+        isAddingMore = true;
+      }
     });
 
     String url = 'https://api.studenthub.dev/api/project';
 
     Map<String, String> queryParams = {
-      'page': currentPage.toString(),
+      'page': loadMore ? (currentPage + 1).toString() : currentPage.toString(),
       'perPage': pageSize.toString(),
     };
 
@@ -78,14 +81,16 @@ class ProjectListState extends State<ProjectListScreen> {
       queryParams['proposalsLessThan'] = proposalsController.text;
     }
 
-    if (selectedIndex != null) {
-      print(selectedIndex);
+    if (selectedIndex.isNotEmpty) {
       queryParams['projectScopeFlag'] = selectedIndex.toString();
     }
 
     if (queryParams.isNotEmpty) {
       url += '?${Uri(queryParameters: queryParams).query}';
     }
+
+    print(selectedIndex.runtimeType);
+    print(url);
 
     try {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
@@ -98,28 +103,47 @@ class ProjectListState extends State<ProjectListScreen> {
           },
         );
 
+        print(response.statusCode);
+
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
           if (jsonResponse['result'] is List) {
+            if (!loadMore) {
+              setState(() {
+                currentPage = 1;
+                projects.clear(); // Clear projects list if not loading more
+              });
+            }
             setState(() {
               final List<Project> newProjects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
-              setState(() {
-                projects.addAll(newProjects.reversed.toList());
-                currentPage++;
-                isLoading = false;
-              });
+              projects.addAll(newProjects.reversed.toList());
+              currentPage++;
             });
           } else {
             print('Response is not a list of projects');
           }
         } else {
-          print('Failed to get list project: ${response.body}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to fetch projects'),
-              backgroundColor: Colors.red,
-            ),
-          );
+          final jsonResponse = json.decode(response.body);
+          if (jsonResponse['errorDetails'].contains("No projects found")) {
+            setState(() {
+              currentPage = 1;
+              projects.clear(); // Clear projects list if no projects found
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('No projects found'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          } else {
+            print('Failed to get list project: ${response.body}');
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Failed to fetch projects'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         }
       }
     } catch (error) {
@@ -133,86 +157,6 @@ class ProjectListState extends State<ProjectListScreen> {
     } finally {
       setState(() {
         isLoading = false;
-      });
-    }
-  }
-
-  Future<void> loadMoreProjects() async {
-    if (isLoading || isAddingMore) return;
-    setState(() {
-      isAddingMore = true;
-    });
-
-    String url = 'https://api.studenthub.dev/api/project';
-
-    Map<String, String> queryParams = {
-      'page': currentPage.toString(),
-      'perPage': pageSize.toString(),
-    };
-
-    if (searchController.text.isNotEmpty) {
-      queryParams['title'] = searchController.text;
-    }
-
-    if (studentsController.text.isNotEmpty) {
-      queryParams['numberOfStudents'] = studentsController.text;
-    }
-
-    if (proposalsController.text.isNotEmpty) {
-      queryParams['proposalsLessThan'] = proposalsController.text;
-    }
-
-    if (selectedIndex != null) {
-      queryParams['projectScopeFlag'] = selectedIndex.toString();
-    }
-
-    if (queryParams.isNotEmpty) {
-      url += '?${Uri(queryParameters: queryParams).query}';
-    }
-
-    try {
-      final token = Provider.of<AuthProvider>(context, listen: false).token;
-      if (token != null) {
-        final response = await http.get(
-          Uri.parse(url),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Authorization': 'Bearer $token',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          final jsonResponse = json.decode(response.body);
-          if (jsonResponse['result'] is List) {
-            await Future.delayed(const Duration(seconds: 2));
-            setState(() {
-              final List<Project> newProjects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
-              projects.addAll(newProjects.reversed.toList());
-              currentPage++;
-              isAddingMore = false;
-            });
-          } else {
-            print('Response is not a list of projects');
-          }
-        } else {
-          print('Failed to get list project: ${response.body}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Failed to fetch projects'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      }
-    } catch (error) {
-      print('Failed to get list project: $error');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('An error occurred'),
-          backgroundColor: Colors.red,
-        ),
-      );
-      setState(() {
         isAddingMore = false;
       });
     }
@@ -286,7 +230,7 @@ class ProjectListState extends State<ProjectListScreen> {
           children: <Widget>[
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Column(
                 children: [
                   const SizedBox(height: 20),
@@ -311,21 +255,21 @@ class ProjectListState extends State<ProjectListScreen> {
                           ),
                           onSubmitted: (value) {
                             print('searchText: $value');
-                            getAllProjects();
+                            _getProjects();
                           },
                         ),
                       ),
                       IconButton(
                         onPressed: () async {
                           Map<String, dynamic?>? filterValues =
-                              await ProjectPopupFilter.show(context);
+                          await ProjectPopupFilter.show(context);
                           if (filterValues != null) {
                             studentsController.text =
                                 filterValues['students'] ?? '';
                             proposalsController.text =
                                 filterValues['proposals'] ?? '';
-                            selectedIndex = filterValues['range'] as String?;
-                            getAllProjects();
+                            selectedIndex = (filterValues['range'] as String?)!;
+                            _getProjects();
                           }
                         },
                         icon: const Icon(Icons.filter_alt_outlined, size: 30),
@@ -364,15 +308,20 @@ class ProjectListState extends State<ProjectListScreen> {
   Widget _buildProjectList() {
     final theme = Theme.of(context);
     return RefreshIndicator(
-      onRefresh: getAllProjects,
+      onRefresh: _getProjects,
       child: ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
         separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(height: 10),
+        const SizedBox(height: 10),
         itemCount: projects.length + 1,
         itemBuilder: (context, index) {
-          if (index == projects.length) {
+          if (projects.isEmpty) {
+            return const Center(
+              child: Text('There are currently no projects'),
+            );
+          }
+          else if (index == projects.length) {
             return isAddingMore ? const Center(child: CircularProgressIndicator()) : const SizedBox();
           }
           else{

@@ -18,7 +18,7 @@ class RadioButtonGroupProjectLength extends StatefulWidget {
 }
 
 class _RadioButtonGroupState extends State<RadioButtonGroupProjectLength> {
-  Range? _range = Range.LessThanOneMonth;
+  Range? _range;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _RadioButtonGroupState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
-              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
+              widget.onValueChanged(_range);
             },
           ),
         ),
@@ -46,7 +46,7 @@ class _RadioButtonGroupState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
-              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
+              widget.onValueChanged(_range);
             },
           ),
         ),
@@ -59,7 +59,7 @@ class _RadioButtonGroupState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
-              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
+              widget.onValueChanged(_range);
             },
           ),
         ),
@@ -72,7 +72,7 @@ class _RadioButtonGroupState extends State<RadioButtonGroupProjectLength> {
               setState(() {
                 _range = value;
               });
-              widget.onValueChanged(_range);  // Truyền giá trị đã chọn về callback
+              widget.onValueChanged(_range);
             },
           ),
         ),

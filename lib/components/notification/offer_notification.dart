@@ -27,7 +27,7 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.settings, size: 40),
+                Image.asset('assets/images/settings.png', fit: BoxFit.cover, width: 50, height: 50),
                 const SizedBox(width: 20,),
                 Expanded(
                   child: Column(

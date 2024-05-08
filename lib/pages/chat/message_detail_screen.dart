@@ -172,7 +172,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundImage: Image.asset('assets/images/user.jpg').image,
+                backgroundImage: Image.asset('assets/images/human.png').image,
               ),
               const SizedBox(
                 width: 10,
@@ -292,7 +292,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
                                     CircleAvatar(
                                       radius: 20,
                                       backgroundImage:
-                                          Image.asset('assets/images/user.jpg')
+                                          Image.asset('assets/images/human.png')
                                               .image,
                                     ),
                                   const SizedBox(

@@ -18,15 +18,15 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
     return Card(
       margin: const EdgeInsets.all(5.0),
       child: ListTile(
-        title: const Column(
+        title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.person_rounded, size: 40),
-                SizedBox(width: 20,),
-                Expanded(
+                Image.asset('assets/images/chat.png', fit: BoxFit.cover, width: 50, height: 50),
+                const SizedBox(width: 20,),
+                const Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

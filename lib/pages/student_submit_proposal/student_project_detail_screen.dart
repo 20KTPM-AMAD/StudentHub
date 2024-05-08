@@ -122,15 +122,8 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          'assets/images/project_detail.png',
-                          fit: BoxFit.cover,
-                          width: 100,
-                          height: 100,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        Image.asset('assets/images/project_detail.png', fit: BoxFit.cover, width: 100, height: 100,),
+                        const SizedBox(width: 10,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -141,39 +134,20 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                                 fontSize: 20,
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '${AppLocalizations.of(context)!.project_name}: ',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
-                                  ),
+                            const SizedBox(height: 10,),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                              child: Text(
+                                project.title,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: _green,
                                 ),
-                                Container(
-                                  constraints: BoxConstraints(
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.3),
-                                  child: Text(
-                                    project.title,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: _green,
-                                    ),
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            const SizedBox(height: 10,),
                             Row(
                               children: [
                                 Text(
@@ -184,14 +158,18 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                                     color: _green,
                                   ),
                                 ),
-                                Text(
-                                  project.companyName!,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+                                  child: Text(
+                                    project.companyName!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: _green,
+                                    ),
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ],
@@ -273,7 +251,7 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     widget.isOffer
@@ -307,7 +285,7 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                               ],
                             ),
                           )
-                        : SizedBox()
+                        : const SizedBox()
                   ],
                 ),
               ),
