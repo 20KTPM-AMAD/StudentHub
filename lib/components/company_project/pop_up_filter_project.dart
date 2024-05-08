@@ -3,7 +3,7 @@ import 'package:studenthub/components/input_group.dart';
 import 'package:studenthub/components/company_project/radio_button_group_project_length.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class ProjectPopupFilter {
   static Future<Map<String, dynamic>?> show(BuildContext context) async {
