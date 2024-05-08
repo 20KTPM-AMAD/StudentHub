@@ -15,7 +15,12 @@ class TimeChoosePopupFilter extends StatefulWidget {
   final int projetcID;
   final int meID;
   final Function refreshMessageList;
-  const TimeChoosePopupFilter({Key? key, required this.personID, required this.projetcID, required this.meID, required this.refreshMessageList})
+  const TimeChoosePopupFilter(
+      {Key? key,
+      required this.personID,
+      required this.projetcID,
+      required this.meID,
+      required this.refreshMessageList})
       : super(key: key);
 
   @override
@@ -41,7 +46,8 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   }
 
   Future<void> _createInterview() async {
-    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+    final String? token =
+        Provider.of<AuthProvider>(context, listen: false).token;
     if (titleController.text.isEmpty || contentController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -51,8 +57,18 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
       );
     }
 
-    DateTime startDateTime = DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute);
-    DateTime endDateTime = DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute);
+    DateTime startDateTime = DateTime(
+        selectedStartDate!.year,
+        selectedStartDate!.month,
+        selectedStartDate!.day,
+        selectedStartTime!.hour,
+        selectedStartTime!.minute);
+    DateTime endDateTime = DateTime(
+        selectedEndDate!.year,
+        selectedEndDate!.month,
+        selectedEndDate!.day,
+        selectedEndTime!.hour,
+        selectedEndTime!.minute);
 
     String meetingRoomCode = generateRandomString(10);
     String meetingRoomId = generateRandomString(10);
@@ -83,7 +99,10 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
         retry = false;
       } else {
         final jsonResponse = json.decode(response.body);
-        if (jsonResponse['errorDetails'].contains("Meeting room code already exists") || jsonResponse['errorDetails'].contains("Meeting room code already exists")){
+        if (jsonResponse['errorDetails']
+                .contains("Meeting room code already exists") ||
+            jsonResponse['errorDetails']
+                .contains("Meeting room code already exists")) {
           meetingRoomCode = generateRandomString(10);
           meetingRoomId = generateRandomString(10);
         } else {
@@ -107,7 +126,10 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('OK', textAlign: TextAlign.center,),
+              child: const Text(
+                'OK',
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         );
@@ -128,7 +150,10 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('OK', textAlign: TextAlign.center,),
+              child: const Text(
+                'OK',
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         );
@@ -157,7 +182,9 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Text(
@@ -169,7 +196,9 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                 ),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Divider(),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
@@ -184,7 +213,9 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5,),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   SizedBox(
                     height: 50,
                     child: TextField(
@@ -197,7 +228,9 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     AppLocalizations.of(context)!.content,
                     textAlign: TextAlign.left,
@@ -206,7 +239,9 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5,),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   SizedBox(
                     height: 50,
                     child: TextField(
@@ -222,7 +257,9 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Column(
@@ -242,19 +279,20 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.choose_start_time,
-                        style: const TextStyle(
-                            fontStyle: FontStyle.italic
-                        ),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                       IconButton(
                         onPressed: () async {
-                          final DateTime? selectedDate = await selectDate(context);
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final DateTime? selectedDate =
+                              await selectDate(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedDate != null && selectedTime != null) {
                             setState(() {
                               selectedStartDate = selectedDate;
                               selectedStartTime = selectedTime;
-                              startTimeFormat = '${DateFormat('yyyy/MM/dd').format(selectedStartDate!)} ${selectedStartTime!.format(context)}';
+                              startTimeFormat =
+                                  '${DateFormat('yyyy/MM/dd').format(selectedStartDate!)} ${selectedStartTime!.format(context)}';
                               calculateDuration();
                             });
                           }
@@ -263,7 +301,8 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedTime != null) {
                             setState(() {
                               selectedStartTime = selectedTime;
@@ -277,14 +316,14 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                   if (startTimeFormat != null)
                     Text(
                       startTimeFormat!,
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic
-                      ),
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Column(
@@ -305,19 +344,20 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       Text(
                         AppLocalizations.of(context)!.choose_end_time,
                         style: const TextStyle(
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic
-                        ),
+                            fontSize: 16, fontStyle: FontStyle.italic),
                       ),
                       IconButton(
                         onPressed: () async {
-                          final DateTime? selectedDate = await selectDate(context);
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final DateTime? selectedDate =
+                              await selectDate(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedDate != null && selectedTime != null) {
                             setState(() {
                               selectedEndDate = selectedDate;
                               selectedEndTime = selectedTime;
-                              endTimeFormat = '${DateFormat('yyyy/MM/dd').format(selectedEndDate!)} ${selectedEndTime!.format(context)}';
+                              endTimeFormat =
+                                  '${DateFormat('yyyy/MM/dd').format(selectedEndDate!)} ${selectedEndTime!.format(context)}';
                               calculateDuration();
                             });
                           }
@@ -326,7 +366,8 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedTime != null) {
                             setState(() {
                               selectedEndTime = selectedTime;
@@ -340,9 +381,7 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                   if (endTimeFormat != null)
                     Text(
                       endTimeFormat!,
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic
-                      ),
+                      style: const TextStyle(fontStyle: FontStyle.italic),
                     ),
                 ],
               ),
@@ -356,14 +395,14 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                     AppLocalizations.of(context)!.duration(duration ?? '0'),
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic
-                    ),
+                        fontSize: 14, fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -377,16 +416,17 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
                       backgroundColor: Colors.grey,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 14)),
+                    child: Text(AppLocalizations.of(context)!.cancel,
+                        style: const TextStyle(fontSize: 14)),
                   ),
                   ElevatedButton(
-                    onPressed: (){_createInterview();
-                      },
+                    onPressed: () {
+                      _createInterview();
+                    },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: _green,
-                        foregroundColor: Colors.white
-                    ),
-                    child: Text(AppLocalizations.of(context)!.send_invite, style: const TextStyle(fontSize: 14)),
+                        backgroundColor: _green, foregroundColor: Colors.white),
+                    child: Text(AppLocalizations.of(context)!.send_invite,
+                        style: const TextStyle(fontSize: 14)),
                   ),
                 ],
               ),
@@ -420,9 +460,18 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   }
 
   void calculateDuration() {
-    if (selectedStartDate != null && selectedStartTime != null && selectedEndDate != null && selectedEndTime != null) {
-      final startTime = DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute);
-      final endTime = DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute);
+    if (selectedStartDate != null &&
+        selectedStartTime != null &&
+        selectedEndDate != null &&
+        selectedEndTime != null) {
+      final startTime = DateTime(
+          selectedStartDate!.year,
+          selectedStartDate!.month,
+          selectedStartDate!.day,
+          selectedStartTime!.hour,
+          selectedStartTime!.minute);
+      final endTime = DateTime(selectedEndDate!.year, selectedEndDate!.month,
+          selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute);
       final difference = endTime.difference(startTime);
       final hours = difference.inHours;
       final minutes = difference.inMinutes.remainder(60);

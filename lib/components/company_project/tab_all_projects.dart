@@ -35,8 +35,10 @@ class AllProjectsTabState extends State<AllProjectsTab> {
 
     try {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
-      final companyId =
-          Provider.of<AuthProvider>(context, listen: false).loginUser!.company!.id;
+      final companyId = Provider.of<AuthProvider>(context, listen: false)
+          .loginUser!
+          .company!
+          .id;
       if (token != null) {
         final response = await http.get(
           Uri.parse('http://34.16.137.128/api/project/company/$companyId'),
@@ -51,9 +53,12 @@ class AllProjectsTabState extends State<AllProjectsTab> {
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
           print(jsonResponse);
-          if (jsonResponse['result'] is List) { // Check if jsonResponse is a list
+          if (jsonResponse['result'] is List) {
+            // Check if jsonResponse is a list
             setState(() {
-              _projects = jsonResponse['result'].map<Project>((data) => Project.fromJson(data)).toList();
+              _projects = jsonResponse['result']
+                  .map<Project>((data) => Project.fromJson(data))
+                  .toList();
             });
           } else {
             print('Response is not a list of projects');
@@ -101,7 +106,8 @@ class AllProjectsTabState extends State<AllProjectsTab> {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 10),
         itemCount: _projects.length,
         itemBuilder: (context, index) {
           final project = _projects[index];
@@ -113,8 +119,15 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
-                      const SizedBox(width: 20,),
+                      Image.asset(
+                        'assets/images/project.png',
+                        fit: BoxFit.cover,
+                        width: 80,
+                        height: 80,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,12 +150,17 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       IconButton(
                         onPressed: () {
                           AllProjectsPopupMenu.show(context, project);
                         },
-                        icon: const Icon(Icons.pending_outlined, size: 30,),
+                        icon: const Icon(
+                          Icons.pending_outlined,
+                          size: 30,
+                        ),
                       ),
                     ],
                   ),
@@ -168,11 +186,14 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      buildProjectDetailColumn('${project.countProposals}', AppLocalizations.of(context)!.proposals),
+                      buildProjectDetailColumn('${project.countProposals}',
+                          AppLocalizations.of(context)!.proposals),
                       const SizedBox(width: 20),
-                      buildProjectDetailColumn('${project.countMessages}', AppLocalizations.of(context)!.messages),
+                      buildProjectDetailColumn('${project.countMessages}',
+                          AppLocalizations.of(context)!.messages),
                       const SizedBox(width: 20),
-                      buildProjectDetailColumn('${project.countHired}', AppLocalizations.of(context)!.hired),
+                      buildProjectDetailColumn('${project.countHired}',
+                          AppLocalizations.of(context)!.hired),
                     ],
                   )
                 ],
@@ -180,7 +201,9 @@ class AllProjectsTabState extends State<AllProjectsTab> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SendHireOfferScreen(projectId: project.id)),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SendHireOfferScreen(projectId: project.id)),
                 );
               },
             ),

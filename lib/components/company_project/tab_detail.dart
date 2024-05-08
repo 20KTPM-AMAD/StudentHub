@@ -106,24 +106,36 @@ class DetailTabState extends State<DetailTab> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset('assets/images/project_detail.png', fit: BoxFit.cover, width: 100, height: 100,),
-                        const SizedBox(width: 10,),
+                        Image.asset(
+                          'assets/images/project_detail.png',
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-                                child: Text(
-                                  _project!.title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
-                                  ),
-                                ),),
-                            const SizedBox(height: 10,),
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.3),
+                              child: Text(
+                                _project!.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: _green,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               children: [
                                 Text(
@@ -135,7 +147,10 @@ class DetailTabState extends State<DetailTab> {
                                   ),
                                 ),
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.5),
                                   child: Text(
                                     _project!.companyName!,
                                     overflow: TextOverflow.ellipsis,
@@ -176,7 +191,12 @@ class DetailTabState extends State<DetailTab> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/clock.png', fit: BoxFit.cover, width: 50, height: 50,),
+                        Image.asset(
+                          'assets/images/clock.png',
+                          fit: BoxFit.cover,
+                          width: 50,
+                          height: 50,
+                        ),
                         const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +219,12 @@ class DetailTabState extends State<DetailTab> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/group.png', fit: BoxFit.cover, width: 50, height: 50,),
+                        Image.asset(
+                          'assets/images/group.png',
+                          fit: BoxFit.cover,
+                          width: 50,
+                          height: 50,
+                        ),
                         const SizedBox(width: 30),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

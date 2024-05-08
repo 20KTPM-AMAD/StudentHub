@@ -1,50 +1,75 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:http/http.dart' as http;
+import 'package:studenthub/models/SkillSet.dart';
 
 const Color _green = Color(0xff296e48);
 
-class Skill {
-  final int id;
-  final String name;
-
-  Skill({
-    required this.id,
-    required this.name,
-  });
-}
 class MultiSelect extends StatefulWidget {
-  const MultiSelect({Key? key}) : super(key: key);
+  final List<SkillSet?> selectedSkills;
+  final Function(List<SkillSet?>) setSkillSets;
 
+  const MultiSelect(
+      {Key? key, required this.setSkillSets, required this.selectedSkills})
+      : super(key: key);
 
   @override
   State<MultiSelect> createState() => _MultiSelectState();
 }
 
 class _MultiSelectState extends State<MultiSelect> {
-  static final List<Skill> _skills = [
-    Skill(id: 1, name: "C++"),
-    Skill(id: 2, name: "C#"),
-    Skill(id: 3, name: "Flutter"),
-    Skill(id: 4, name: "NodeJS"),
-    Skill(id: 5, name: "PHP"),
-    Skill(id: 6, name: "Dart"),
-    Skill(id: 7, name: "Java"),
-    Skill(id: 8, name: "React"),
-    Skill(id: 9, name: "AWS"),
-    Skill(id: 10, name: "MySQL"),
-    Skill(id: 11, name: "CI/CD"),
-    Skill(id: 12, name: "Go"),
-    Skill(id: 13, name: "Kotlin"),
-  ];
-  final _items = _skills
-      .map((skill) => MultiSelectItem<Skill>(skill, skill.name))
-      .toList();
-  List<Object?> _selectedSkills = [];
+  List<SkillSet> _skills = [];
+  bool isLoading = false;
+
+  Future<void> getAllSkillSets() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response = await http
+          .get(Uri.parse('http://34.16.137.128/api/skillset/getAllSkillSet'));
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        if (jsonResponse['result'] is List) {
+          setState(() {
+            _skills = jsonResponse['result']
+                .map<SkillSet>(
+                    (data) => SkillSet(id: data['id'], name: data['name']))
+                .toList();
+            _items = _skills
+                .map((skill) => MultiSelectItem<SkillSet>(skill, skill.name))
+                .toList();
+          });
+        } else {
+          print('Response is not a list of projects');
+        }
+      }
+    } catch (error) {
+      print('Failed to get list skill Set: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('An error occurred'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  List<MultiSelectItem<SkillSet>> _items = [];
 
   @override
   void initState() {
     super.initState();
+    getAllSkillSets();
   }
 
   @override
@@ -64,22 +89,19 @@ class _MultiSelectState extends State<MultiSelect> {
             ),
             child: Column(
               children: <Widget>[
-                MultiSelectBottomSheetField(
+                MultiSelectBottomSheetField<SkillSet?>(
                   initialChildSize: 0.4,
                   listType: MultiSelectListType.CHIP,
                   searchable: true,
-                  buttonText: Text(AppLocalizations.of(context)!.choose_your_skills),
+                  buttonText:
+                      Text(AppLocalizations.of(context)!.choose_your_skills),
                   title: Text(AppLocalizations.of(context)!.skills),
                   items: _items,
                   onConfirm: (values) {
-                    _selectedSkills = values;
+                    widget.setSkillSets(values);
                   },
                   chipDisplay: MultiSelectChipDisplay(
-                    onTap: (value) {
-                      setState(() {
-                        _selectedSkills.remove(value);
-                      });
-                    },
+                    onTap: (value) {},
                   ),
                 ),
                 Container(

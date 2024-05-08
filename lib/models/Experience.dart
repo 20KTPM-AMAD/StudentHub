@@ -1,30 +1,40 @@
+import 'package:studenthub/models/SkillSet.dart';
+
 class Experience {
-  late int? id;
   late String title;
   late String startMonth;
   late String endMonth;
   late String description;
-  late List<String> skillSetIds;
+  late List<SkillSet> skillSets = [];
 
   Experience(
-      {this.id,
-      required this.title,
+      {required this.title,
       required this.startMonth,
       required this.endMonth,
       required this.description,
-      required this.skillSetIds});
+      required this.skillSets});
 
   factory Experience.fromJson(Map<String, dynamic> json) {
     return Experience(
-      id: json['id'] as int,
       title: json['title'] as String,
       startMonth: json['startMonth'] as String,
       endMonth: json['endMonth'] as String,
       description: json['description'] as String,
-      skillSetIds: (json['skillSetIds'] as List<dynamic>?)
-              ?.map((skillSetId) => skillSetId as String)
+      skillSets: (json['skillSets'] as List<dynamic>?)
+              ?.map((skillSet) =>
+                  SkillSet.fromJson(skillSet as Map<String, dynamic>))
               .toList() ??
           [],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'startMonth': startMonth,
+      'endMonth': endMonth,
+      'description': description,
+      'skillSets': skillSets.map((skillSet) => skillSet.id).toList(),
+    };
   }
 }

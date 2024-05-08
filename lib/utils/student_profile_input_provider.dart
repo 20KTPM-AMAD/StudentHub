@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:studenthub/models/Education.dart';
 import 'package:studenthub/models/Experience.dart';
 import 'package:studenthub/models/Language.dart';
+import 'package:studenthub/models/SkillSet.dart';
+import 'package:studenthub/models/TechStack.dart';
 
 class StudentProfileInputProvider with ChangeNotifier {
-  String? _techStackId;
+  TechStack? _techStack;
 
-  List<String> _skillSetIds = [];
+  List<SkillSet?> _skillSets = [];
 
   List<Language> _languages = [];
 
@@ -14,9 +16,9 @@ class StudentProfileInputProvider with ChangeNotifier {
 
   List<Experience> _experiences = [];
 
-  String? get techStackId => _techStackId;
+  TechStack? get techStack => _techStack;
 
-  List<String> get skillSetIds => _skillSetIds;
+  List<SkillSet?> get skillSets => _skillSets;
 
   List<Language> get languages => _languages;
 
@@ -24,54 +26,34 @@ class StudentProfileInputProvider with ChangeNotifier {
 
   List<Experience> get experiences => _experiences;
 
-  void setTechStackId(String techStackId) {
-    _techStackId = techStackId;
+  void setTechStackId(TechStack techStack) {
+    _techStack = techStack;
     notifyListeners();
   }
 
-  void addSkillSetId(String skillSetId) {
-    _skillSetIds?.add(skillSetId);
+  void setSkillSets(List<SkillSet?> skillSets) {
+    _skillSets = skillSets;
     notifyListeners();
   }
 
-  void removeSkillSetId(String skillSetId) {
-    _skillSetIds?.remove(skillSetId);
+  void setLanguage(List<Language> languages) {
+    _languages = languages;
     notifyListeners();
   }
 
-  void addLanguage(Language language) {
-    _languages.add(language);
+  void setEducation(List<Education> educations) {
+    _educations = educations;
     notifyListeners();
   }
 
-  void removeLanguage(Language language) {
-    _languages.remove(language);
-    notifyListeners();
-  }
-
-  void addEducation(Education education) {
-    _educations.add(education);
-    notifyListeners();
-  }
-
-  void removeEducation(Education education) {
-    _educations.remove(education);
-    notifyListeners();
-  }
-
-  void addExperience(Experience experience) {
-    _experiences.add(experience);
-    notifyListeners();
-  }
-
-  void removeExperience(Experience experience) {
-    _experiences.remove(experience);
+  setExperience(List<Experience> experiences) {
+    _experiences = experiences;
     notifyListeners();
   }
 
   void clear() {
-    _techStackId = null;
-    _skillSetIds = [];
+    _techStack = null;
+    _skillSets = [];
     _languages = [];
     _educations = [];
     _experiences = [];

@@ -3,9 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:studenthub/components/company_project/card_saved_project.dart';
 import 'package:studenthub/models/Project.dart';
-import 'package:studenthub/pages/browse_project/project_detail_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -20,7 +18,6 @@ class SavedProjectsScreen extends StatefulWidget {
 }
 
 class SavedProjectsState extends State<SavedProjectsScreen> {
-
   int _currentIndex = 0;
 
   @override

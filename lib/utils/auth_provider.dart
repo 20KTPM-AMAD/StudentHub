@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/models/Company.dart';
+import 'package:studenthub/models/Student.dart';
 import 'package:studenthub/models/User.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -21,6 +22,11 @@ class AuthProvider with ChangeNotifier {
 
   void setCompany(Company company) {
     _loginUser?.company = company;
+    notifyListeners();
+  }
+
+  void setStudent(Student student) {
+    _loginUser?.student = student;
     notifyListeners();
   }
 
