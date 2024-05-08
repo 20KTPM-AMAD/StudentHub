@@ -77,7 +77,16 @@ class AllProjectsPopupMenu {
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SendHireOfferScreen(
+                              projectId: project.id,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     ListTile(
                       title: Text(
@@ -85,7 +94,16 @@ class AllProjectsPopupMenu {
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SendHireOfferScreen(
+                              projectId: project.id,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                     const Divider(),
                     ListTile(

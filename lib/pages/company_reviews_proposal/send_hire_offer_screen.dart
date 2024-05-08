@@ -53,7 +53,6 @@ class SendHireOfferState extends State<SendHireOfferScreen> {
         });
       } else {
         print('Failed to get list project: ${response.body}');
-        // Handle error cases here, show error message to user
       }
     }
   }
@@ -130,7 +129,8 @@ class SendHireOfferState extends State<SendHireOfferScreen> {
                             ),
                           ),
                         ],
-                      )),
+                      )
+                  ),
                 ],
               ),
             ),
