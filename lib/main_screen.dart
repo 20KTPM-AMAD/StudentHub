@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
-import 'package:studenthub/pages/chat/interview_list.dart';
+import 'package:studenthub/pages/chat/interview_list_screen.dart';
 import 'package:studenthub/pages/chat/message_list_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/pages/notification/notification_screen.dart';

@@ -113,10 +113,7 @@ class _MessageCardState extends State<MessageCard> {
                 padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: Image.asset('assets/images/user.jpg').image,
-                    ),
+                    Image.asset('assets/images/chat.png', fit: BoxFit.cover, width: 50, height: 50),
                     const SizedBox(
                       width: 10,
                     ),

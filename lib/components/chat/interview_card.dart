@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/models/Interview.dart';
 import 'package:studenthub/pages/chat/message_detail_screen.dart';
+import 'package:studenthub/pages/chat/zego/zego.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -57,7 +58,7 @@ class _InterviewCardState extends State<InterviewCard> {
         }
       }
     } catch (error) {
-      print('Failed to get list message: $error');
+      print('Failed to get list interview: $error');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('An error occurred'),
@@ -89,20 +90,25 @@ class _InterviewCardState extends State<InterviewCard> {
         itemBuilder: (context, index){
           if (interviews.isEmpty) {
             return const Center(
-              child: Text('There are currently no messages'),
+              child: Text('There are currently no interview'),
             );
           }
           final interview = interviews[index];
           return Card(
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VideoCallPage(conferenceID: interview.meetingRoom!.meetingRoomCode,)),
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
                 child: Row(
                   children: [
                     Image.asset('assets/images/interview.png', fit: BoxFit.cover, width: 50, height: 50),
                     const SizedBox(
-                      width: 10,
+                      width: 20,
                     ),
                     Expanded(
                       child: Column(
@@ -142,8 +148,22 @@ class _InterviewCardState extends State<InterviewCard> {
                             maxLines: 1,
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
+                          Text(
+                            '${AppLocalizations.of(context)!.meeting_room_id}: ${interview.meetingRoom!.meetingRoomId}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${AppLocalizations.of(context)!.meeting_room_code}: ${interview.meetingRoom!.meetingRoomCode}',
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 20,)
                         ],
                       ),
                     ),

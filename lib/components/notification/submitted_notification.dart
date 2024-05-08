@@ -27,7 +27,7 @@ class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.person_rounded, size: 40),
+                Image.asset('assets/images/user.png', fit: BoxFit.cover, width: 50, height: 50),
                 const SizedBox(width: 20,),
                 Expanded(
                   child: Column(

@@ -72,28 +72,17 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                               ),
                             ),
                             const SizedBox(height: 10,),
-                            Row(
-                              children: [
-                                Text(
-                                  '${AppLocalizations.of(context)!.project_name}: ',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
-                                  ),
+                            Container(
+                                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+                                child: Text(
+                                widget.name,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  color: _green,
                                 ),
-                                Container(
-                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
-                                  child: Text(
-                                  widget.name,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
-                                  ),
-                                ),)
-                              ],
+                              ),
                             ),
                             const SizedBox(height: 10,),
                             Row(
@@ -106,14 +95,18 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                                     color: _green,
                                   ),
                                 ),
-                                Text(
-                                  widget.compnayName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: _green,
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
+                                  child: Text(
+                                    widget.compnayName,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: _green,
+                                    ),
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ],
