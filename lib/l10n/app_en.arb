@@ -49,7 +49,7 @@
   "project_scope": "Project scope",
   "student_required": "Student required",
   "post_job": "Post job",
-  "send_hired_offer": "Send hired offer",
+  "send_hired_offer": "Send offer",
   "choose_your_skills": "Choose your skills",
   "skills": "Skills",
   "its_just_me": "It’s just me",
@@ -212,5 +212,8 @@
   "confirm_working_posting": "Confirm work posting",
   "sure_working_posting": "Are you sure you want to work this posting?",
   "working_posting_successfully": "Working posting successfully",
-  "list_of_interviews": "List of interviews"
+  "list_of_interviews": "List of interviews",
+  "sent_hired_offer": "Sent",
+  "update_interview_btn": "Update interview",
+  "fail_create_interview": "Create a failed interview"
 }

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/browse_project/project_detail_screen.dart';
 import 'package:studenthub/pages/browse_project/saved_projects_screen.dart';
@@ -31,12 +32,14 @@ class ProjectListState extends State<ProjectListScreen> {
   bool isAddingMore = false;
   int currentPage = 1;
   int pageSize = 10;
+  bool checkCompany = false;
 
   @override
   void initState() {
     super.initState();
     scrollController.addListener(scrollListener);
-    _getProjects();
+    checkRole();
+    getProjects();
   }
 
   @override
@@ -46,13 +49,17 @@ class ProjectListState extends State<ProjectListScreen> {
     super.dispose();
   }
 
+  void checkRole() {
+    checkCompany = Provider.of<AuthProvider>(context, listen: false).role == UserRole.Company;
+  }
+
   void scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-      _getProjects(loadMore: true);
+      getProjects(loadMore: true);
     }
   }
 
-  Future<void> _getProjects({bool loadMore = false}) async {
+  Future<void> getProjects({bool loadMore = false}) async {
     if (isLoading || (loadMore && isAddingMore)) return;
     setState(() {
       if (!loadMore) {
@@ -221,6 +228,12 @@ class ProjectListState extends State<ProjectListScreen> {
     }
   }
 
+  void sortProjectsAlphabetically() {
+    setState(() {
+      projects.sort((a, b) => a.title.compareTo(b.title));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -235,10 +248,10 @@ class ProjectListState extends State<ProjectListScreen> {
                 children: [
                   const SizedBox(height: 20),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       SizedBox(
-                        width: 270,
+                        width: 200,
                         child: TextField(
                           controller: searchController,
                           showCursor: false,
@@ -255,7 +268,7 @@ class ProjectListState extends State<ProjectListScreen> {
                           ),
                           onSubmitted: (value) {
                             print('searchText: $value');
-                            _getProjects();
+                            getProjects();
                           },
                         ),
                       ),
@@ -269,12 +282,17 @@ class ProjectListState extends State<ProjectListScreen> {
                             proposalsController.text =
                                 filterValues['proposals'] ?? '';
                             selectedIndex = (filterValues['range'] as String?)!;
-                            _getProjects();
+                            getProjects();
                           }
                         },
                         icon: const Icon(Icons.filter_alt_outlined, size: 30),
                       ),
                       IconButton(
+                        onPressed: () {sortProjectsAlphabetically();},
+                        icon: const Icon(Icons.sort_by_alpha_outlined, size: 30),
+                      ),
+                      if (checkCompany == false )
+                        IconButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -295,7 +313,7 @@ class ProjectListState extends State<ProjectListScreen> {
                   const Divider(),
                   isLoading
                       ? const Center(child: CircularProgressIndicator())
-                      : _buildProjectList()
+                      : buildProjectList()
                 ],
               ),
             ),
@@ -305,10 +323,9 @@ class ProjectListState extends State<ProjectListScreen> {
     );
   }
 
-  Widget _buildProjectList() {
-    final theme = Theme.of(context);
+  Widget buildProjectList() {
     return RefreshIndicator(
-      onRefresh: _getProjects,
+      onRefresh: getProjects,
       child: ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
@@ -383,7 +400,8 @@ class ProjectListState extends State<ProjectListScreen> {
                         const SizedBox(
                           width: 10,
                         ),
-                        IconButton(
+                        if (checkCompany == false )
+                          IconButton(
                           onPressed: () {
                             // Handle favorite button press
                             _onFavoriteButtonPressed(

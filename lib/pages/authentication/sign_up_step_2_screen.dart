@@ -209,7 +209,13 @@ class SignUpStep2ScreenState extends State<SignUpStep2Screen> {
                 height: 20,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: const SignUpStep2Screen(userType: 0,),
+                          type: PageTransitionType.bottomToTop));
+                },
                 child: Center(
                   child: Text.rich(
                     TextSpan(children: [

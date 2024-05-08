@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -31,8 +32,6 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   String? duration;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
-  TextEditingController meetingCodeController = TextEditingController();
-  TextEditingController meetingIdController = TextEditingController();
   int userId = 0;
 
   @override
@@ -43,7 +42,7 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
 
   Future<void> _createInterview() async {
     final String? token = Provider.of<AuthProvider>(context, listen: false).token;
-    if (titleController.text.isEmpty || contentController.text.isEmpty || meetingCodeController.text.isEmpty || meetingIdController.text.isEmpty) {
+    if (titleController.text.isEmpty || contentController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('All fields must not empty'),
@@ -55,30 +54,43 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
     DateTime startDateTime = DateTime(selectedStartDate!.year, selectedStartDate!.month, selectedStartDate!.day, selectedStartTime!.hour, selectedStartTime!.minute);
     DateTime endDateTime = DateTime(selectedEndDate!.year, selectedEndDate!.month, selectedEndDate!.day, selectedEndTime!.hour, selectedEndTime!.minute);
 
-    final response = await http.post(
-      Uri.parse('https://api.studenthub.dev/api/interview'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-        'authorization': 'Bearer $token',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'title': titleController.text,
-        'content': contentController.text,
-        'startTime': startDateTime.toIso8601String(),
-        'endTime': endDateTime.toIso8601String(),
-        'projectId': widget.projetcID,
-        'senderId': widget.meID,
-        'receiverId': widget.personID,
-        'meeting_room_code': meetingCodeController.text,
-        'meeting_room_id': meetingIdController.text
-      }),
-    );
-    print(response.statusCode);
-    if (response.statusCode == 201) {
-      showSuccessDialog();
-      widget.refreshMessageList();
-    } else {
-      print('Failed to invite interview:  ${response.body}');
+    String meetingRoomCode = generateRandomString(10);
+    String meetingRoomId = generateRandomString(10);
+    bool retry = true;
+    while (retry) {
+      final response = await http.post(
+        Uri.parse('https://api.studenthub.dev/api/interview'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'title': titleController.text,
+          'content': contentController.text,
+          'startTime': startDateTime.toIso8601String(),
+          'endTime': endDateTime.toIso8601String(),
+          'projectId': widget.projetcID,
+          'senderId': widget.meID,
+          'receiverId': widget.personID,
+          'meeting_room_code': meetingRoomCode,
+          'meeting_room_id': meetingRoomId
+        }),
+      );
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        showSuccessDialog();
+        widget.refreshMessageList();
+        retry = false;
+      } else {
+        final jsonResponse = json.decode(response.body);
+        if (jsonResponse['errorDetails'].contains("Meeting room code already exists") || jsonResponse['errorDetails'].contains("Meeting room code already exists")){
+          meetingRoomCode = generateRandomString(10);
+          meetingRoomId = generateRandomString(10);
+        } else {
+          showFailDialog();
+          retry = false;
+        }
+      }
     }
   }
 
@@ -103,12 +115,38 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
     );
   }
 
+  void showFailDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context)!.fail),
+          content: Text(AppLocalizations.of(context)!.fail_create_interview),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK', textAlign: TextAlign.center,),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  String generateRandomString(int length) {
+    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    final random = Random();
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+  }
+
   @override
   void dispose() {
     titleController.dispose();
     contentController.dispose();
-    meetingIdController.dispose();
-    meetingCodeController.dispose();
     super.dispose();
   }
 
@@ -326,57 +364,6 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
               ),
             ),
             const SizedBox(height: 5,),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.meeting_room_id,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 50,
-                    child: TextField(
-                      controller: meetingCodeController,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.enter_meeting_room_id,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: _green),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  Text(
-                    AppLocalizations.of(context)!.meeting_room_code,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 50,
-                    child: TextField(
-                      controller: meetingIdController,
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.enter_meeting_room_code,
-                        border: const OutlineInputBorder(
-                          borderSide: BorderSide(color: _green),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(

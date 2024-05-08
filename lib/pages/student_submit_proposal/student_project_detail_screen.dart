@@ -136,7 +136,7 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                             ),
                             const SizedBox(height: 10,),
                             Container(
-                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.3),
+                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
                               child: Text(
                                 project.title,
                                 overflow: TextOverflow.ellipsis,
@@ -159,7 +159,7 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                                   ),
                                 ),
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
                                   child: Text(
                                     project.companyName!,
                                     overflow: TextOverflow.ellipsis,
