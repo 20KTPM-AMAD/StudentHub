@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/models/Student.dart';
 import 'package:studenthub/models/User.dart';
+import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/utils/student_profile_input_provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:studenthub/welcome_screen.dart';
 
 const Color _green = Color(0xff296e48);
 
@@ -215,7 +215,7 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const WelcomeScreen(),
+              builder: (context) => const ProjectListScreen(),
             ),
           );
         }
