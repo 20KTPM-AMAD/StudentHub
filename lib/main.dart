@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/utils/language_provider.dart';
+import 'package:studenthub/utils/student_profile_input_provider.dart';
 import 'package:studenthub/utils/theme_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'home_screen.dart';
@@ -14,6 +15,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LanguageProvider()),
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(
+            create: (context) => StudentProfileInputProvider()),
       ],
       child: const MyApp(),
     ),

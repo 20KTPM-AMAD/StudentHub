@@ -9,6 +9,7 @@ import 'package:studenthub/pages/authentication/login_screen.dart';
 import 'package:studenthub/pages/profile/profile_edit_screen.dart';
 import 'package:studenthub/pages/profile/profile_input_screen.dart';
 import 'package:studenthub/pages/profile/profile_input_step_1_screen.dart';
+import 'package:studenthub/pages/profile/student_profile_edit_screen.dart';
 import 'package:studenthub/pages/settings/setting_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:page_transition/page_transition.dart';
@@ -50,9 +51,6 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
           'Authorization': 'Bearer $token',
         },
       );
-
-      print(response.statusCode);
-      print(response.body);
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
@@ -247,19 +245,19 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                   }
                 } else {
                   bool isCreateProfileStudent =
-                      await IsCreateProfile('Student');
-                  if (isCreateProfileStudent) {
+                      await IsCreateProfile('student');
+                  if (!isCreateProfileStudent) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProfileEditScreen(),
+                        builder: (context) => const ProfileInputStep1Screen(),
                       ),
                     );
                   } else {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProfileInputStep1Screen(),
+                        builder: (context) => const StudentProfileEditScreen(),
                       ),
                     );
                   }

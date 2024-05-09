@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'auth_provider.dart';
 
-
 class SocketManager {
   static late io.Socket socket;
 

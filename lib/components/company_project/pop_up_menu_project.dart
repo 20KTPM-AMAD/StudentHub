@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
@@ -122,8 +124,7 @@ class AllProjectsPopupMenu {
                                     compnayName: project.companyName!,
                                     projectScope: project.projectScopeFlag,
                                     numberOfStudents: project.numberOfStudents,
-                                  )
-                          ),
+                                  )),
                         );
                       },
                     ),
@@ -144,12 +145,22 @@ class AllProjectsPopupMenu {
                     ),
                     ListTile(
                       title: Text(
+                        AppLocalizations.of(context)!.close_posting,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () {
+                        _onClosePosting(context, token!, project);
+                      },
+                    ),
+                    ListTile(
+                      title: Text(
                         AppLocalizations.of(context)!.archive_posting,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       onTap: () {
-                        _confirmArchivePosting(context, token!, project.id);
+                        _confirmArchivePosting(context, token!, project);
                       },
                     ),
                     ListTile(
@@ -212,7 +223,7 @@ class AllProjectsPopupMenu {
   }
 
   static void _confirmArchivePosting(
-      BuildContext context, String? token, int id) {
+      BuildContext context, String? token, Project project) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -231,7 +242,7 @@ class AllProjectsPopupMenu {
             ),
             TextButton(
               onPressed: () {
-                _handleArchivePosting(token!, id, context);
+                _handleArchivePosting(token!, project, context);
                 Navigator.of(context).pop();
               },
               child: Text(AppLocalizations.of(context)!.confirm),
@@ -255,7 +266,8 @@ class AllProjectsPopupMenu {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.remove_posting_successfully),
+            content:
+                Text(AppLocalizations.of(context)!.remove_posting_successfully),
           ),
         );
       } else {
@@ -266,11 +278,41 @@ class AllProjectsPopupMenu {
     }
   }
 
+  static void _handleClosePosting(
+      String token, Project project, int status, BuildContext context) async {
+    try {
+      print('hehe');
+      final response = await http.patch(
+        Uri.parse('http://34.16.137.128/api/project/${project.id}'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, int>{
+          'status': status,
+          'numberOfStudents': project.numberOfStudents,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Close posting successfully'),
+          ),
+        );
+      } else {
+        print('Failed to close posting: ${response.body}');
+      }
+    } catch (error) {
+      print('Failed to close posting: $error');
+    }
+  }
+
   static void _handleArchivePosting(
-      String token, int id, BuildContext context) async {
+      String token, Project project, BuildContext context) async {
     try {
       final response = await http.patch(
-        Uri.parse('http://34.16.137.128/api/project/$id'),
+        Uri.parse('http://34.16.137.128/api/project/$project.id'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
@@ -282,7 +324,8 @@ class AllProjectsPopupMenu {
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.archive_posting_successfully),
+            content: Text(
+                AppLocalizations.of(context)!.archive_posting_successfully),
           ),
         );
       } else {
@@ -324,6 +367,41 @@ class AllProjectsPopupMenu {
     );
   }
 
+  static void _onClosePosting(
+      BuildContext context, String? token, Project project) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Close posting'),
+          content: Text('Success or fail?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _handleClosePosting(token!, project, 1, context);
+                Navigator.of(context).pop();
+              },
+              child: Text('Success'),
+            ),
+            TextButton(
+              onPressed: () {
+                _handleClosePosting(token!, project, 2, context);
+                Navigator.of(context).pop();
+              },
+              child: Text('Fail'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   static void _handleWorkingPosting(
       String token, int id, BuildContext context) async {
     try {
@@ -334,13 +412,14 @@ class AllProjectsPopupMenu {
           'Authorization': 'Bearer $token',
         },
         body: <String, dynamic>{
-          'typeFlag': '1',
+          'typeFlag': '2',
         },
       );
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.working_posting_successfully),
+            content: Text(
+                AppLocalizations.of(context)!.working_posting_successfully),
           ),
         );
       } else {

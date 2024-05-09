@@ -1,22 +1,27 @@
 class Education {
-  final int id;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final int? deletedAt;
+  late String schoolName;
+  late String startYear;
+  late String endYear;
 
   Education({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    this.deletedAt,
+    required this.schoolName,
+    required this.startYear,
+    required this.endYear,
   });
 
   factory Education.fromJson(Map<String, dynamic> json) {
     return Education(
-      id: json['id'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
-      deletedAt: json['deletedAt'],
+      schoolName: json['schoolName'],
+      startYear: json['startYear'].toString(),
+      endYear: json['endYear'].toString(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'schoolName': schoolName,
+      'startYear': startYear,
+      'endYear': endYear,
+    };
   }
 }
