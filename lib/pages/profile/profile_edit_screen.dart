@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/models/Company.dart';
 import 'package:studenthub/models/User.dart';
+import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/components/profile/radio_button_group.dart';
@@ -35,7 +36,8 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
     companyNameController.text = loginUser!.company!.companyName;
     websiteController.text = loginUser!.company!.website;
     descriptionController.text = loginUser!.company!.description;
-    rangeController.text = loginUser!.company!.size.toString(); // Convert số thành chuỗi
+    rangeController.text =
+        loginUser!.company!.size.toString(); // Convert số thành chuỗi
   }
 
   Future<void> updateProfileCompany() async {
@@ -62,12 +64,7 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
       if (jsonResponse['result'] != null) {
         final company = Company.fromJson(jsonResponse['result']);
         Provider.of<AuthProvider>(context, listen: false).setCompany(company);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const DashboardScreen(),
-          ),
-        );
+        Navigator.pop(context);
       }
     }
   }
@@ -85,134 +82,142 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 30),
-                  Text(
-                    AppLocalizations.of(context)!.welcome_to_studenthub,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  AppLocalizations.of(context)!.welcome_to_studenthub,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: 350,
-                    child: Column(
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 350,
+                child: Column(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.company_name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              controller: companyNameController,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(color: _green),
-                                ),
-                                hintText: AppLocalizations.of(context)!.enter_company_name,
-                                hintStyle: const TextStyle(color: _green),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          AppLocalizations.of(context)!.company_name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
                         ),
-                        const SizedBox(height: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.website,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: companyNameController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 15.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(color: _green),
                             ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              controller: websiteController,
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(color: _green),
-                                ),
-                                hintText: AppLocalizations.of(context)!.enter_web_site,
-                                hintStyle: const TextStyle(color: _green),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.description,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            TextField(
-                              controller: descriptionController,
-                              maxLines: 6, //or null
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: const BorderSide(color: _green),
-                                ),
-                                hintText: AppLocalizations.of(context)!.hint_description,
-                                hintStyle: const TextStyle(color: _green),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.how_many_people_company,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            ListTile(
-                              title: Text(
-                                _getRangeText(Range.values[int.parse(rangeController.text)]),
-                              ),
-                              leading: Radio<Range>(
-                                value: Range.values[int.parse(rangeController.text)],
-                                groupValue: Range.values[int.parse(rangeController.text)],
-                                onChanged: (Range? value) {
-                                  setState(() {
-                                    rangeController.text = value!.index.toString();
-                                  });
-                                },
-                              ),
-                            ),
-                          ],
+                            hintText: AppLocalizations.of(context)!
+                                .enter_company_name,
+                            hintStyle: const TextStyle(color: _green),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.website,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: websiteController,
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 15.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(color: _green),
+                            ),
+                            hintText:
+                                AppLocalizations.of(context)!.enter_web_site,
+                            hintStyle: const TextStyle(color: _green),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.description,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        TextField(
+                          controller: descriptionController,
+                          maxLines: 6, //or null
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 15.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(color: _green),
+                            ),
+                            hintText:
+                                AppLocalizations.of(context)!.hint_description,
+                            hintStyle: const TextStyle(color: _green),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.how_many_people_company,
+                          style: const TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        ListTile(
+                          title: Text(
+                            _getRangeText(
+                                Range.values[int.parse(rangeController.text)]),
+                          ),
+                          leading: Radio<Range>(
+                            value:
+                                Range.values[int.parse(rangeController.text)],
+                            groupValue:
+                                Range.values[int.parse(rangeController.text)],
+                            onChanged: (Range? value) {
+                              setState(() {
+                                rangeController.text = value!.index.toString();
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Align(
+              Align(
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   children: [
@@ -256,8 +261,8 @@ class ProfileEditScreenState extends State<ProfileEditScreen> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const Padding(

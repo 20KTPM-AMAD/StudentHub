@@ -20,7 +20,7 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
   @override
   void initState() {
     super.initState();
-    if(widget.project != null) {
+    if (widget.project != null) {
       titleController.text = widget.project!.title;
     }
   }
@@ -38,101 +38,106 @@ class PostProjectStep1State extends State<PostProjectStep1Screen> {
             ),
           ],
         ),
-        body: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            child: Column(children: [
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Text(
-                    '1/4',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    AppLocalizations.of(context)!.strong_title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16),
-                  )
-                ],
-              ),
-              const SizedBox(height: 20),
-              Text(
-                AppLocalizations.of(context)!.explain,
-                style: const TextStyle(
-                  fontSize: 16,
+        body: SingleChildScrollView(
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Column(children: [
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Text(
+                      '1/4',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      AppLocalizations.of(context)!.strong_title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
+                    )
+                  ],
                 ),
-                textAlign: TextAlign.justify,
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 15.0),
-                  border: const OutlineInputBorder(
-                    // borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(color: _green),
+                const SizedBox(height: 20),
+                Text(
+                  AppLocalizations.of(context)!.explain,
+                  style: const TextStyle(
+                    fontSize: 16,
                   ),
-                  hintText: AppLocalizations.of(context)!.title_project,
+                  textAlign: TextAlign.justify,
                 ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!.for_example,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 15.0),
+                    border: const OutlineInputBorder(
+                      // borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(color: _green),
+                    ),
+                    hintText: AppLocalizations.of(context)!.title_project,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.for_example,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.justify,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    '\u2022 Build responsive WordPress site with booking/payment functionality',
+                    style: TextStyle(
                       fontSize: 16,
                     ),
                     textAlign: TextAlign.justify,
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  '\u2022 Build responsive WordPress site with booking/payment functionality',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.justify,
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  '\u2022 Facebook ad specialist need for product launch',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.justify,
-                ),
-              ),
-              Row(
-                children: [
-                  const Spacer(),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PostProjectStep2Screen(
-                                title: titleController.text, project: widget.project,)),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: _green,
-                      foregroundColor: Colors.white,
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    '\u2022 Facebook ad specialist need for product launch',
+                    style: TextStyle(
+                      fontSize: 16,
                     ),
-                    child: Text(AppLocalizations.of(context)!.next_scope,
-                        style: const TextStyle(fontSize: 18)),
+                    textAlign: TextAlign.justify,
                   ),
-                ],
-              )
-            ])));
+                ),
+                Row(
+                  children: [
+                    const Spacer(),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PostProjectStep2Screen(
+                                    title: titleController.text,
+                                    project: widget.project,
+                                  )),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _green,
+                        foregroundColor: Colors.white,
+                      ),
+                      child: Text(AppLocalizations.of(context)!.next_scope,
+                          style: const TextStyle(fontSize: 18)),
+                    ),
+                  ],
+                )
+              ])),
+        ));
   }
 }

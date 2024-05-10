@@ -118,3 +118,31 @@ Future<void> updateProposal(int id, int statusFlag, String? token) async {
     print(error);
   }
 }
+
+Future<void> createProposal(int projectId, int studentId, String coverLetter, String? token) async {
+  try {
+    if (token != null) {
+      final response = await http.post(
+        Uri.parse('https://api.studenthub.dev/api/proposal'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'projectId': projectId,
+          'studentId': studentId,
+          'coverLetter': coverLetter,
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        final jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+      } else {
+        print('Failed to update proposal: ${response.body}');
+      }
+    }
+  } catch (error) {
+    print(error);
+  }
+}
