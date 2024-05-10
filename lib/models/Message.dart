@@ -10,6 +10,7 @@ class Message {
   final Postman receiver;
   final Project? project;
   final Interview? interview;
+  final SubNotifications? notifications;
 
   Message({
     required this.id,
@@ -19,6 +20,7 @@ class Message {
     required this.receiver,
     this.project,
     this.interview,
+    this.notifications
   });
 
   String formattedCreatedAt() {
@@ -36,6 +38,8 @@ class Message {
     final interviewJson = json['interview'];
     final interview = interviewJson != null ? Interview.fromJson(interviewJson) : null;
 
+    final notificaitonsJson = json['notifications'];
+    final notifications = notificaitonsJson != null ? SubNotifications.fromJson(notificaitonsJson) : null;
     return Message(
       id: json['id'] ?? 0,
       createdAt: DateTime.parse(json['createdAt'] ?? ''),
@@ -44,6 +48,7 @@ class Message {
       receiver: Postman.fromJson(json['receiver'] ?? {}),
       project: json['project'] != null ? Project.fromJson(json['project']) : null,
       interview: interview,
+      notifications: notifications
     );
   }
 }
@@ -58,6 +63,20 @@ class Postman {
     return Postman(
       id: json['id'],
       fullname: json['fullname'],
+    );
+  }
+}
+
+class SubNotifications {
+  final int id;
+  final String notifyFlag;
+
+  SubNotifications({required this.id, required this.notifyFlag});
+
+  factory SubNotifications.fromJson(Map<String, dynamic> json) {
+    return SubNotifications(
+      id: json['id'],
+      notifyFlag: json['notifyFlag'],
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:studenthub/models/Message.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class MessageCard extends StatefulWidget {
   const MessageCard({Key? key}) : super(key: key);
@@ -71,6 +71,27 @@ class _MessageCardState extends State<MessageCard> {
     }
   }
 
+  Future<void> markReadMessage(int notifiactionId) async {
+    try {
+      final token = Provider.of<AuthProvider>(context, listen: false).token;
+      userId = Provider.of<AuthProvider>(context, listen: false).loginUser!.id;
+      if (token != null) {
+        final response = await http.patch(
+          Uri.parse('https://api.studenthub.dev/api/notification/readNoti/$notifiactionId'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        print('Read notification success: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Failed to mark read notification: $error');
+    } finally {
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -99,8 +120,10 @@ class _MessageCardState extends State<MessageCard> {
           final displayName = isMeSender ? receiverFullName : senderFullName;
           final personId = isMeSender ? message.receiver.id : message.sender.id;
           return Card(
+            color: message.notifications != null && message.notifications!.notifyFlag == "0" ? Colors.lightGreen.shade100 : Colors.white,
             child: GestureDetector(
               onTap: () {
+                markReadMessage(message.notifications!.id);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -131,6 +154,8 @@ class _MessageCardState extends State<MessageCard> {
                                   style: const TextStyle(
                                     fontFamily: 'Quicksand',
                                     fontSize: 17,
+                                    fontWeight: FontWeight.bold,
+                                    color: _green
                                   ),
                                 ),
                               ),
