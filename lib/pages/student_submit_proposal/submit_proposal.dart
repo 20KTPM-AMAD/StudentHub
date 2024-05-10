@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:studenthub/contanst/contanst.dart';
+import 'package:studenthub/models/Proposal.dart';
+import 'package:studenthub/models/User.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 
 const Color _green = Color(0xff296e48);
 
 class SubmitProposalScreen extends StatefulWidget {
-  const SubmitProposalScreen({Key? key}) : super(key: key);
+  const SubmitProposalScreen({Key? key, required this.projectId})
+      : super(key: key);
+
+  final int projectId;
 
   @override
   SubmitProposalScreenState createState() => SubmitProposalScreenState();
 }
 
 class SubmitProposalScreenState extends State<SubmitProposalScreen> {
+  TextEditingController coverLetterController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -75,6 +85,7 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
+                    controller: coverLetterController,
                     maxLines: 8, //or null
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
@@ -96,15 +107,34 @@ class SubmitProposalScreenState extends State<SubmitProposalScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _green,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 18)),
+                    child: Text(AppLocalizations.of(context)!.cancel,
+                        style: const TextStyle(fontSize: 18)),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final String? token =
+                          Provider.of<AuthProvider>(context, listen: false)
+                              .token;
+
+                      final User? loginUser =
+                          Provider.of<AuthProvider>(context, listen: false)
+                              .loginUser;
+
+                      await createProposal(
+                          widget.projectId,
+                          loginUser!.student!.id,
+                          coverLetterController.text,
+                          token);
+
+                      Navigator.of(context).pop();
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: _green, foregroundColor: Colors.white),
                     child: Text(AppLocalizations.of(context)!.submit_proposal,

@@ -7,9 +7,10 @@ import 'package:studenthub/pages/student_submit_proposal/submit_proposal.dart';
 const Color _green = Color(0xff296e48);
 
 class ProjectDetailScreen extends StatefulWidget {
+  final int id;
   final String name, description, compnayName;
   final int projectScope, numberOfStudents;
-  const ProjectDetailScreen({Key? key, required this.name, required this.description, required this.compnayName, required this.projectScope, required this.numberOfStudents}) : super(key: key);
+  const ProjectDetailScreen({Key? key, required this.name, required this.description, required this.compnayName, required this.projectScope, required this.numberOfStudents, required this.id}) : super(key: key);
 
   @override
   ProjectDetailState createState() => ProjectDetailState();
@@ -202,7 +203,7 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                              const SubmitProposalScreen()),
+                              SubmitProposalScreen(projectId: widget.id)),
                         );
                       },
                       style: ElevatedButton.styleFrom(

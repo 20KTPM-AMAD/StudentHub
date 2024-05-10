@@ -7,6 +7,8 @@ import 'package:studenthub/main_screen.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/models/Project.dart';
+import 'package:studenthub/pages/browse_project/project_list_screen.dart';
+import 'package:studenthub/pages/company_reviews_proposal/dashboard_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
 const Color _green = Color(0xff296e48);
@@ -24,7 +26,8 @@ class PostProjectStep4Screen extends StatefulWidget {
       required this.title,
       required this.projectScopeFlag,
       required this.numberOfStudents,
-      required this.description, this.project})
+      required this.description,
+      this.project})
       : super(key: key);
 
   final String title;
@@ -61,7 +64,8 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
 
   Future<void> _createProject() async {
     final token = Provider.of<AuthProvider>(context, listen: false).token;
-    final loginUser = Provider.of<AuthProvider>(context, listen: false).loginUser;
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
 
     final response = await http.post(
       Uri.parse('http://34.16.137.128/api/project'),
@@ -95,7 +99,8 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
 
   Future<void> _updateProject() async {
     final token = Provider.of<AuthProvider>(context, listen: false).token;
-    final loginUser = Provider.of<AuthProvider>(context, listen: false).loginUser;
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
 
     final response = await http.patch(
       Uri.parse('http://34.16.137.128/api/project/${widget.project!.id}'),
@@ -113,9 +118,6 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
 
     final jsonResponse = json.decode(response.body);
 
-    print(response.statusCode);
-    print(jsonResponse);
-
     if (response.statusCode == 200) {
       if (jsonResponse['result'] != null) {
         Navigator.push(
@@ -127,7 +129,6 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -142,169 +143,172 @@ class PostProjectStep4State extends State<PostProjectStep4Screen> {
             ),
           ],
         ),
-        body: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Text(
-                      '4/4',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      AppLocalizations.of(context)!.project_detail,
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      widget.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: 20.0),
-                  decoration: const BoxDecoration(
-                    border: Border.symmetric(
-                      horizontal: BorderSide(
-                        color: _green,
-                        width: 1,
-                      ),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+        body: SingleChildScrollView(
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 20),
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Student are looking for:',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.justify,
-                          ),
-                        ],
+                      const Text(
+                        '4/4',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.0),
-                        child: MarkdownBody(
-                          data: widget.description,
-                          styleSheet: MarkdownStyleSheet(
-                            textScaleFactor: 1.25,
-                          ),
+                      const SizedBox(width: 10),
+                      Text(
+                        AppLocalizations.of(context)!.project_detail,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Text(
+                        widget.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
+                        textAlign: TextAlign.justify,
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.alarm,
-                      size: 40,
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
+                    decoration: const BoxDecoration(
+                      border: Border.symmetric(
+                        horizontal: BorderSide(
+                          color: _green,
+                          width: 1,
+                        ),
+                      ),
                     ),
-                    const SizedBox(width: 10),
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          AppLocalizations.of(context)!.project_scope,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            '\u2022${getProjectScopeText(widget.projectScopeFlag)}',
-                            style: const TextStyle(
-                              fontSize: 16,
+                        Row(
+                          children: [
+                            Text(
+                              'Student are looking for:',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.justify,
                             ),
-                            textAlign: TextAlign.justify,
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          child: MarkdownBody(
+                            data: widget.description,
+                            styleSheet: MarkdownStyleSheet(
+                              textScaleFactor: 1.25,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.person_2,
-                      size: 40,
-                    ),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.student_required,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            '\u2022 ${widget.numberOfStudents} students',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.justify,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.alarm,
+                        size: 40,
+                      ),
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.project_scope,
+                            style: const TextStyle(fontSize: 16),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    widget.project != null ?
-                    ElevatedButton(
-                      onPressed: () {
-                        print('update');
-                        _updateProject();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _green,
-                        foregroundColor: Colors.white,
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              '\u2022${getProjectScopeText(widget.projectScopeFlag)}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Text(AppLocalizations.of(context)!.edit_job,
-                          style: const TextStyle(fontSize: 18)),
-                    ) :
-                    ElevatedButton(
-                      onPressed: () {
-                        print('create');
-                        _createProject();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _green,
-                        foregroundColor: Colors.white,
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.person_2,
+                        size: 40,
                       ),
-                      child: Text(AppLocalizations.of(context)!.post_job,
-                          style: const TextStyle(fontSize: 18)),
-                    ),
-                  ],
-                )
-              ],
-            )));
+                      const SizedBox(width: 10),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.student_required,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              '\u2022 ${widget.numberOfStudents} students',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      widget.project != null
+                          ? ElevatedButton(
+                              onPressed: () {
+                                _updateProject();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _green,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: Text(
+                                  AppLocalizations.of(context)!.edit_job,
+                                  style: const TextStyle(fontSize: 18)),
+                            )
+                          : ElevatedButton(
+                              onPressed: () {
+                                _createProject();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _green,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: Text(
+                                  AppLocalizations.of(context)!.post_job,
+                                  style: const TextStyle(fontSize: 18)),
+                            ),
+                    ],
+                  )
+                ],
+              )),
+        ));
   }
 }
