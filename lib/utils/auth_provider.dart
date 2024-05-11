@@ -7,7 +7,7 @@ import 'package:studenthub/models/User.dart';
 class AuthProvider with ChangeNotifier {
   User? _loginUser;
   String? _token;
-  UserRole _role = UserRole.Student;
+  UserRole? _role;
 
   User? get loginUser => _loginUser;
 

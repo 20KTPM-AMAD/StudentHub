@@ -31,6 +31,7 @@ class MainScreenState extends State<MainScreen> {
     const ProjectListScreen(),
     const DashboardScreen(),
     const MessageListScreen(),
+    const InterviewListScreen(),
     const NotificationScreen()
   ];
 
@@ -43,8 +44,6 @@ class MainScreenState extends State<MainScreen> {
     if (Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
       _getUserInfo();
     }
-
-    checkRole();
   }
 
   void checkRole() {
@@ -96,6 +95,8 @@ class MainScreenState extends State<MainScreen> {
           Provider.of<AuthProvider>(context, listen: false)
               .setRole(UserRole.Student);
         }
+
+        checkRole();
       } else {
         print('Failed to get user info: ${response.body}');
       }
