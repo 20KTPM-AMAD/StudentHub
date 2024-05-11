@@ -337,19 +337,19 @@ class StudentProfileEditScreenState extends State<StudentProfileEditScreen> {
     skillSets = Provider.of<AuthProvider>(context, listen: false)
         .loginUser!
         .student!
-        .skillSets;
+        .skillSets!;
     language = Provider.of<AuthProvider>(context, listen: false)
         .loginUser!
         .student!
-        .languages;
+        .languages!;
     education = Provider.of<AuthProvider>(context, listen: false)
         .loginUser!
         .student!
-        .educations;
+        .educations!;
     experience = Provider.of<AuthProvider>(context, listen: false)
         .loginUser!
         .student!
-        .experiences;
+        .experiences!;
     inspect(experience);
     languageNameController = TextEditingController();
     languageLevelController = TextEditingController();

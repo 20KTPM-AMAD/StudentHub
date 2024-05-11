@@ -105,7 +105,7 @@ class _MessageProjectCardState extends State<MessageProjectCard> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projectID: message.project?.id ?? 0)),
+                      builder: (context) => MessageDetailScreen(personID: personId, personFullName: displayName, projectID: widget.projectId)),
                 ).then((value) => setState(() {
                   getAllMessages();
                 }));
@@ -114,10 +114,7 @@ class _MessageProjectCardState extends State<MessageProjectCard> {
                 padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
                 child: Row(
                   children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundImage: Image.asset('assets/images/user.jpg').image,
-                    ),
+                    Image.asset('assets/images/chat.png', fit: BoxFit.cover, width: 50, height: 50),
                     const SizedBox(
                       width: 10,
                     ),

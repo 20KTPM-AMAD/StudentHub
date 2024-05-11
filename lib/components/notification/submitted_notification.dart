@@ -70,16 +70,10 @@ class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ProposalDetailScreen(
-                                    fullname:
-                                        widget.notification.sender.fullname,
-                                    coverLetter: widget
-                                        .notification.proposal!.coverLetter,
-                                    techStackName: widget.notification.proposal!
-                                                .student!.techStack !=
-                                            null
-                                        ? widget.notification.proposal!.student!
-                                            .techStack!.name
-                                        : '')),
+                                      proposal: widget.notification.proposal!,
+                                      student: widget
+                                          .notification.proposal!.student!,
+                                    )),
                           );
                         },
                         style: ElevatedButton.styleFrom(
