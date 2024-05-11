@@ -47,22 +47,12 @@ class UpdateInterviewNotificationCardState
                     children: [
                       Text(
                         AppLocalizations.of(context)!
-                            .invited_interview_notification(
-                                widget.notification.message != null &&
-                                        widget.notification.message!.project !=
-                                            null
-                                    ? widget
-                                        .notification.message!.project!.title
-                                    : '',
-                                widget.notification.message != null &&
-                                        widget.notification.message!
-                                                .interview !=
-                                            null
-                                    ? DateFormat('HH:mm, dd/MM/yyyy').format(
-                                        widget.notification.message!.interview!
-                                            .startTime
-                                            .add(const Duration(hours: 7)))
-                                    : ''),
+                            .updated_interview_notification(
+                          widget.notification.message != null &&
+                                  widget.notification.message!.project != null
+                              ? widget.notification.message!.project!.title
+                              : '',
+                        ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3, // Số dòng tối đa
                       ),

@@ -11,7 +11,6 @@ import 'package:studenthub/utils/auth_provider.dart';
 import 'package:studenthub/utils/socket_manager.dart';
 import 'package:http/http.dart' as http;
 
-
 const Color _green = Color(0xff296e48);
 
 class ScheduleInterviewMessageCard extends StatefulWidget {
@@ -21,27 +20,35 @@ class ScheduleInterviewMessageCard extends StatefulWidget {
   final int meID;
   final Function refreshMessageList;
 
-  const ScheduleInterviewMessageCard({Key? key, required this.message, required this.personID, required this.projetcID, required this.meID, required this.refreshMessageList})
+  const ScheduleInterviewMessageCard(
+      {Key? key,
+      required this.message,
+      required this.personID,
+      required this.projetcID,
+      required this.meID,
+      required this.refreshMessageList})
       : super(key: key);
 
   @override
-  State<ScheduleInterviewMessageCard> createState() => ScheduleInterviewMessageCardState();
+  State<ScheduleInterviewMessageCard> createState() =>
+      ScheduleInterviewMessageCardState();
 }
 
-class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCard> {
-
+class ScheduleInterviewMessageCardState
+    extends State<ScheduleInterviewMessageCard> {
   bool cancelMeeting = true;
 
   void initState() {
     super.initState();
-    SocketManager.initializeSocket(context, widget.projetcID);
   }
 
   Future<void> _cancelInterview() async {
-    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+    final String? token =
+        Provider.of<AuthProvider>(context, listen: false).token;
 
     final response = await http.patch(
-      Uri.parse('https://api.studenthub.dev/api/interview/${widget.message.interview!.id}/disable'),
+      Uri.parse(
+          'https://api.studenthub.dev/api/interview/${widget.message.interview!.id}/disable'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'authorization': 'Bearer $token',
@@ -61,14 +68,23 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.success, textAlign: TextAlign.center,),
-          content: Text(AppLocalizations.of(context)!.cancel_interview_success, textAlign: TextAlign.center,),
+          title: Text(
+            AppLocalizations.of(context)!.success,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            AppLocalizations.of(context)!.cancel_interview_success,
+            textAlign: TextAlign.center,
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('OK', textAlign: TextAlign.center,),
+              child: const Text(
+                'OK',
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         );
@@ -93,8 +109,12 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
             Row(
               children: [
                 Text(
-                  AppLocalizations.of(context)!.schedule_interview(widget.message.sender.fullname),
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, color: Colors.black),
+                  AppLocalizations.of(context)!
+                      .schedule_interview(widget.message.sender.fullname),
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 12,
+                      color: Colors.black),
                 ),
               ],
             ),
@@ -103,12 +123,19 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
               children: [
                 Text(
                   widget.message.interview!.title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.black),
                 ),
                 const Spacer(),
                 Text(
                   '${widget.message.interview!.endTime.difference(widget.message.interview!.startTime).inMinutes} minutes',
-                  style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
               ],
             ),
@@ -116,15 +143,23 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
             Row(
               children: [
                 Text(
-                  DateFormat('kk:mm dd/MM/yyyy').format(widget.message.interview!.startTime),
-                  style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
+                  DateFormat('kk:mm dd/MM/yyyy')
+                      .format(widget.message.interview!.startTime),
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.black),
                 ),
                 const SizedBox(width: 10),
-                const Text('-', style: TextStyle(fontStyle: FontStyle.italic, color: Colors.black),),
+                const Text(
+                  '-',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.black),
+                ),
                 const SizedBox(width: 10),
                 Text(
-                  DateFormat('kk:mm dd/MM/yyyy').format(widget.message.interview!.endTime),
-                  style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
+                  DateFormat('kk:mm dd/MM/yyyy')
+                      .format(widget.message.interview!.endTime),
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.black),
                 ),
               ],
             ),
@@ -136,11 +171,15 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                   children: [
                     Text(
                       AppLocalizations.of(context)!.meeting_room_code,
-                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.black),
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                     Text(
                       widget.message.interview!.meetingRoom!.meetingRoomCode,
-                      style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic, color: Colors.black),
                     )
                   ],
                 ),
@@ -148,30 +187,41 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                   children: [
                     Text(
                       AppLocalizations.of(context)!.meeting_room_id,
-                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.black),
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                     Text(
                       widget.message.interview!.meetingRoom!.meetingRoomId,
-                      style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.black),
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic, color: Colors.black),
                     )
                   ],
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
                   children: [
                     Text(
                       '${AppLocalizations.of(context)!.status}: ',
-                      style: const TextStyle(fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: Colors.black),
+                      style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                     if (widget.message.interview!.disableFlag == 0)
                       Text(
                         AppLocalizations.of(context)!.active,
-                        style: const TextStyle(fontStyle: FontStyle.italic, color: _green),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic, color: _green),
                       )
                     else if (widget.message.interview!.disableFlag == 1)
                       Text(
                         AppLocalizations.of(context)!.cancel,
-                        style: const TextStyle(fontStyle: FontStyle.italic, color: Colors.red),
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.red),
                       )
                   ],
                 ),
@@ -185,7 +235,11 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => VideoCallPage(conferenceID: widget.message.interview!.meetingRoom!.meetingRoomCode,)),
+                      MaterialPageRoute(
+                          builder: (context) => VideoCallPage(
+                                conferenceID: widget.message.interview!
+                                    .meetingRoom!.meetingRoomCode,
+                              )),
                     );
                   },
                   child: Text(AppLocalizations.of(context)!.join),
@@ -194,23 +248,33 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                 IconButton(
                   key: iconKey,
                   onPressed: () {
-                    final RenderBox iconRenderBox = iconKey.currentContext!.findRenderObject() as RenderBox;
-                    final iconPosition = iconRenderBox.localToGlobal(Offset.zero);
+                    final RenderBox iconRenderBox =
+                        iconKey.currentContext!.findRenderObject() as RenderBox;
+                    final iconPosition =
+                        iconRenderBox.localToGlobal(Offset.zero);
                     showMenu(
                       context: context,
                       position: RelativeRect.fromLTRB(
                         iconPosition.dx,
                         iconPosition.dy + iconRenderBox.size.height,
-                        MediaQuery.of(context).size.width - iconPosition.dx - iconRenderBox.size.width,
-                        MediaQuery.of(context).size.height - iconPosition.dy - iconRenderBox.size.height,
+                        MediaQuery.of(context).size.width -
+                            iconPosition.dx -
+                            iconRenderBox.size.width,
+                        MediaQuery.of(context).size.height -
+                            iconPosition.dy -
+                            iconRenderBox.size.height,
                       ),
                       items: [
                         PopupMenuItem(
                           child: Row(
                             children: [
-                              const Icon(Icons.schedule_rounded, color: Colors.blue,),
+                              const Icon(
+                                Icons.schedule_rounded,
+                                color: Colors.blue,
+                              ),
                               const SizedBox(width: 8),
-                              Text(AppLocalizations.of(context)!.reschedule_meeting),
+                              Text(AppLocalizations.of(context)!
+                                  .reschedule_meeting),
                             ],
                           ),
                           onTap: () {
@@ -222,7 +286,8 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                                   projectID: widget.projetcID,
                                   personID: widget.personID,
                                   meID: widget.meID,
-                                  refreshMessageList: widget.refreshMessageList,);
+                                  refreshMessageList: widget.refreshMessageList,
+                                );
                               },
                             );
                           },
@@ -230,12 +295,18 @@ class ScheduleInterviewMessageCardState extends State<ScheduleInterviewMessageCa
                         PopupMenuItem(
                           child: Row(
                             children: [
-                              const Icon(Icons.cancel, color: Colors.red,),
+                              const Icon(
+                                Icons.cancel,
+                                color: Colors.red,
+                              ),
                               const SizedBox(width: 8),
-                              Text(AppLocalizations.of(context)!.cancel_meeting),
+                              Text(
+                                  AppLocalizations.of(context)!.cancel_meeting),
                             ],
                           ),
-                          onTap: () {_cancelInterview();},
+                          onTap: () {
+                            _cancelInterview();
+                          },
                         ),
                       ],
                       shape: RoundedRectangleBorder(

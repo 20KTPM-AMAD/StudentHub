@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/models/Notification.dart';
 import 'package:studenthub/pages/company_reviews_proposal/proposal_profile_screen.dart';
+import 'package:studenthub/pages/student_submit_proposal/student_project_detail_screen.dart';
 
 const Color _green = Color(0xFF12B28C);
 
@@ -21,6 +24,7 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
   @override
   void initState() {
     super.initState();
+    inspect(widget.notification.proposal);
   }
 
   @override
@@ -67,28 +71,21 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ProposalDetailScreen(
-                                                fullname: widget.notification
-                                                    .proposal!.studentname!,
-                                                coverLetter: widget.notification
-                                                    .proposal!.coverLetter,
-                                                techStackName: widget
-                                                            .notification
-                                                            .proposal!
-                                                            .student!
-                                                            .techStack !=
-                                                        null
-                                                    ? widget
-                                                        .notification
-                                                        .proposal!
-                                                        .student!
-                                                        .techStack!
-                                                        .name
-                                                    : '')),
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              StudentProjectDetailScreen(
+                                                  id: widget.notification
+                                                      .proposal!.project!.id,
+                                                  isOffer: widget
+                                                          .notification
+                                                          .proposal!
+                                                          .statusFlag ==
+                                                      2,
+                                                  proposalId: widget
+                                                      .notification
+                                                      .proposal!
+                                                      .id)));
                                 },
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: _green,

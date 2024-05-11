@@ -13,6 +13,7 @@ import 'package:studenthub/models/Notification.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/utils/socket_manager.dart';
 
 const Color _green = Color(0xff296e48);
 
@@ -62,10 +63,39 @@ class NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
+  Future<void> connectSocket() async {
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+    if (loginUser != null) {
+      final socketManager = SocketManager();
+      SocketManager().registerSocketListener(onReceiveNotification);
+
+      await socketManager.connectSocket(context, loginUser.id);
+    }
+  }
+
+  void onReceiveNotification(data) {
+    if (data["notification"] != null) {
+      final notification = NotificationItem.fromJson(data["notification"]);
+      setState(() {
+        notifications.insert(0, notification);
+      });
+      inspect(notifications);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    connectSocket();
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    SocketManager().unregisterSocketListener(onReceiveNotification);
+    super.dispose();
   }
 
   @override

@@ -6,11 +6,12 @@ class Message {
   final int id;
   final DateTime createdAt;
   final String content;
-  final Postman sender;
-  final Postman receiver;
+  late Postman sender;
+  late Postman receiver;
   final Project? project;
   final Interview? interview;
   final SubNotifications? notifications;
+  final int? projectId;
 
   Message(
       {required this.id,
@@ -20,7 +21,8 @@ class Message {
       required this.receiver,
       this.project,
       this.interview,
-      this.notifications});
+      this.notifications,
+      this.projectId});
 
   String formattedCreatedAt() {
     final vietnamTime = createdAt.add(const Duration(hours: 7));
@@ -51,7 +53,8 @@ class Message {
         project:
             json['project'] != null ? Project.fromJson(json['project']) : null,
         interview: interview,
-        notifications: notifications);
+        notifications: notifications,
+        projectId: json['projectId']);
   }
 }
 

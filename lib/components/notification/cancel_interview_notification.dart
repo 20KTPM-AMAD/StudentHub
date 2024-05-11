@@ -47,22 +47,12 @@ class CancelInterviewNotificationCardState
                     children: [
                       Text(
                         AppLocalizations.of(context)!
-                            .invited_interview_notification(
-                                widget.notification.message != null &&
-                                        widget.notification.message!.project !=
-                                            null
-                                    ? widget
-                                        .notification.message!.project!.title
-                                    : '',
-                                widget.notification.message != null &&
-                                        widget.notification.message!
-                                                .interview !=
-                                            null
-                                    ? DateFormat('HH:mm, dd/MM/yyyy').format(
-                                        widget.notification.message!.interview!
-                                            .startTime
-                                            .add(const Duration(hours: 7)))
-                                    : ''),
+                            .cancelled_interview_notification(
+                          widget.notification.message != null &&
+                                  widget.notification.message!.project != null
+                              ? widget.notification.message!.project!.title
+                              : '',
+                        ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3, // Số dòng tối đa
                       ),
@@ -74,35 +64,6 @@ class CancelInterviewNotificationCardState
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                      widget.notification.message != null &&
-                              widget.notification.message!.interview != null &&
-                              widget.notification.message!.interview!
-                                      .meetingRoom !=
-                                  null
-                          ? SizedBox(
-                              width: 130,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => VideoCallPage(
-                                            conferenceID: widget
-                                                .notification
-                                                .message!
-                                                .interview!
-                                                .meetingRoom!
-                                                .meetingRoomCode)),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: _green,
-                                    foregroundColor: Colors.white),
-                                child: const Text('Join',
-                                    style: TextStyle(fontSize: 16)),
-                              ),
-                            )
-                          : const SizedBox(),
                     ],
                   ),
                 ),
