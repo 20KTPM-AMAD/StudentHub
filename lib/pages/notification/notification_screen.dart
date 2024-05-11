@@ -145,7 +145,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                                 return CancelInterviewNotificationCard(
                                     notification: notification);
                               }
-                              if (notification.content ==
+                              if (notification.title ==
                                   'Candidate accepted your offer !') {
                                 return AcceptOfferNotificationCard(
                                     notification: notification);
