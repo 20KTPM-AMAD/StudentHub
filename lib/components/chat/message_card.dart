@@ -119,11 +119,8 @@ class _MessageCardState extends State<MessageCard> {
           final isMeSender = message.sender.id == userId;
           final displayName = isMeSender ? receiverFullName : senderFullName;
           final personId = isMeSender ? message.receiver.id : message.sender.id;
-          return Card(
-            color: message.notifications != null && message.notifications!.notifyFlag == "0" ? Colors.lightGreen.shade100 : Colors.white,
-            child: GestureDetector(
+          return Card(child: GestureDetector(
               onTap: () {
-                markReadMessage(message.notifications!.id);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

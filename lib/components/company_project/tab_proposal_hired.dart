@@ -103,7 +103,7 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
         itemBuilder: (context, index) {
           if (proposals.isEmpty) {
             return const Center(
-              child: Text('There are currently no proposals'),
+              child: Text('There are currently no hired'),
             );
           }
 
@@ -212,7 +212,7 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProposalDetailScreen(fullname: proposal.studentname!, coverLetter: proposal.coverLetter, techStackName: techStack.name)),
+                  MaterialPageRoute(builder: (context) => ProposalDetailScreen(proposal: proposal, student: student)),
                 );
               },
             ),

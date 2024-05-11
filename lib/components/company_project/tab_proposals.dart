@@ -235,9 +235,8 @@ class ProposalsTabState extends State<ProposalsTab> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ProposalDetailScreen(
-                          fullname: proposal.studentname!,
-                          coverLetter: proposal.coverLetter,
-                          techStackName: techStack.name)),
+                          proposal: proposal,
+                          student: student,)),
                 );
               },
             ),
