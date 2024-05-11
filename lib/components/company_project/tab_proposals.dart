@@ -164,7 +164,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        techStack.name,
+                        techStack!.name,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

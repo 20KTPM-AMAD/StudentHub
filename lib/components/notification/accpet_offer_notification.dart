@@ -5,17 +5,20 @@ import 'package:studenthub/models/Notification.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class SubmittedNotificationCard extends StatefulWidget {
+class AcceptOfferNotificationCard extends StatefulWidget {
   final NotificationItem notification;
-  const SubmittedNotificationCard({Key? key, required this.notification})
-      : super(key: key);
+  const AcceptOfferNotificationCard({
+    Key? key,
+    required this.notification,
+  }) : super(key: key);
 
   @override
-  SubmittedNotificationCardState createState() =>
-      SubmittedNotificationCardState();
+  AcceptOfferNotificationCardState createState() =>
+      AcceptOfferNotificationCardState();
 }
 
-class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
+class AcceptOfferNotificationCardState
+    extends State<AcceptOfferNotificationCard> {
   @override
   void initState() {
     super.initState();
@@ -32,7 +35,7 @@ class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/user.png',
+                Image.asset('assets/images/settings.png',
                     fit: BoxFit.cover, width: 50, height: 50),
                 const SizedBox(
                   width: 20,
@@ -42,19 +45,20 @@ class SubmittedNotificationCardState extends State<SubmittedNotificationCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          widget.notification.proposal != null
-                              ? AppLocalizations.of(context)!
-                                  .submitted_notification(
-                                      widget.notification.proposal!.project !=
-                                              null
-                                          ? widget.notification.proposal!
-                                              .project!.title
-                                          : '',
-                                      widget.notification.sender.fullname)
-                              : AppLocalizations.of(context)!
-                                  .submitted_notification('1', '2'),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3),
+                        AppLocalizations.of(context)!.accept_offer_notification(
+                            widget.notification.proposal != null &&
+                                    widget.notification.proposal!.project !=
+                                        null
+                                ? widget.notification.proposal!.project!.title
+                                : '',
+                            widget.notification.proposal != null &&
+                                    widget.notification.proposal!.studentname !=
+                                        null
+                                ? widget.notification.proposal!.studentname!
+                                : ''),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2, // Số dòng tối đa
+                      ),
                       Text(
                         DateFormat('HH:mm, dd/MM/yyyy').format(widget
                             .notification.createdAt

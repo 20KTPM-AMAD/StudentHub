@@ -14,7 +14,7 @@ class Student {
   final int techStackId;
   final String? resume;
   final String? transcript;
-  final TechStack techStack;
+  final TechStack? techStack;
   final List<Education> educations;
   final List<SkillSet> skillSets;
   final List<Language> languages;
@@ -29,7 +29,7 @@ class Student {
     required this.techStackId,
     this.resume,
     this.transcript,
-    required this.techStack,
+    this.techStack,
     required this.educations,
     required this.skillSets,
     required this.languages,
@@ -46,19 +46,29 @@ class Student {
       techStackId: json['techStackId'],
       resume: json['resume'],
       transcript: json['transcript'],
-      techStack: TechStack.fromJson(json['techStack']),
-      educations: (json['educations'] as List<dynamic>)
-          .map((e) => Education.fromJson(e))
-          .toList(),
-      skillSets: (json['skillSets'] as List<dynamic>)
-          .map((e) => SkillSet.fromJson(e))
-          .toList(),
-      languages: (json['languages'] as List<dynamic>)
-          .map((e) => Language.fromJson(e))
-          .toList(),
-      experiences: (json['experiences'] as List<dynamic>)
-          .map((e) => Experience.fromJson(e))
-          .toList(),
+      techStack: json['techStack'] != null
+          ? TechStack.fromJson(json['techStack'])
+          : null,
+      educations: json['educations'] != null
+          ? (json['educations'] as List<dynamic>)
+              .map((e) => Education.fromJson(e))
+              .toList()
+          : [],
+      skillSets: json['skillSets'] != null
+          ? (json['skillSets'] as List<dynamic>)
+              .map((e) => SkillSet.fromJson(e))
+              .toList()
+          : [],
+      languages: json['languages'] != null
+          ? (json['languages'] as List<dynamic>)
+              .map((e) => Language.fromJson(e))
+              .toList()
+          : [],
+      experiences: json['experiences'] != null
+          ? (json['experiences'] as List<dynamic>)
+              .map((e) => Experience.fromJson(e))
+              .toList()
+          : [],
     );
   }
 }

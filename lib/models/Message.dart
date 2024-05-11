@@ -12,16 +12,15 @@ class Message {
   final Interview? interview;
   final SubNotifications? notifications;
 
-  Message({
-    required this.id,
-    required this.createdAt,
-    required this.content,
-    required this.sender,
-    required this.receiver,
-    this.project,
-    this.interview,
-    this.notifications
-  });
+  Message(
+      {required this.id,
+      required this.createdAt,
+      required this.content,
+      required this.sender,
+      required this.receiver,
+      this.project,
+      this.interview,
+      this.notifications});
 
   String formattedCreatedAt() {
     final vietnamTime = createdAt.add(const Duration(hours: 7));
@@ -36,20 +35,23 @@ class Message {
     }
 
     final interviewJson = json['interview'];
-    final interview = interviewJson != null ? Interview.fromJson(interviewJson) : null;
+    final interview =
+        interviewJson != null ? Interview.fromJson(interviewJson) : null;
 
     final notificaitonsJson = json['notifications'];
-    final notifications = notificaitonsJson != null ? SubNotifications.fromJson(notificaitonsJson) : null;
+    final notifications = notificaitonsJson != null
+        ? SubNotifications.fromJson(notificaitonsJson)
+        : null;
     return Message(
-      id: json['id'] ?? 0,
-      createdAt: DateTime.parse(json['createdAt'] ?? ''),
-      content: json['content'] ?? '',
-      sender: Postman.fromJson(json['sender'] ?? {}),
-      receiver: Postman.fromJson(json['receiver'] ?? {}),
-      project: json['project'] != null ? Project.fromJson(json['project']) : null,
-      interview: interview,
-      notifications: notifications
-    );
+        id: json['id'] ?? 0,
+        createdAt: DateTime.parse(json['createdAt'] ?? ''),
+        content: json['content'] ?? '',
+        sender: Postman.fromJson(json['sender'] ?? {}),
+        receiver: Postman.fromJson(json['receiver'] ?? {}),
+        project:
+            json['project'] != null ? Project.fromJson(json['project']) : null,
+        interview: interview,
+        notifications: notifications);
   }
 }
 
@@ -61,8 +63,8 @@ class Postman {
 
   factory Postman.fromJson(Map<String, dynamic> json) {
     return Postman(
-      id: json['id'],
-      fullname: json['fullname'],
+      id: json['id'] ?? 0,
+      fullname: json['fullname'] ?? 'Full name',
     );
   }
 }

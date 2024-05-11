@@ -6,20 +6,20 @@ import 'package:studenthub/pages/chat/zego/zego.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class InvitedInterviewNotificationCard extends StatefulWidget {
+class CancelInterviewNotificationCard extends StatefulWidget {
   final NotificationItem notification;
-  const InvitedInterviewNotificationCard({
+  const CancelInterviewNotificationCard({
     Key? key,
     required this.notification,
   }) : super(key: key);
 
   @override
-  InvitedInterviewNotificationCardState createState() =>
-      InvitedInterviewNotificationCardState();
+  CancelInterviewNotificationCardState createState() =>
+      CancelInterviewNotificationCardState();
 }
 
-class InvitedInterviewNotificationCardState
-    extends State<InvitedInterviewNotificationCard> {
+class CancelInterviewNotificationCardState
+    extends State<CancelInterviewNotificationCard> {
   @override
   void initState() {
     super.initState();

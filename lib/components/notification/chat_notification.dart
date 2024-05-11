@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:studenthub/models/Notification.dart';
 
 class ChatNotificationCard extends StatefulWidget {
-  const ChatNotificationCard({Key? key}) : super(key: key);
+  final NotificationItem notification;
+  const ChatNotificationCard({Key? key, required this.notification})
+      : super(key: key);
 
   @override
   ChatNotificationCardState createState() => ChatNotificationCardState();
@@ -24,25 +28,33 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset('assets/images/chat.png', fit: BoxFit.cover, width: 50, height: 50),
-                const SizedBox(width: 20,),
-                const Expanded(
+                Image.asset('assets/images/chat.png',
+                    fit: BoxFit.cover, width: 50, height: 50),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Alex Jor',
+                        widget.notification.sender.fullname,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2, // Số dòng tối đa
                       ),
                       Text(
-                        'How are you doing?',
+                        widget.notification.message != null
+                            ? widget.notification.message!.content
+                            : 'Message content',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2, // Số dòng tối đa
                       ),
                       Text(
-                        '6/6/2024',
-                        style: TextStyle(
+                        widget.notification.message != null
+                            ? widget.notification.message!.formattedCreatedAt()
+                            : DateFormat('HH:mm, dd/MM/yyyy').format(
+                                DateTime.now().add(const Duration(hours: 7))),
+                        style: const TextStyle(
                           fontStyle: FontStyle.italic,
                         ),
                       ),
