@@ -90,9 +90,7 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                   const TextSpan(
                     text: 'Students are looking for:\n',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black
-                    ),
+                        fontWeight: FontWeight.bold, color: Colors.black),
                   ),
                   WidgetSpan(
                     child: MarkdownBody(
@@ -110,7 +108,7 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
                 : SizedBox()
           ],
         ),
-        onTap: () {
+        onTap: () async {
           if (widget.isActive &&
               proposal.statusFlag.toString() ==
                   StatusFlag.Offer.index.toString()) {
@@ -118,10 +116,9 @@ class _InfoCardState extends State<StudentProjectDetailCard> {
               context,
               MaterialPageRoute(
                   builder: (context) => StudentProjectDetailScreen(
-                        id: proposal.project!.id,
-                        isOffer: true,
-                        proposalId: proposal.id
-                      )),
+                      id: proposal.project!.id,
+                      isOffer: true,
+                      proposalId: proposal.id)),
             );
           } else {
             Navigator.push(

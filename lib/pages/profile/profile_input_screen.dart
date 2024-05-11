@@ -146,8 +146,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
                               if (rangeController.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text(
-                                        'Please select an option'),
+                                    content: Text('Please select an option'),
                                   ),
                                 );
                               } else {

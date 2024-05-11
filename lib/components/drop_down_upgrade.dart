@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-List<Map<String, dynamic>> list = [
-  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Company', 'icon': Icons.account_circle_sharp},
-  {'name': 'Nguyen Thi Ngoc Hai', 'position': 'Student', 'icon': Icons.account_circle_sharp}
-];
-
 const Color _green = Color(0xff296e48);
 
 class DropdownUpgrade extends StatefulWidget {
   final ValueChanged<String?> onValueChanged; // Define callback function
   final List<Map<String, dynamic>> list;
+  final String value;
 
-  const DropdownUpgrade({required this.onValueChanged, required this.list, Key? key})
+  const DropdownUpgrade(
+      {required this.onValueChanged,
+      required this.list,
+      Key? key,
+      required this.value})
       : super(key: key);
 
   @override
@@ -19,9 +19,10 @@ class DropdownUpgrade extends StatefulWidget {
 }
 
 class _DropdownUpgradeState extends State<DropdownUpgrade> {
-  var dropdownValue = list.first['position'];
   @override
   Widget build(BuildContext context) {
+    var dropdownValue = widget.value;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5),
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -51,7 +52,8 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
           });
           widget.onValueChanged(value);
         },
-        items: widget.list.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+        items: widget.list
+            .map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
           return DropdownMenuItem<String>(
             value: value['position'],
             child: Container(
@@ -63,8 +65,14 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const SizedBox(width: 10,),
-                    Icon(value['icon'], size: 50.0, color: Colors.black,),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Icon(
+                      value['icon'],
+                      size: 50.0,
+                      color: Colors.black,
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -72,11 +80,11 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                           children: [
                             const SizedBox(width: 8.0),
                             Padding(
-                              padding: const EdgeInsets.only(left: 15.0, top: 5.0),
+                              padding:
+                                  const EdgeInsets.only(left: 15.0, top: 5.0),
                               child: Text(
                                 value['name'],
-                                style: const TextStyle(
-                                    fontSize: 20),
+                                style: const TextStyle(fontSize: 20),
                               ),
                             )
                           ],
@@ -89,8 +97,8 @@ class _DropdownUpgradeState extends State<DropdownUpgrade> {
                               padding: const EdgeInsets.only(left: 15.0),
                               child: Text(
                                 value['position'],
-                                style:
-                                const TextStyle(fontSize: 14, color: Colors.grey),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey),
                               ),
                             ),
                           ],

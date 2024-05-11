@@ -27,7 +27,7 @@ class SwitchAccountScreen extends StatefulWidget {
 
 class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   late final String? token;
-  String? selectedDropdownValue = 'Company';
+  String? selectedDropdownValue;
   String? fullname = '';
   List<dynamic> roles = [];
   bool isLoading = true;
@@ -36,8 +36,12 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   void initState() {
     super.initState();
     Provider.of<AuthProvider>(context, listen: false).role == UserRole.Company
-        ? selectedDropdownValue = 'Company'
-        : selectedDropdownValue = 'Student';
+        ? setState(() {
+            selectedDropdownValue = 'Company';
+          })
+        : setState(() {
+            selectedDropdownValue = 'Student';
+          });
     token = Provider.of<AuthProvider>(context, listen: false).token;
     _getUserInfo();
   }
@@ -81,9 +85,6 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         'Authorization': 'Bearer $token',
       },
     );
-
-    print(response.statusCode);
-    print(response.body);
 
     if (response.statusCode == 201) {
       showDialog(
@@ -220,7 +221,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                         Provider.of<AuthProvider>(context, listen: false).role);
                   });
                 },
-                list: list, // Pass the updated list here
+                list: list,
+                value: selectedDropdownValue!, // Pass the updated list here
               ),
               const SizedBox(height: 50),
               _buildButton('assets/images/user.png',
@@ -300,7 +302,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 300,
+        width: 350,
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(

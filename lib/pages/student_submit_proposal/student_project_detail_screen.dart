@@ -66,10 +66,12 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
 
   Future<void> update() async {
     try {
-      final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+      final String? token =
+          Provider.of<AuthProvider>(context, listen: false).token;
 
-      await updateProposal(
-          widget.proposalId, StatusFlag.Hired.index, token);
+      await updateProposal(widget.proposalId, StatusFlag.Hired.index, token);
+
+      Navigator.of(context).pop(true);
     } catch (error) {
       print(error);
     }
@@ -122,8 +124,15 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset('assets/images/project_detail.png', fit: BoxFit.cover, width: 100, height: 100,),
-                        const SizedBox(width: 10,),
+                        Image.asset(
+                          'assets/images/project_detail.png',
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -134,9 +143,13 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                                 fontSize: 20,
                               ),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Container(
-                              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.6),
+                              constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.6),
                               child: Text(
                                 project.title,
                                 overflow: TextOverflow.ellipsis,
@@ -147,7 +160,9 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               children: [
                                 Text(
@@ -159,7 +174,10 @@ class StudentProjectDetailState extends State<StudentProjectDetailScreen> {
                                   ),
                                 ),
                                 Container(
-                                  constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.4),
+                                  constraints: BoxConstraints(
+                                      maxWidth:
+                                          MediaQuery.of(context).size.width *
+                                              0.4),
                                   child: Text(
                                     project.companyName!,
                                     overflow: TextOverflow.ellipsis,

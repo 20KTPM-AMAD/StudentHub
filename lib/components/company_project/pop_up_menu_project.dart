@@ -119,6 +119,7 @@ class AllProjectsPopupMenu {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProjectDetailScreen(
+                                id: project.id,
                                     name: project.title,
                                     description: project.description,
                                     compnayName: project.companyName!,
