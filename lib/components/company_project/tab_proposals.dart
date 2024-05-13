@@ -235,8 +235,7 @@ class ProposalsTabState extends State<ProposalsTab> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => ProposalDetailScreen(
-                          proposal: proposal,
-                          student: student,)),
+                          proposalId: proposal.id)),
                 );
               },
             ),
