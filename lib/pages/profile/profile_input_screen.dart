@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:studenthub/components/profile/radio_button_group.dart';
 import 'package:studenthub/models/Company.dart';
-import 'package:studenthub/pages/browse_project/project_list_screen.dart';
+import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
@@ -55,7 +55,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ProjectListScreen(),
+            builder: (context) => const SwitchAccountScreen(),
           ),
         );
       }
