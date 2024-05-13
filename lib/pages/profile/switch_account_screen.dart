@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/utils/auth_provider.dart';
+import 'package:studenthub/utils/socket_manager.dart';
 
 const Color primaryColor = Color(0xff296e48);
 
@@ -78,6 +79,8 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
 
   Future<void> logout() async {
     print('Token when logout $token');
+    SocketManager().disconnectSocket();
+
     final response = await http.post(
       Uri.parse('http://34.16.137.128/api/auth/logout'),
       headers: <String, String>{

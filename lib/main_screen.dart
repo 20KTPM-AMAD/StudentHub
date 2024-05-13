@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/contanst/contanst.dart';
+import 'package:studenthub/models/Notification.dart';
 import 'package:studenthub/pages/browse_project/project_list_screen.dart';
 import 'package:studenthub/pages/chat/interview_list_screen.dart';
 import 'package:studenthub/pages/chat/message_list_screen.dart';
@@ -12,6 +13,7 @@ import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/pages/student_submit_proposal/all_projects_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
+import 'package:studenthub/utils/socket_manager.dart';
 
 import 'models/User.dart';
 
@@ -26,6 +28,7 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  int _countNoti = 0;
 
   late List<Widget> _tabs = [
     const ProjectListScreen(),
@@ -40,9 +43,32 @@ class MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _countNoti = 0;
 
     if (Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
-      _getUserInfo();
+      checkRole();
+    }
+    connectSocket();
+  }
+
+  Future<void> connectSocket() async {
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+    if (loginUser != null) {
+      final socketManager = SocketManager();
+      SocketManager().registerSocketListener(onReceiveNotification);
+
+      await socketManager.connectSocket(context, loginUser.id);
+    }
+  }
+
+  void onReceiveNotification(data) {
+    if (data["notification"] != null) {
+      final notification = NotificationItem.fromJson(data["notification"]);
+      setState(() {
+        _countNoti++;
+      });
     }
   }
 
@@ -68,39 +94,10 @@ class MainScreenState extends State<MainScreen> {
           });
   }
 
-  Future<void> _getUserInfo() async {
-    final token = Provider.of<AuthProvider>(context, listen: false).token;
-
-    if (token != null) {
-      final response = await http.get(
-        Uri.parse('http://34.16.137.128/api/auth/me'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body);
-        Provider.of<AuthProvider>(context, listen: false)
-            .setLoginUser(User.fromJson(jsonResponse['result']));
-
-        var loginUser =
-            Provider.of<AuthProvider>(context, listen: false).loginUser;
-
-        if (loginUser!.roles.contains(1)) {
-          Provider.of<AuthProvider>(context, listen: false)
-              .setRole(UserRole.Company);
-        } else {
-          Provider.of<AuthProvider>(context, listen: false)
-              .setRole(UserRole.Student);
-        }
-
-        checkRole();
-      } else {
-        print('Failed to get user info: ${response.body}');
-      }
-    }
+  @override
+  void dispose() {
+    SocketManager().unregisterSocketListener(onReceiveNotification);
+    super.dispose();
   }
 
   @override
@@ -152,7 +149,12 @@ class MainScreenState extends State<MainScreen> {
               label: 'Interview',
               backgroundColor: Colors.grey[400]),
           BottomNavigationBarItem(
-              icon: const Icon(Icons.notifications),
+              icon: _countNoti > 0
+                  ? Badge(
+                      label: Text('$_countNoti'),
+                      child: const Icon(Icons.notifications),
+                    )
+                  : const Icon(Icons.notifications),
               label: 'Alerts',
               backgroundColor: Colors.grey[400]),
         ],

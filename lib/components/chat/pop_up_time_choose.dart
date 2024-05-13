@@ -42,7 +42,6 @@ class TimeChoosePopupFilterState extends State<TimeChoosePopupFilter> {
   @override
   void initState() {
     super.initState();
-    SocketManager.initializeSocket(context, widget.projetcID);
   }
 
   Future<void> _createInterview() async {

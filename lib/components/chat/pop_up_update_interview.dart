@@ -16,7 +16,13 @@ class UpdateInterviewPopUp extends StatefulWidget {
   final int personID;
   final int meID;
   final Function refreshMessageList;
-  const UpdateInterviewPopUp({Key? key, required this.interview, required this.projectID, required this.personID, required this.meID, required this.refreshMessageList})
+  const UpdateInterviewPopUp(
+      {Key? key,
+      required this.interview,
+      required this.projectID,
+      required this.personID,
+      required this.meID,
+      required this.refreshMessageList})
       : super(key: key);
 
   @override
@@ -37,12 +43,12 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
   @override
   void initState() {
     super.initState();
-    SocketManager.initializeSocket(context, widget.projectID);
     titleController!.text = widget.interview.title;
   }
 
   Future<void> _updateInterview() async {
-    final String? token = Provider.of<AuthProvider>(context, listen: false).token;
+    final String? token =
+        Provider.of<AuthProvider>(context, listen: false).token;
 
     String newTitle = titleController.text;
     DateTime newStartTime = DateTime.utc(
@@ -61,7 +67,8 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
     );
 
     bool isTitleChanged = newTitle != widget.interview.title;
-    bool isStartTimeChanged = newStartTime.toUtc() != widget.interview.startTime;
+    bool isStartTimeChanged =
+        newStartTime.toUtc() != widget.interview.startTime;
     bool isEndTimeChanged = newEndTime.toUtc() != widget.interview.endTime;
 
     if (isTitleChanged || isStartTimeChanged || isEndTimeChanged) {
@@ -72,7 +79,8 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
       };
 
       final response = await http.patch(
-        Uri.parse('https://api.studenthub.dev/api/interview/${widget.interview.id}'),
+        Uri.parse(
+            'https://api.studenthub.dev/api/interview/${widget.interview.id}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'authorization': 'Bearer $token',
@@ -97,15 +105,24 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context)!.success, textAlign: TextAlign.center,),
-          content: Text(AppLocalizations.of(context)!.update_interview_success, textAlign: TextAlign.center,),
+          title: Text(
+            AppLocalizations.of(context)!.success,
+            textAlign: TextAlign.center,
+          ),
+          content: Text(
+            AppLocalizations.of(context)!.update_interview_success,
+            textAlign: TextAlign.center,
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('OK', textAlign: TextAlign.center,),
+              child: const Text(
+                'OK',
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         );
@@ -126,7 +143,9 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Text(
@@ -138,7 +157,9 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                 ),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             const Divider(),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
@@ -153,7 +174,9 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5,),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   SizedBox(
                     height: 50,
                     child: TextField(
@@ -169,7 +192,9 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Column(
@@ -189,19 +214,20 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                     children: [
                       Text(
                         AppLocalizations.of(context)!.choose_start_time,
-                        style: const TextStyle(
-                            fontStyle: FontStyle.italic
-                        ),
+                        style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
                       IconButton(
                         onPressed: () async {
-                          final DateTime? selectedDate = await selectDate(context);
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final DateTime? selectedDate =
+                              await selectDate(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedDate != null && selectedTime != null) {
                             setState(() {
                               selectedStartDate = selectedDate;
                               selectedStartTime = selectedTime;
-                              startTimeFormat = '${DateFormat('yyyy/MM/dd').format(selectedStartDate!)} ${selectedStartTime!.format(context)}';
+                              startTimeFormat =
+                                  '${DateFormat('yyyy/MM/dd').format(selectedStartDate!)} ${selectedStartTime!.format(context)}';
                               calculateDuration();
                             });
                           }
@@ -210,7 +236,8 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedTime != null) {
                             setState(() {
                               selectedStartTime = selectedTime;
@@ -222,15 +249,17 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                     ],
                   ),
                   Text(
-                      startTimeFormat ?? DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.startTime),
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic
-                    ),
+                    startTimeFormat ??
+                        DateFormat('HH:mm, dd/MM/yyyy')
+                            .format(widget.interview.startTime),
+                    style: const TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 25.0, right: 25, top: 5),
               child: Column(
@@ -251,19 +280,20 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                       Text(
                         AppLocalizations.of(context)!.choose_end_time,
                         style: const TextStyle(
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic
-                        ),
+                            fontSize: 16, fontStyle: FontStyle.italic),
                       ),
                       IconButton(
                         onPressed: () async {
-                          final DateTime? selectedDate = await selectDate(context);
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final DateTime? selectedDate =
+                              await selectDate(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedDate != null && selectedTime != null) {
                             setState(() {
                               selectedEndDate = selectedDate;
                               selectedEndTime = selectedTime;
-                              endTimeFormat = '${DateFormat('yyyy/MM/dd').format(selectedEndDate!)} ${selectedEndTime!.format(context)}';
+                              endTimeFormat =
+                                  '${DateFormat('yyyy/MM/dd').format(selectedEndDate!)} ${selectedEndTime!.format(context)}';
                               calculateDuration();
                             });
                           }
@@ -272,7 +302,8 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                       ),
                       IconButton(
                         onPressed: () async {
-                          final TimeOfDay? selectedTime = await selectTime(context);
+                          final TimeOfDay? selectedTime =
+                              await selectTime(context);
                           if (selectedTime != null) {
                             setState(() {
                               selectedEndTime = selectedTime;
@@ -284,10 +315,10 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                     ],
                   ),
                   Text(
-                    endTimeFormat ?? DateFormat('HH:mm, dd/MM/yyyy').format(widget.interview.endTime),
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic
-                    ),
+                    endTimeFormat ??
+                        DateFormat('HH:mm, dd/MM/yyyy')
+                            .format(widget.interview.endTime),
+                    style: const TextStyle(fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
@@ -301,14 +332,14 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                     AppLocalizations.of(context)!.duration(duration ?? '0'),
                     textAlign: TextAlign.left,
                     style: const TextStyle(
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic
-                    ),
+                        fontSize: 14, fontStyle: FontStyle.italic),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 5,),
+            const SizedBox(
+              height: 5,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -322,16 +353,18 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
                       backgroundColor: Colors.grey,
                       foregroundColor: Colors.white,
                     ),
-                    child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontSize: 14)),
+                    child: Text(AppLocalizations.of(context)!.cancel,
+                        style: const TextStyle(fontSize: 14)),
                   ),
                   ElevatedButton(
-                    onPressed: (){_updateInterview();
+                    onPressed: () {
+                      _updateInterview();
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: _green,
-                        foregroundColor: Colors.white
-                    ),
-                    child: Text(AppLocalizations.of(context)!.update_interview_btn, style: const TextStyle(fontSize: 14)),
+                        backgroundColor: _green, foregroundColor: Colors.white),
+                    child: Text(
+                        AppLocalizations.of(context)!.update_interview_btn,
+                        style: const TextStyle(fontSize: 14)),
                   ),
                 ],
               ),
@@ -368,8 +401,18 @@ class UpdateInterviewPopUpState extends State<UpdateInterviewPopUp> {
     DateTime start = selectedStartDate ?? widget.interview.startTime;
     DateTime end = selectedEndDate ?? widget.interview.endTime;
 
-    final startTime = DateTime(start.year, start.month, start.day, selectedStartTime?.hour ?? widget.interview.startTime.hour, selectedStartTime?.minute ?? widget.interview.startTime.minute);
-    final endTime = DateTime(end.year, end.month, end.day, selectedEndTime?.hour ?? widget.interview.endTime.hour, selectedEndTime?.minute ?? widget.interview.endTime.minute);
+    final startTime = DateTime(
+        start.year,
+        start.month,
+        start.day,
+        selectedStartTime?.hour ?? widget.interview.startTime.hour,
+        selectedStartTime?.minute ?? widget.interview.startTime.minute);
+    final endTime = DateTime(
+        end.year,
+        end.month,
+        end.day,
+        selectedEndTime?.hour ?? widget.interview.endTime.hour,
+        selectedEndTime?.minute ?? widget.interview.endTime.minute);
 
     final difference = endTime.difference(startTime);
     final hours = difference.inHours;

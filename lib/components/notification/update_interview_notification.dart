@@ -6,20 +6,20 @@ import 'package:studenthub/pages/chat/zego/zego.dart';
 
 const Color _green = Color(0xFF12B28C);
 
-class InvitedInterviewNotificationCard extends StatefulWidget {
+class UpdateInterviewNotificationCard extends StatefulWidget {
   final NotificationItem notification;
-  const InvitedInterviewNotificationCard({
+  const UpdateInterviewNotificationCard({
     Key? key,
     required this.notification,
   }) : super(key: key);
 
   @override
-  InvitedInterviewNotificationCardState createState() =>
-      InvitedInterviewNotificationCardState();
+  UpdateInterviewNotificationCardState createState() =>
+      UpdateInterviewNotificationCardState();
 }
 
-class InvitedInterviewNotificationCardState
-    extends State<InvitedInterviewNotificationCard> {
+class UpdateInterviewNotificationCardState
+    extends State<UpdateInterviewNotificationCard> {
   @override
   void initState() {
     super.initState();
@@ -47,22 +47,12 @@ class InvitedInterviewNotificationCardState
                     children: [
                       Text(
                         AppLocalizations.of(context)!
-                            .invited_interview_notification(
-                                widget.notification.message != null &&
-                                        widget.notification.message!.project !=
-                                            null
-                                    ? widget
-                                        .notification.message!.project!.title
-                                    : '',
-                                widget.notification.message != null &&
-                                        widget.notification.message!
-                                                .interview !=
-                                            null
-                                    ? DateFormat('HH:mm, dd/MM/yyyy').format(
-                                        widget.notification.message!.interview!
-                                            .startTime
-                                            .add(const Duration(hours: 7)))
-                                    : ''),
+                            .updated_interview_notification(
+                          widget.notification.message != null &&
+                                  widget.notification.message!.project != null
+                              ? widget.notification.message!.project!.title
+                              : '',
+                        ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3, // Số dòng tối đa
                       ),

@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/chat/pop_up_time_choose.dart';
 import 'package:studenthub/components/chat/schedule_interview_message.dart';
-import 'package:studenthub/models/Interview.dart';
 import 'package:studenthub/models/Message.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/models/Notification.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/utils/socket_manager.dart';
@@ -38,30 +39,57 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
   @override
   void initState() {
     super.initState();
-    SocketManager.initializeSocket(context, widget.projectID);
-    SocketManager.socket.on('RECEIVE_MESSAGE', (data) {
-      if (mounted && data['notification']['receiverId'] == userId) {
-        Message newMessage = Message(
-          id: messageList.length + 1,
-          createdAt: DateTime.now(),
-          content: data['notification']['message']['content'],
-          sender: Postman(id: data['notification']['senderId'], fullname: 'sender'),
-          receiver: Postman(id: data['notification']['receiverId'], fullname: 'receiver'),
-          project: null,
-        );
-
-        setState(() {
-          messageList.insert(0, newMessage);
-        });
-        print('đã lắng nghe sự kiện RECEIVE_MESSAGE');
-      }
-    });
-
-    SocketManager.socket.on('RECEIVE_INTERVIEW', (data) {
-      getMessageList();
-      print('đã lắng nghe sự kiện RECEIVE_INTERVIEW');
-    });
+    connectSocket();
     getMessageList();
+  }
+
+  @override
+  void dispose() {
+    SocketManager().unregisterSocketListener(onReceiveNotification);
+    super.dispose();
+  }
+
+  Future<void> connectSocket() async {
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+    if (loginUser != null) {
+      final socketManager = SocketManager();
+      SocketManager().registerSocketListener(onReceiveNotification);
+
+      await socketManager.connectSocket(context, loginUser.id);
+    }
+  }
+
+  void onReceiveNotification(data) {
+    if (data['notification'] != null) {
+      if (data['notification']['typeNotifyFlag'] == '3') {
+        final notification = NotificationItem.fromJson(data['notification']);
+        final message = Message.fromJson(data['notification']['message']);
+        message.sender = notification.sender;
+        message.receiver = notification.receiver;
+        if (message.projectId == widget.projectID &&
+            (message.sender.id == userId || message.receiver.id == userId)) {
+          setState(() {
+            messageList.insert(0, message);
+          });
+        }
+        return;
+      }
+      if (data['notification']['typeNotifyFlag'] == '1') {
+        final notification = NotificationItem.fromJson(data['notification']);
+        final message = Message.fromJson(data['notification']['message']);
+        message.sender = notification.sender;
+        message.receiver = notification.receiver;
+        if (message.projectId == widget.projectID &&
+            (message.sender.id == userId || message.receiver.id == userId)) {
+          setState(() {
+            messageList.insert(0, message);
+          });
+        }
+        return;
+      }
+    }
   }
 
   Future<void> getMessageList() async {
@@ -120,7 +148,9 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
     if (textController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Message must not empty',),
+          content: Text(
+            'Message must not empty',
+          ),
           backgroundColor: Colors.red,
         ),
       );
@@ -152,6 +182,7 @@ class MessageDetailScreenState extends State<MessageDetailScreen> {
         sender: Postman(id: userId, fullname: 'sender'),
         receiver: Postman(id: widget.personID, fullname: widget.personFullName),
         project: null,
+        projectId: widget.projectID,
       );
 
       setState(() {

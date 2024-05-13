@@ -1,12 +1,14 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/models/Interview.dart';
-import 'package:studenthub/pages/chat/message_detail_screen.dart';
+import 'package:studenthub/models/Notification.dart';
 import 'package:studenthub/pages/chat/zego/zego.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:studenthub/utils/socket_manager.dart';
 
 const Color _green = Color(0xff296e48);
 
@@ -25,10 +27,43 @@ class _InterviewCardState extends State<InterviewCard> {
   @override
   void initState() {
     super.initState();
-    getAllMessages();
+    getAllInterviews();
+    connectSocket();
   }
 
-  Future<void> getAllMessages() async {
+  @override
+  void dispose() {
+    SocketManager().unregisterSocketListener(onReceiveNotification);
+    super.dispose();
+  }
+
+  Future<void> connectSocket() async {
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+    if (loginUser != null) {
+      final socketManager = SocketManager();
+      SocketManager().registerSocketListener(onReceiveNotification);
+
+      await socketManager.connectSocket(context, loginUser.id);
+    }
+  }
+
+  void onReceiveNotification(data) {
+    if (data['notification'] != null) {
+      if (data['notification']['typeNotifyFlag'] == '1') {
+        final notification = NotificationItem.fromJson(data['notification']);
+        if (notification.sender.id == userId ||
+            notification.receiver.id == userId) {
+          inspect(notification);
+          getAllInterviews();
+        }
+        return;
+      }
+    }
+  }
+
+  Future<void> getAllInterviews() async {
     setState(() {
       isLoading = true;
     });
@@ -50,9 +85,13 @@ class _InterviewCardState extends State<InterviewCard> {
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
           print(jsonResponse);
-          if (jsonResponse['result'] is List){
+          if (jsonResponse['result'] is List) {
             setState(() {
-              interviews = (jsonResponse['result'] as List).map((data) => Interview.fromJson(data)).toList();
+              interviews = (jsonResponse['result'] as List)
+                  .map((data) => Interview.fromJson(data))
+                  .toList()
+                  .reversed
+                  .toList();
             });
           }
         }
@@ -79,15 +118,16 @@ class _InterviewCardState extends State<InterviewCard> {
         : buildMessageList();
   }
 
-  Widget buildMessageList(){
+  Widget buildMessageList() {
     return RefreshIndicator(
-      onRefresh: getAllMessages,
+      onRefresh: getAllInterviews,
       child: ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
         itemCount: interviews.length,
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-        itemBuilder: (context, index){
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 10),
+        itemBuilder: (context, index) {
           if (interviews.isEmpty) {
             return const Center(
               child: Text('There are currently no interview'),
@@ -99,14 +139,19 @@ class _InterviewCardState extends State<InterviewCard> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => VideoCallPage(conferenceID: interview.meetingRoom!.meetingRoomCode,)),
+                  MaterialPageRoute(
+                      builder: (context) => VideoCallPage(
+                            conferenceID:
+                                interview.meetingRoom!.meetingRoomCode,
+                          )),
                 );
               },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, top: 10, right: 10),
                 child: Row(
                   children: [
-                    Image.asset('assets/images/interview.png', fit: BoxFit.cover, width: 50, height: 50),
+                    Image.asset('assets/images/interview.png',
+                        fit: BoxFit.cover, width: 50, height: 50),
                     const SizedBox(
                       width: 20,
                     ),
@@ -122,11 +167,10 @@ class _InterviewCardState extends State<InterviewCard> {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: const TextStyle(
-                                    fontFamily: 'Quicksand',
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                    color: _green
-                                  ),
+                                      fontFamily: 'Quicksand',
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: _green),
                                 ),
                               ),
                             ],
@@ -163,7 +207,9 @@ class _InterviewCardState extends State<InterviewCard> {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
-                          const SizedBox(height: 20,)
+                          const SizedBox(
+                            height: 20,
+                          )
                         ],
                       ),
                     ),

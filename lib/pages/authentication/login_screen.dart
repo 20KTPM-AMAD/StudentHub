@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/main_screen.dart';
+import 'package:studenthub/models/User.dart';
 import 'package:studenthub/pages/authentication/forgot_password_screen.dart';
 import 'package:studenthub/pages/authentication/sign_up_step_1_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/utils/auth_provider.dart';
+import 'package:studenthub/utils/socket_manager.dart';
 
 var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
@@ -21,10 +24,52 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String? errorText;
+
+  Future<void> getUserInfo() async {
+    final token = Provider.of<AuthProvider>(context, listen: false).token;
+
+    if (token != null) {
+      final response = await http.get(
+        Uri.parse('http://34.16.137.128/api/auth/me'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        Provider.of<AuthProvider>(context, listen: false)
+            .setLoginUser(User.fromJson(jsonResponse['result']));
+
+        var loginUser =
+            Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+        if (loginUser!.roles.contains(1)) {
+          Provider.of<AuthProvider>(context, listen: false)
+              .setRole(UserRole.Company);
+        } else {
+          Provider.of<AuthProvider>(context, listen: false)
+              .setRole(UserRole.Student);
+        }
+      } else {
+        print('Failed to get user info: ${response.body}');
+      }
+    }
+  }
+
+  Future<void> connectSocket() async {
+    final loginUser =
+        Provider.of<AuthProvider>(context, listen: false).loginUser;
+
+    if (loginUser != null) {
+      final socketManager = SocketManager();
+      await socketManager.connectSocket(context, loginUser.id);
+    }
+  }
 
   Future<void> login() async {
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
@@ -50,8 +95,12 @@ class LoginScreenState extends State<LoginScreen> {
     final jsonResponse = json.decode(response.body);
 
     if (response.statusCode == 201) {
-      if (jsonResponse['result'] != null && jsonResponse['result']['token'] != null) {
-        Provider.of<AuthProvider>(context, listen: false).setToken(jsonResponse['result']['token']);
+      if (jsonResponse['result'] != null &&
+          jsonResponse['result']['token'] != null) {
+        Provider.of<AuthProvider>(context, listen: false)
+            .setToken(jsonResponse['result']['token']);
+        await getUserInfo();
+        await connectSocket();
         Navigator.of(context).pushReplacement(
           PageTransition(
             child: const MainScreen(),
@@ -64,7 +113,8 @@ class LoginScreenState extends State<LoginScreen> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(AppLocalizations.of(context)!.fail, style: const TextStyle(fontWeight: FontWeight.bold)),
+            title: Text(AppLocalizations.of(context)!.fail,
+                style: const TextStyle(fontWeight: FontWeight.bold)),
             content: Text(jsonResponse['errorDetails']),
             actions: <Widget>[
               TextButton(
@@ -83,8 +133,10 @@ class LoginScreenState extends State<LoginScreen> {
         if (jsonResponse['errorDetails'] != null) {
           if (jsonResponse['errorDetails'].contains("email must be an email")) {
             errorText = 'Invalid email format';
-          } else if (jsonResponse['errorDetails'].contains("password is too weak, password must be longer than or equal to 8 characters")) {
-            errorText = 'Password is too weak. It must be longer than or equal to 8 characters.';
+          } else if (jsonResponse['errorDetails'].contains(
+              "password is too weak, password must be longer than or equal to 8 characters")) {
+            errorText =
+                'Password is too weak. It must be longer than or equal to 8 characters.';
           } else {
             errorText = jsonResponse['errorDetails'] ?? 'Failed to login';
           }
@@ -146,7 +198,7 @@ class LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   child: Center(
                     child: Text(
                       AppLocalizations.of(context)!.sign_in,
@@ -163,14 +215,16 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               if (errorText != null)
                 GestureDetector(
-                  onTap: () {},  // Bạn có thể thêm một hành động khi nhấp vào đây nếu cần
+                  onTap:
+                      () {}, // Bạn có thể thêm một hành động khi nhấp vào đây nếu cần
                   child: Container(
                     width: size.width,
                     decoration: BoxDecoration(
                       color: const Color(0xFFD0342C),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
                     child: Text(
                       errorText!,
                       style: const TextStyle(
@@ -209,9 +263,7 @@ class LoginScreenState extends State<LoginScreen> {
                     TextSpan(children: [
                       TextSpan(
                         text: AppLocalizations.of(context)!.forgot__password,
-                        style: TextStyle(
-                            color: primaryColor, fontSize: 16
-                        ),
+                        style: TextStyle(color: primaryColor, fontSize: 16),
                       ),
                     ]),
                   ),
@@ -233,15 +285,11 @@ class LoginScreenState extends State<LoginScreen> {
                     TextSpan(children: [
                       TextSpan(
                         text: AppLocalizations.of(context)!.login_four,
-                        style: const TextStyle(
-                            fontSize: 16
-                        ),
+                        style: const TextStyle(fontSize: 16),
                       ),
                       TextSpan(
                         text: ' ${AppLocalizations.of(context)!.sign_up}',
-                        style: TextStyle(
-                            color: primaryColor, fontSize: 16
-                        ),
+                        style: TextStyle(color: primaryColor, fontSize: 16),
                       ),
                     ]),
                   ),

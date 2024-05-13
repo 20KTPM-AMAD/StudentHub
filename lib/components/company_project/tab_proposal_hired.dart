@@ -13,7 +13,8 @@ var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
 class ProposalsHiredTab extends StatefulWidget {
-  const ProposalsHiredTab({Key? key, required this.projectId}) : super(key: key);
+  const ProposalsHiredTab({Key? key, required this.projectId})
+      : super(key: key);
   final int projectId;
   @override
   ProposalsHiredTabState createState() => ProposalsHiredTabState();
@@ -39,7 +40,8 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
       print('projectId: ${widget.projectId}');
       if (token != null) {
         final response = await http.get(
-          Uri.parse('http://34.16.137.128/api/proposal/getByProjectId/${widget.projectId}?statusFlag=3'),
+          Uri.parse(
+              'http://34.16.137.128/api/proposal/getByProjectId/${widget.projectId}?statusFlag=3'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
@@ -50,9 +52,12 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
 
         if (response.statusCode == 200) {
           final jsonResponse = json.decode(response.body);
-          if (jsonResponse['result']['items'] != null && (jsonResponse['result']['items'] as List).isNotEmpty) {
+          if (jsonResponse['result']['items'] != null &&
+              (jsonResponse['result']['items'] as List).isNotEmpty) {
             setState(() {
-              proposals = (jsonResponse['result']['items'] as List).map((item) => Proposal.fromJson(item)).toList();
+              proposals = (jsonResponse['result']['items'] as List)
+                  .map((item) => Proposal.fromJson(item))
+                  .toList();
             });
           } else {
             proposals = [];
@@ -98,7 +103,8 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const ScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+        separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(height: 10),
         itemCount: proposals.isEmpty ? 1 : proposals.length,
         itemBuilder: (context, index) {
           if (proposals.isEmpty) {
@@ -119,8 +125,15 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/student.png', fit: BoxFit.cover, width: 100, height: 100,),
-                      const SizedBox(width: 20,),
+                      Image.asset(
+                        'assets/images/student.png',
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +145,8 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
                                 fontSize: 16,
                                 color: primaryColor,
                               ),
-                              overflow: TextOverflow.ellipsis, // Hiển thị dấu ... khi văn bản tràn ra ngoài
+                              overflow: TextOverflow
+                                  .ellipsis, // Hiển thị dấu ... khi văn bản tràn ra ngoài
                             ),
                             Text(
                               getTimeElapsed(proposal.createdAt),
@@ -150,7 +164,7 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        techStack.name,
+                        techStack!.name,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -171,14 +185,15 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>
-                                MessageDetailScreen(
-                                  personID: proposal.student!.userId,
-                                  personFullName: proposal.studentname!,
-                                  projectID: proposal.projectId,)),
+                            MaterialPageRoute(
+                                builder: (context) => MessageDetailScreen(
+                                      personID: proposal.student!.userId,
+                                      personFullName: proposal.studentname!,
+                                      projectID: proposal.projectId,
+                                    )),
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -186,11 +201,15 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
                           foregroundColor: Colors.white,
                           fixedSize: const Size(130, 40),
                         ),
-                        child: Text(AppLocalizations.of(context)!.message, style: const TextStyle(fontSize: 18,)),
+                        child: Text(AppLocalizations.of(context)!.message,
+                            style: const TextStyle(
+                              fontSize: 18,
+                            )),
                       ),
                       ElevatedButton(
-                        onPressed:() {
-                          SendHireOfferDialog.showMyDialog(context, proposal.id, getAllProposals);
+                        onPressed: () {
+                          SendHireOfferDialog.showMyDialog(
+                              context, proposal.id, getAllProposals);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
@@ -201,7 +220,9 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
                           proposal.statusFlag == 0
                               ? AppLocalizations.of(context)!.send_hired_offer
                               : 'Sent hired offer',
-                          style: const TextStyle(fontSize: 18,),
+                          style: const TextStyle(
+                            fontSize: 18,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -212,7 +233,9 @@ class ProposalsHiredTabState extends State<ProposalsHiredTab> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProposalDetailScreen(proposal: proposal, student: student)),
+                  MaterialPageRoute(
+                      builder: (context) => ProposalDetailScreen(
+                          proposal: proposal, student: student)),
                 );
               },
             ),
