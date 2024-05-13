@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:provider/provider.dart';
+import 'package:studenthub/contanst/contanst.dart';
 import 'package:studenthub/pages/student_submit_proposal/submit_proposal.dart';
+import 'package:studenthub/utils/auth_provider.dart';
 
 const Color _green = Color(0xff296e48);
 
@@ -17,9 +20,15 @@ class ProjectDetailScreen extends StatefulWidget {
 }
 
 class ProjectDetailState extends State<ProjectDetailScreen>{
+  bool checkCompany = false;
   @override
   void initState() {
     super.initState();
+    checkRole();
+  }
+  void checkRole() {
+    checkCompany = Provider.of<AuthProvider>(context, listen: false).role ==
+        UserRole.Company;
   }
 
   String getProjectScopeFormart(int projectScope) {
@@ -191,7 +200,8 @@ class ProjectDetailState extends State<ProjectDetailScreen>{
                 ),
               ),
               SizedBox(height: 10,),
-              Container(
+              if (checkCompany == false)
+                Container(
                 alignment: Alignment.bottomCenter,
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Row(
