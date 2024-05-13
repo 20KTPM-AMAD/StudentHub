@@ -49,6 +49,7 @@ dependencies:
     sdk: flutter
   intl: any
   zego_uikit_prebuilt_video_conference: ^2.7.4
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:

@@ -1,17 +1,20 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:studenthub/models/Proposal.dart';
-import 'package:studenthub/models/Student.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:studenthub/utils/auth_provider.dart';
+import 'package:http/http.dart' as http;
 
 var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
 class ProposalDetailScreen extends StatefulWidget {
   const ProposalDetailScreen(
-      {Key? key, required this.proposal, required this.student})
+      {Key? key, required this.proposalId})
       : super(key: key);
-  final Student student;
-  final Proposal proposal;
+  final int proposalId;
 
   @override
   ProjectDetailState createState() => ProjectDetailState();
@@ -19,13 +22,62 @@ class ProposalDetailScreen extends StatefulWidget {
 
 class ProjectDetailState extends State<ProposalDetailScreen> {
   bool isLoading = false;
+  Proposal? proposal;
   @override
   void initState() {
     super.initState();
+    getProposal();
   }
 
+  Future<void> getProposal() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final token = Provider.of<AuthProvider>(context, listen: false).token;
+      if (token != null) {
+        final response = await http.get(
+          Uri.parse('http://34.16.137.128/api/proposal/${widget.proposalId}'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $token',
+          },
+        );
+
+        print(response.statusCode);
+
+        if (response.statusCode == 200) {
+          final jsonResponse = json.decode(response.body);
+          print(jsonResponse);
+          if (jsonResponse['result'] != null) {
+            setState(() {
+              proposal = Proposal.fromJson(jsonResponse['result']);
+            });
+          } else {
+            print('Response is not a proposal');
+          }
+        } else {
+          print('Failed to get proposal: ${response.body}');
+        }
+      }
+    } catch (error) {
+      print('Failed to get proposal: $error');
+      // Handle error cases here, show error message to user
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    return isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : buildProposalDetails();
+  }
+
+  Widget buildProposalDetails() {
     return Scaffold(
       appBar: AppBar(
         title: const Text('StudentHub'),
@@ -61,7 +113,7 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
                       height: 20,
                     ),
                     Text(
-                      widget.proposal.studentname!,
+                      proposal!.studentname!,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -101,28 +153,29 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
                               _buildTableRow(
                                   context,
                                   AppLocalizations.of(context)!.cover_letter,
-                                  widget.proposal.coverLetter),
+                                  proposal!.coverLetter),
                               _buildTableRow(
                                   context,
                                   AppLocalizations.of(context)!.techstack,
-                                  widget.student.techStack!.name),
+                                  proposal!.student!.techStack!.name),
                               _builArrayTableRow(
                                   context,
                                   AppLocalizations.of(context)!.education,
-                                  widget.student.educations!
+                                  proposal!.student!.educations!
                                       .map((skillSet) => skillSet.schoolName)
                                       .toList()),
-                              _buildTableRow(
+                              _buildLinkTableRow(
                                   context,
                                   AppLocalizations.of(context)!.resume_CV,
-                                  widget.student.resume ?? 'None'),
-                              _buildTableRow(
+                                  proposal!.resumeLink ?? 'None'),
+                              _buildLinkTableRow(
                                   context,
                                   AppLocalizations.of(context)!.transcript,
-                                  widget.student.transcript ?? 'None'),
+                                  proposal!.transcriptLink ?? 'None'),
                             ],
                           ),
-                        ))
+                        )
+                    )
                   ],
                 ),
               ),
@@ -163,8 +216,7 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
     );
   }
 
-  TableRow _builArrayTableRow(
-      BuildContext context, String title, List<String> values) {
+  TableRow _builArrayTableRow(BuildContext context, String title, List<String> values) {
     return TableRow(
       children: [
         TableCell(
@@ -199,5 +251,52 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
         ),
       ],
     );
+  }
+
+  TableRow _buildLinkTableRow(BuildContext context, String title, String value) {
+    return TableRow(
+      children: [
+        TableCell(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ),
+        TableCell(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: InkWell(
+              onTap: () => _handleLinkTap(value),
+              child: Text(
+                value.isNotEmpty ? value : 'None',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: value.isNotEmpty ? primaryColor : Colors.black,
+                  decoration: value.isNotEmpty ? TextDecoration.underline : TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _handleLinkTap(String url) async {
+    try {
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+    }
   }
 }

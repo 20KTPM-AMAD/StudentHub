@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:studenthub/contanst/contanst.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -20,6 +18,8 @@ class Proposal {
   late Student? student;
   late Project? project;
   late String? studentname;
+  late String? resumeLink;
+  late String? transcriptLink;
 
   Proposal({
     required this.id,
@@ -34,6 +34,8 @@ class Proposal {
     this.student,
     this.project,
     this.studentname,
+    this.resumeLink,
+    this.transcriptLink
   });
 
   factory Proposal.fromJson(Map<String, dynamic> json) {
@@ -41,6 +43,19 @@ class Proposal {
     final studentName = studentJson != null && studentJson['user'] != null
         ? studentJson['user']['fullname']
         : null;
+    String shortenUrl(String? longUrl) {
+      if (longUrl == null) {
+        return '';
+      }
+      const int maxLength = 30;
+      if (longUrl.length <= maxLength) {
+        return longUrl;
+      }
+      String domain = longUrl.split('/')[2];
+      String endPath = longUrl.substring(longUrl.lastIndexOf('/') + 1);
+      endPath = endPath.substring(0, maxLength - domain.length - 3);
+      return '$domain/.../$endPath';
+    }
 
     return Proposal(
       id: json['id'],
@@ -52,17 +67,22 @@ class Proposal {
       coverLetter: json['coverLetter'],
       statusFlag: json['statusFlag'],
       disableFlag: json['disableFlag'],
-      student:
-          json['student'] != null ? Student.fromJson(json['student']) : null,
+      student: json['student'] != null ? Student.fromJson(json['student']) : null,
       project:
           json['project'] != null ? Project.fromJson(json['project']) : null,
       studentname: studentName,
+      resumeLink: json['student'] != null && json['student']['resumeLink'] != null
+          ? shortenUrl(json['student']['resumeLink'])
+          : null,
+      transcriptLink: json['student'] != null && json['student']['transcriptLink'] != null
+          ? shortenUrl(json['student']['transcriptLink'])
+          : null,
+
     );
   }
 }
 
-Future<List<dynamic>> getProposalByStudentId(
-    int studentId, String? statusFlag, String? typeFlag, String token) async {
+Future<List<dynamic>> getProposalByStudentId(int studentId, String? statusFlag, String? typeFlag, String token) async {
   studentHubUrl = '$studentHubUrl/proposal/project/$studentId';
 
   Map<String, dynamic>? queryParameters;
