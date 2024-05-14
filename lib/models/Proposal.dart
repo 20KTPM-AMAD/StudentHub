@@ -15,6 +15,9 @@ class Proposal {
   final int statusFlag;
   final int disableFlag;
 
+  final String? resume;
+  final String? transcript;
+
   late Student? student;
   late Project? project;
   late String? studentname;
@@ -31,6 +34,8 @@ class Proposal {
     required this.coverLetter,
     required this.statusFlag,
     required this.disableFlag,
+    this.resume, 
+    this.transcript,
     this.student,
     this.project,
     this.studentname,
@@ -71,11 +76,17 @@ class Proposal {
       project:
           json['project'] != null ? Project.fromJson(json['project']) : null,
       studentname: studentName,
+      resume: json['student'] != null && json['student']['resume'] != null
+          ? json['student']['resume']
+          : null,
+      transcript: json['student'] != null && json['student']['transcript'] != null
+          ? json['student']['transcript']
+          : null,
       resumeLink: json['student'] != null && json['student']['resumeLink'] != null
-          ? shortenUrl(json['student']['resumeLink'])
+          ? json['student']['resumeLink']
           : null,
       transcriptLink: json['student'] != null && json['student']['transcriptLink'] != null
-          ? shortenUrl(json['student']['transcriptLink'])
+          ? json['student']['transcriptLink']
           : null,
 
     );

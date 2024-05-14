@@ -167,11 +167,11 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
                               _buildLinkTableRow(
                                   context,
                                   AppLocalizations.of(context)!.resume_CV,
-                                  proposal!.resumeLink ?? 'None'),
+                                  proposal!.resume ?? 'None', proposal!.resumeLink!),
                               _buildLinkTableRow(
                                   context,
                                   AppLocalizations.of(context)!.transcript,
-                                  proposal!.transcriptLink ?? 'None'),
+                                  proposal!.transcript ?? 'None', proposal!.transcriptLink!),
                             ],
                           ),
                         )
@@ -253,7 +253,7 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
     );
   }
 
-  TableRow _buildLinkTableRow(BuildContext context, String title, String value) {
+  TableRow _buildLinkTableRow(BuildContext context, String title, String name, String link) {
     return TableRow(
       children: [
         TableCell(
@@ -272,13 +272,13 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: InkWell(
-              onTap: () => _handleLinkTap(value),
+              onTap: () => _handleLinkTap(link),
               child: Text(
-                value.isNotEmpty ? value : 'None',
+                name.isNotEmpty ? name : 'None',
                 style: TextStyle(
                   fontSize: 16,
-                  color: value.isNotEmpty ? primaryColor : Colors.black,
-                  decoration: value.isNotEmpty ? TextDecoration.underline : TextDecoration.none,
+                  color: name.isNotEmpty ? primaryColor : Colors.black,
+                  decoration: name.isNotEmpty ? TextDecoration.underline : TextDecoration.none,
                 ),
               ),
             ),
