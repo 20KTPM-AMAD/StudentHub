@@ -51,11 +51,7 @@ class AcceptOfferNotificationCardState
                                         null
                                 ? widget.notification.proposal!.project!.title
                                 : '',
-                            widget.notification.proposal != null &&
-                                    widget.notification.proposal!.studentname !=
-                                        null
-                                ? widget.notification.proposal!.studentname!
-                                : ''),
+                            widget.notification.sender.fullname),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2, // Số dòng tối đa
                       ),
