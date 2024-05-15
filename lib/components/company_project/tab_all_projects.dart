@@ -9,7 +9,7 @@ import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class AllProjectsTab extends StatefulWidget {
   const AllProjectsTab({Key? key}) : super(key: key);
@@ -25,6 +25,10 @@ class AllProjectsTabState extends State<AllProjectsTab> {
   @override
   void initState() {
     super.initState();
+    getProjects();
+  }
+
+  void refreshProjectList() {
     getProjects();
   }
 
@@ -155,7 +159,7 @@ class AllProjectsTabState extends State<AllProjectsTab> {
                       ),
                       IconButton(
                         onPressed: () {
-                          AllProjectsPopupMenu.show(context, project);
+                          AllProjectsPopupMenu.show(context, project, refreshProjectList);
                         },
                         icon: const Icon(
                           Icons.pending_outlined,

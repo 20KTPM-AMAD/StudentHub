@@ -28,6 +28,10 @@ class AllProjectsWorkingTabState extends State<AllProjectsWorkingTab> {
     getProjects();
   }
 
+  void refreshProjectList() {
+    getProjects();
+  }
+
   Future<void> getProjects() async {
     setState(() {
       isLoading = true;
@@ -142,7 +146,7 @@ class AllProjectsWorkingTabState extends State<AllProjectsWorkingTab> {
                       const SizedBox(width: 10,),
                       IconButton(
                         onPressed: () {
-                          AllProjectsPopupMenu.show(context, project);
+                          AllProjectsPopupMenu.show(context, project, refreshProjectList);
                         },
                         icon: const Icon(Icons.pending_outlined, size: 30,),
                       ),

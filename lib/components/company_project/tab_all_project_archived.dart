@@ -9,7 +9,7 @@ import 'package:studenthub/models/Project.dart';
 import 'package:studenthub/pages/company_reviews_proposal/send_hire_offer_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
 
-const Color _green = Color(0xFF12B28C);
+const Color _green = Color(0xff296e48);
 
 class AllProjectsArchivedTab extends StatefulWidget {
   const AllProjectsArchivedTab({Key? key}) : super(key: key);
@@ -25,6 +25,10 @@ class AllProjectsArchivedTabState extends State<AllProjectsArchivedTab> {
   @override
   void initState() {
     super.initState();
+    getProjects();
+  }
+
+  void refreshProjectList() {
     getProjects();
   }
 
@@ -100,90 +104,90 @@ class AllProjectsArchivedTabState extends State<AllProjectsArchivedTab> {
       child: projects.isEmpty
           ? Center(child: Text(AppLocalizations.of(context)!.no_projects, style: const TextStyle(fontSize: 18.0),),)
           : ListView.separated(
-        shrinkWrap: true,
-        physics: const ScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
-        itemCount: projects.length,
-        itemBuilder: (context, index) {
-          final project = projects[index];
-          return Card(
-            margin: const EdgeInsets.all(5.0),
-            child: ListTile(
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
-                      const SizedBox(width: 20,),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+              shrinkWrap: true,
+              physics: const ScrollPhysics(),
+              separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 10),
+              itemCount: projects.length,
+              itemBuilder: (context, index) {
+                final project = projects[index];
+                return Card(
+                  margin: const EdgeInsets.all(5.0),
+                  child: ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              project.title,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: _green,
+                            Image.asset('assets/images/project.png', fit: BoxFit.cover, width: 80, height: 80,),
+                            const SizedBox(width: 20,),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    project.title,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: _green,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    getTimeElapsed(project.createdAt),
+                                    style: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                            Text(
-                              getTimeElapsed(project.createdAt),
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                              ),
+                            const SizedBox(width: 10,),
+                            IconButton(
+                              onPressed: () {
+                                AllProjectsPopupMenu.show(context, project, refreshProjectList);
+                              },
+                              icon: const Icon(Icons.pending_outlined, size: 30,),
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(width: 10,),
-                      IconButton(
-                        onPressed: () {
-                          AllProjectsPopupMenu.show(context, project);
-                        },
-                        icon: const Icon(Icons.pending_outlined, size: 30,),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Students are looking for:\n',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        WidgetSpan(
-                          child: MarkdownBody(
-                            data: project.description,
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Students are looking for:\n',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: MarkdownBody(
+                                  data: project.description,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            buildProjectDetailColumn('${project.countProposals}', AppLocalizations.of(context)!.proposals),
+                            const SizedBox(width: 20),
+                            buildProjectDetailColumn('${project.countMessages}', AppLocalizations.of(context)!.messages),
+                            const SizedBox(width: 20),
+                            buildProjectDetailColumn('${project.countHired}', AppLocalizations.of(context)!.hired),
+                          ],
+                        )
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      buildProjectDetailColumn('${project.countProposals}', AppLocalizations.of(context)!.proposals),
-                      const SizedBox(width: 20),
-                      buildProjectDetailColumn('${project.countMessages}', AppLocalizations.of(context)!.messages),
-                      const SizedBox(width: 20),
-                      buildProjectDetailColumn('${project.countHired}', AppLocalizations.of(context)!.hired),
-                    ],
-                  )
-                ],
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SendHireOfferScreen(projectId: project.id)),
-                );
-              },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SendHireOfferScreen(projectId: project.id)),
+                      );
+                    },
             ),
           );
         },
