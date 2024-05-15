@@ -72,7 +72,7 @@ class SendHireOfferDialog {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF12B28C),
+                backgroundColor: const Color(0xff296e48),
                 foregroundColor: Colors.white,
                 fixedSize: const Size(130, 40),
               ),
