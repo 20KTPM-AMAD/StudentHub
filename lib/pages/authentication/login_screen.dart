@@ -99,6 +99,7 @@ class LoginScreenState extends State<LoginScreen> {
           jsonResponse['result']['token'] != null) {
         Provider.of<AuthProvider>(context, listen: false)
             .setToken(jsonResponse['result']['token']);
+        Provider.of<AuthProvider>(context, listen: false).clearNoti();
         await getUserInfo();
         await connectSocket();
         Navigator.of(context).pushReplacement(
