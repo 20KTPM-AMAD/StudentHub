@@ -26,7 +26,7 @@
   "dialog_send_hire_offer": "Hired offer",
   "confirm__send_hire_offer": "Do you really want to send hired offer for student to do this project?",
   "cancel": "Cancel",
-  "send": "send",
+  "send": "Send",
   "time_created_project": "Created {day} days ago",
   "time_needed_project": "Time: {month} months",
   "student_needed_project": "{student} students needed",

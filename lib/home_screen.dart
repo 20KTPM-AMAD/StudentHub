@@ -57,7 +57,7 @@ class HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         child: Text(AppLocalizations.of(context)!.company,
-                            style: const TextStyle(fontSize: 16)),
+                            style: const TextStyle(fontSize: 14)),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -66,7 +66,7 @@ class HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         onPressed: () {},
                         child: Text(AppLocalizations.of(context)!.student,
-                            style: const TextStyle(fontSize: 16)),
+                            style: const TextStyle(fontSize: 14)),
                       ),
                     ),
                     const SizedBox(height: 20),
