@@ -29,6 +29,8 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
+  int _countNoti = 0;
+
   late List<Widget> _tabs = [
     const ProjectListScreen(),
     const DashboardScreen(),
@@ -42,6 +44,7 @@ class MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    _countNoti = 0;
 
     if (Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
       checkRole();
@@ -63,9 +66,9 @@ class MainScreenState extends State<MainScreen> {
 
   void onReceiveNotification(data) {
     if (data["notification"] != null) {
-      final notification = NotificationItem.fromJson(data["notification"]);
-      Provider.of<AuthProvider>(context, listen: false).setCountNoti(
-          Provider.of<AuthProvider>(context, listen: false).countNoti + 1);
+      setState(() {
+        _countNoti++;
+      });
     }
   }
 
@@ -124,7 +127,9 @@ class MainScreenState extends State<MainScreen> {
         currentIndex: _currentIndex,
         onTap: (int index) {
           if (index == 4) {
-            Provider.of<AuthProvider>(context, listen: false).clearNoti();
+            setState(() {
+              _countNoti = 0;
+            });
           }
           setState(() {
             _currentIndex = index;
@@ -149,15 +154,12 @@ class MainScreenState extends State<MainScreen> {
               label: 'Interview',
               backgroundColor: Colors.grey[400]),
           BottomNavigationBarItem(
-              icon:
-                  Provider.of<AuthProvider>(context, listen: false).countNoti >
-                          0
-                      ? Badge(
-                          label: Text(
-                              '${Provider.of<AuthProvider>(context, listen: false).countNoti}'),
-                          child: const Icon(Icons.notifications),
-                        )
-                      : const Icon(Icons.notifications),
+              icon: _countNoti > 0
+                  ? Badge(
+                      label: Text('${_countNoti}'),
+                      child: const Icon(Icons.notifications),
+                    )
+                  : const Icon(Icons.notifications),
               label: 'Alerts',
               backgroundColor: Colors.grey[400]),
         ],

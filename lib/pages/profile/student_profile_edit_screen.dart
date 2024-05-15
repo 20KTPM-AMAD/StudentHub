@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/drop_down.dart';
 import 'package:studenthub/components/profile/multi_select.dart';
+import 'package:studenthub/main_screen.dart';
 import 'package:studenthub/models/Education.dart';
 import 'package:studenthub/models/Experience.dart';
 import 'package:studenthub/models/Language.dart';
@@ -462,10 +463,10 @@ class StudentProfileEditScreenState extends State<StudentProfileEditScreen> {
         isLoading = false;
       });
 
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const SwitchAccountScreen(),
+          builder: (context) => const MainScreen(),
         ),
       );
     } catch (error) {

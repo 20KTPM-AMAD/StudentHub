@@ -26,7 +26,8 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
       if (token != null) {
         final response = await http.patch(
-          Uri.parse('https://api.studenthub.dev/api/notification/readNoti/${widget.notification.id}'),
+          Uri.parse(
+              'https://api.studenthub.dev/api/notification/readNoti/${widget.notification.id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
@@ -41,12 +42,9 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: widget.notification.notifyFlag == "0" ? Colors.green.shade200 : Colors.green.shade50,
       margin: const EdgeInsets.all(5.0),
       child: GestureDetector(
-        onTap: () {
-
-        },
+        onTap: () {},
         child: ListTile(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,9 +76,9 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
                         Text(
                           widget.notification.message != null
                               ? widget.notification.message!
-                              .formattedCreatedAt()
+                                  .formattedCreatedAt()
                               : DateFormat('HH:mm, dd/MM/yyyy').format(
-                              DateTime.now().add(const Duration(hours: 7))),
+                                  DateTime.now().add(const Duration(hours: 7))),
                           style: const TextStyle(
                             fontStyle: FontStyle.italic,
                           ),
@@ -100,9 +98,7 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
                   builder: (context) => MessageDetailScreen(
                       personID: widget.notification.sender.id,
                       personFullName: widget.notification.sender.fullname,
-                      projectID: widget.notification.message!.projectId!
-                  )
-              ),
+                      projectID: widget.notification.message!.projectId!)),
             );
           },
         ),

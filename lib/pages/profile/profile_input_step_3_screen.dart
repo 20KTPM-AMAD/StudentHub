@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:studenthub/main_screen.dart';
 import 'package:studenthub/models/Student.dart';
 import 'package:studenthub/models/User.dart';
 import 'package:studenthub/pages/profile/switch_account_screen.dart';
@@ -215,7 +216,7 @@ class _ProfileInputStep3ScreenState extends State<ProfileInputStep3Screen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const SwitchAccountScreen(),
+              builder: (context) => const MainScreen(),
             ),
           );
         }

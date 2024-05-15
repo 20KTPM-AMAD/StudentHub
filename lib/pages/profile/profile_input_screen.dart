@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studenthub/components/authentication/custom_textfield.dart';
 import 'package:studenthub/components/profile/radio_button_group.dart';
+import 'package:studenthub/main_screen.dart';
 import 'package:studenthub/models/Company.dart';
 import 'package:studenthub/pages/profile/switch_account_screen.dart';
 import 'package:studenthub/utils/auth_provider.dart';
@@ -55,7 +56,7 @@ class _ProfileInputScreenState extends State<ProfileInputScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const SwitchAccountScreen(),
+            builder: (context) => const MainScreen(),
           ),
         );
       }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -11,8 +12,7 @@ var blackColor = Colors.black54;
 var primaryColor = const Color(0xff296e48);
 
 class ProposalDetailScreen extends StatefulWidget {
-  const ProposalDetailScreen(
-      {Key? key, required this.proposalId})
+  const ProposalDetailScreen({Key? key, required this.proposalId})
       : super(key: key);
   final int proposalId;
 
@@ -54,6 +54,7 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
             setState(() {
               proposal = Proposal.fromJson(jsonResponse['result']);
             });
+            log(proposal!.resumeLink!);
           } else {
             print('Response is not a proposal');
           }
@@ -70,6 +71,7 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -167,15 +169,16 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
                               _buildLinkTableRow(
                                   context,
                                   AppLocalizations.of(context)!.resume_CV,
-                                  proposal!.resume ?? 'None', proposal!.resumeLink!),
+                                  proposal!.resume ?? 'None',
+                                  proposal!.resumeLink ?? 'None'),
                               _buildLinkTableRow(
                                   context,
                                   AppLocalizations.of(context)!.transcript,
-                                  proposal!.transcript ?? 'None', proposal!.transcriptLink!),
+                                  proposal!.transcript ?? 'None',
+                                  proposal!.transcriptLink ?? 'None'),
                             ],
                           ),
-                        )
-                    )
+                        ))
                   ],
                 ),
               ),
@@ -216,7 +219,8 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
     );
   }
 
-  TableRow _builArrayTableRow(BuildContext context, String title, List<String> values) {
+  TableRow _builArrayTableRow(
+      BuildContext context, String title, List<String> values) {
     return TableRow(
       children: [
         TableCell(
@@ -253,7 +257,8 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
     );
   }
 
-  TableRow _buildLinkTableRow(BuildContext context, String title, String name, String link) {
+  TableRow _buildLinkTableRow(
+      BuildContext context, String title, String name, String link) {
     return TableRow(
       children: [
         TableCell(
@@ -278,7 +283,9 @@ class ProjectDetailState extends State<ProposalDetailScreen> {
                 style: TextStyle(
                   fontSize: 16,
                   color: name.isNotEmpty ? primaryColor : Colors.black,
-                  decoration: name.isNotEmpty ? TextDecoration.underline : TextDecoration.none,
+                  decoration: name.isNotEmpty
+                      ? TextDecoration.underline
+                      : TextDecoration.none,
                 ),
               ),
             ),

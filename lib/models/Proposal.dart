@@ -21,27 +21,26 @@ class Proposal {
   late Student? student;
   late Project? project;
   late String? studentname;
-  late String? resumeLink;
-  late String? transcriptLink;
+  final String? resumeLink;
+  final String? transcriptLink;
 
-  Proposal({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    this.deletedAt,
-    required this.projectId,
-    required this.studentId,
-    required this.coverLetter,
-    required this.statusFlag,
-    required this.disableFlag,
-    this.resume, 
-    this.transcript,
-    this.student,
-    this.project,
-    this.studentname,
-    this.resumeLink,
-    this.transcriptLink
-  });
+  Proposal(
+      {required this.id,
+      required this.createdAt,
+      required this.updatedAt,
+      this.deletedAt,
+      required this.projectId,
+      required this.studentId,
+      required this.coverLetter,
+      required this.statusFlag,
+      required this.disableFlag,
+      this.resume,
+      this.transcript,
+      this.student,
+      this.project,
+      this.studentname,
+      this.resumeLink,
+      this.transcriptLink});
 
   factory Proposal.fromJson(Map<String, dynamic> json) {
     final studentJson = json['student'];
@@ -72,28 +71,32 @@ class Proposal {
       coverLetter: json['coverLetter'],
       statusFlag: json['statusFlag'],
       disableFlag: json['disableFlag'],
-      student: json['student'] != null ? Student.fromJson(json['student']) : null,
+      student:
+          json['student'] != null ? Student.fromJson(json['student']) : null,
       project:
           json['project'] != null ? Project.fromJson(json['project']) : null,
       studentname: studentName,
       resume: json['student'] != null && json['student']['resume'] != null
           ? json['student']['resume']
           : null,
-      transcript: json['student'] != null && json['student']['transcript'] != null
-          ? json['student']['transcript']
-          : null,
-      resumeLink: json['student'] != null && json['student']['resumeLink'] != null
-          ? json['student']['resumeLink']
-          : null,
-      transcriptLink: json['student'] != null && json['student']['transcriptLink'] != null
-          ? json['student']['transcriptLink']
-          : null,
-
+      transcript:
+          json['student'] != null && json['student']['transcript'] != null
+              ? json['student']['transcript']
+              : null,
+      resumeLink:
+          json['student'] != null && json['student']['resumeLink'] != null
+              ? json['student']['resumeLink']
+              : null,
+      transcriptLink:
+          json['student'] != null && json['student']['transcriptLink'] != null
+              ? json['student']['transcriptLink']
+              : null,
     );
   }
 }
 
-Future<List<dynamic>> getProposalByStudentId(int studentId, String? statusFlag, String? typeFlag, String token) async {
+Future<List<dynamic>> getProposalByStudentId(
+    int studentId, String? statusFlag, String? typeFlag, String token) async {
   studentHubUrl = '$studentHubUrl/proposal/project/$studentId';
 
   Map<String, dynamic>? queryParameters;
@@ -150,7 +153,8 @@ Future<void> updateProposal(int id, int statusFlag, String? token) async {
   }
 }
 
-Future<void> createProposal(int projectId, int studentId, String coverLetter, String? token) async {
+Future<void> createProposal(
+    int projectId, int studentId, String coverLetter, String? token) async {
   try {
     if (token != null) {
       final response = await http.post(

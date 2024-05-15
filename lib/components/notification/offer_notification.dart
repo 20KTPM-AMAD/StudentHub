@@ -34,7 +34,8 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
       final token = Provider.of<AuthProvider>(context, listen: false).token;
       if (token != null) {
         final response = await http.patch(
-          Uri.parse('https://api.studenthub.dev/api/notification/readNoti/${widget.notification.id}'),
+          Uri.parse(
+              'https://api.studenthub.dev/api/notification/readNoti/${widget.notification.id}'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
             'Authorization': 'Bearer $token',
@@ -49,7 +50,6 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: widget.notification.notifyFlag == "0" ? Colors.green.shade200 : Colors.green.shade50,
       margin: const EdgeInsets.all(5.0),
       child: ListTile(
         title: Column(
@@ -123,7 +123,9 @@ class OfferNotificationCardState extends State<OfferNotificationCard> {
             ),
           ],
         ),
-        onTap: () {readNoti();},
+        onTap: () {
+          readNoti();
+        },
       ),
     );
   }
