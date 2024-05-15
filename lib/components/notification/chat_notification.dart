@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -80,9 +78,9 @@ class ChatNotificationCardState extends State<ChatNotificationCard> {
                         Text(
                           widget.notification.message != null
                               ? widget.notification.message!
-                                  .formattedCreatedAt()
+                              .formattedCreatedAt()
                               : DateFormat('HH:mm, dd/MM/yyyy').format(
-                                  DateTime.now().add(const Duration(hours: 7))),
+                              DateTime.now().add(const Duration(hours: 7))),
                           style: const TextStyle(
                             fontStyle: FontStyle.italic,
                           ),

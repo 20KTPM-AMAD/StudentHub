@@ -28,7 +28,6 @@ class MainScreen extends StatefulWidget {
 
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
-  int _countNoti = 0;
 
   late List<Widget> _tabs = [
     const ProjectListScreen(),
@@ -43,7 +42,6 @@ class MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _countNoti = 0;
 
     if (Provider.of<AuthProvider>(context, listen: false).loginUser == null) {
       checkRole();
@@ -66,9 +64,8 @@ class MainScreenState extends State<MainScreen> {
   void onReceiveNotification(data) {
     if (data["notification"] != null) {
       final notification = NotificationItem.fromJson(data["notification"]);
-      setState(() {
-        _countNoti++;
-      });
+      Provider.of<AuthProvider>(context, listen: false).setCountNoti(
+          Provider.of<AuthProvider>(context, listen: false).countNoti + 1);
     }
   }
 
@@ -126,6 +123,9 @@ class MainScreenState extends State<MainScreen> {
         selectedItemColor: _green,
         currentIndex: _currentIndex,
         onTap: (int index) {
+          if (index == 4) {
+            Provider.of<AuthProvider>(context, listen: false).clearNoti();
+          }
           setState(() {
             _currentIndex = index;
           });
@@ -149,12 +149,15 @@ class MainScreenState extends State<MainScreen> {
               label: 'Interview',
               backgroundColor: Colors.grey[400]),
           BottomNavigationBarItem(
-              icon: _countNoti > 0
-                  ? Badge(
-                      label: Text('$_countNoti'),
-                      child: const Icon(Icons.notifications),
-                    )
-                  : const Icon(Icons.notifications),
+              icon:
+                  Provider.of<AuthProvider>(context, listen: false).countNoti >
+                          0
+                      ? Badge(
+                          label: Text(
+                              '$Provider.of<AuthProvider>(context, listen: false).countNoti'),
+                          child: const Icon(Icons.notifications),
+                        )
+                      : const Icon(Icons.notifications),
               label: 'Alerts',
               backgroundColor: Colors.grey[400]),
         ],
