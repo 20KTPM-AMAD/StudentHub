@@ -154,7 +154,7 @@ class MainScreenState extends State<MainScreen> {
                           0
                       ? Badge(
                           label: Text(
-                              '$Provider.of<AuthProvider>(context, listen: false).countNoti'),
+                              '${Provider.of<AuthProvider>(context, listen: false).countNoti}'),
                           child: const Icon(Icons.notifications),
                         )
                       : const Icon(Icons.notifications),
