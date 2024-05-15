@@ -108,10 +108,10 @@ class NotificationScreenState extends State<NotificationScreen> {
                 children: <Widget>[
                   const SizedBox(height: 20.0),
                   Text(AppLocalizations.of(context)!.notification,
-                      style: const TextStyle(
-                          color: _green,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      color: _green,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold)),
                   notifications.isNotEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(

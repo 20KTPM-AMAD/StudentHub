@@ -2,6 +2,7 @@ import 'package:studenthub/models/Message.dart';
 import 'package:studenthub/models/Proposal.dart';
 
 class NotificationItem {
+  final int id;
   final String title;
   final String content;
   final String body;
@@ -14,7 +15,8 @@ class NotificationItem {
   final DateTime createdAt;
 
   NotificationItem(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.body,
       required this.content,
       required this.notifyFlag,
@@ -27,6 +29,7 @@ class NotificationItem {
 
   factory NotificationItem.fromJson(Map<String, dynamic> json) {
     return NotificationItem(
+        id: json['id'],
         title: json['title'] ?? '',
         body: json['body'] ?? '',
         content: json['content'] ?? '',
